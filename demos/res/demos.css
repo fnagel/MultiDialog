@@ -1,0 +1,53 @@
+/* Site
+   -------------------------------- */
+
+body {
+	font-size: 12px;
+	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
+}
+
+p { 
+	margin: 0 
+}
+
+.demo {
+	padding: 12px;
+	width: 50em;
+	min-width: 300px;
+	margin: 0 auto;
+}
+ 
+.demo .tabs {
+	margin: 0 0 3em 0;
+}
+.demo ul {
+	padding: 0 15px;
+	margin: 0;
+}
+.demo ul li{
+	padding: 3px 0;
+}
+
+.demo ul.float {
+	padding: 10px 5px;
+}
+.demo ul.float li{
+	list-style-type: none;
+	float: left;
+	margin: 0 9px;
+}
+
+
+/* Demo
+   -------------------------------- */
+
+.MultiDialog .ui-state-error,
+.MultiDialog .ui-state-highlight {
+	margin: 0 auto;
+	width: 75%;
+	padding: 0.3em 0.5em;
+}
+
+.syntaxhighlighter, pre {
+	max-height: 300px;
+}

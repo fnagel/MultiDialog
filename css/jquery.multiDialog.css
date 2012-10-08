@@ -1,0 +1,14 @@
+/*!
+ * jQuery MultiDialog
+ *
+ * Copyright 2012, Felix Nagel, http://www.felixnagel.com
+ * Licensed under the GPL Version 3 license.
+ *
+ * http://github.com/fnagel/
+ */
+.ui-dialog.MultiDialog .ui-dialog-content { }
+.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content { width: 100%; position: relative; }
+.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content .overflow { overflow: auto; height: 100%; padding: 0 0.5em 0 0; } /* nicer scollbar */
+.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content iframe { position: absolute; } /* width/height 100% fix */
+.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-desc { width: 100%; margin: 10px 0 0 0; }
+.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-desc span.positon { font-weight: bold; }
