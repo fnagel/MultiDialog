@@ -404,8 +404,9 @@ $(function() {
 	});
 	
 	api2 = $.fn.MultiDialog();
+	api2.options.gallery.enabled = true;
+	api2.options.dialog.title = "API Gallery Example";
 	$("#api-button-5").click( function(){
-		api2.options.gallery.enabled = true;
 		api2.openGallery([
 			{ href: "res/images/DirtyFlowers.jpg" },
 			{ href: "http://www.youtube.com/watch?v=VfOcyrOImLg" },
