@@ -35,7 +35,7 @@ function MultiDialog(){
 		closeOnClickOverlay: true, // close MultiDialog by click on overlay
 		animationSpeed: 500, // speed of all hide and fade animations
 		em: 0.0757575, // multiplicator for em calculation (resize with text), set to false to disable
-		margin: 38,	// int, margin of the content wrapping divs
+		margin: 26,	// int, margin of the content wrapping divs (jQuery UI CSS: ui-lightness=38, ...)
 
 		// config for gallery mode
 		gallery: {
@@ -564,9 +564,6 @@ $.extend( MultiDialog.prototype, {
 			dimensions = this._getDimensions( data ),
 			// save default animationSpeed
 			aniSpeedTemp = that.options.animationSpeed;
-		// save initial dimensions
-		that.oldWidth = dimensions.width;
-		that.oldHeight = dimensions.height;
 
 		// prepare wrapper elements
 		this.uiDialogContent = $( "<div />", {
@@ -624,13 +621,14 @@ $.extend( MultiDialog.prototype, {
 		$( window ).bind( "resize." + this.widgetName, function( event ){
 			if ( this.open ) {
 				window.clearTimeout( that.timeout );
-				that.timeout = window.setTimeout( function() {	
-					dimensions = that._getDimensions( {} );
+				that.timeout = window.setTimeout( function() {
+					dimensions = that._getDimensions( { width: that.oldWidth, height: that.oldHeight, desc: that.uiDialogDesc.html() } );
 					that.options.animationSpeed = 0;
 					that.resize( dimensions.width, dimensions.height );
 					that.position( dimensions.width, dimensions.height );
+					that.uiDialogContent.css( "height", dimensions.contentHeight )
 					that.options.animationSpeed = aniSpeedTemp;
-				}, 200 );
+				}, 250 );
 			}
 		});
 
@@ -662,9 +660,6 @@ $.extend( MultiDialog.prototype, {
 			.html( data.html );
 		this.uiDialog.dialog( "option", "title", data.title || this.options.dialog.title );
 		this._setDesc( data );
-		// save width and height
-		this.oldWidth = dimensions.width;
-		this.oldHeight = dimensions.height;
 	},
 
 	_setAndShowContent: function( data, dimensions ) {
@@ -899,14 +894,18 @@ $.extend( MultiDialog.prototype, {
 			width = ( data.width && !isNaN( data.width ) ) ? data.width : options.dialog.width,
 			height = ( data.height && !isNaN( data.height ) ) ? data.height : options.dialog.height,
 			contentHeight = "100%",
-			descHeight;
-
+			desc = options.desc.template.call( this, data ),
+			descHeight = 0;
+		
 		// add desc height
-		var desc = this.options.desc.template.call( this, data );
 		if ( desc )  {
 			descHeight = ( options.desc.height == "auto" ) ? this._getDescHeight( desc, width ) : options.desc.height;
 			height += descHeight;
 		}
+		
+		// save original dimensions
+		this.oldWidth = width;
+		this.oldHeight = height - descHeight;		
 
 		// check for viewport width and adjust dimensions with ratio in mind if screen is to small
 		if ( screenWidth < width + options.margin ) {
