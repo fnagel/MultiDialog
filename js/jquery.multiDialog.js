@@ -934,7 +934,7 @@ $.extend( MultiDialog.prototype, {
 		// do not resize when already open
 		if ( this.isOpen ) {
 			this.uiDialogContent.hide( this.options.dialog.hide, this.options.animationSpeed, function(){
-				that._setAndShowContent( _data );
+				that._setAndShowContent( _data, that._getDimensions( _data ) );
 			});
 		} else {
 			that._open( _data );
