@@ -618,8 +618,9 @@ $.extend( MultiDialog.prototype, {
 		if ( this.isLoading ) this._contentAria();
 		
 		// make dialog responsive
+		// TODO make this use _delay once 1.8.x is not in use anymore, http://jqueryui.com/upgrade-guide/1.9/#added-_delay-method
 		$( window ).bind( "resize." + this.widgetName, function( event ){
-			if ( this.open ) {
+			if ( that.open ) {
 				window.clearTimeout( that.timeout );
 				that.timeout = window.setTimeout( function() {
 					dimensions = that._getDimensions( { width: that.oldWidth, height: that.oldHeight, desc: that.uiDialogDesc.html() } );
