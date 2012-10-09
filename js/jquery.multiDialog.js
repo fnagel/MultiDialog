@@ -71,13 +71,13 @@ function MultiDialog(){
 			title: '',
 			// size
 			width: 600, // int, "auto" is not possible, please note this is content width, not widget width like native Dialog behaviour
-			height: 400, // int, see above
+			height: 400, // see above
 			// position and effects
 			modal: true,
 			// TODO Dialog options should be possible
 			// check if options set, if so use show(options.dialog.show) and try to add events to animated element; otherwise use show()
-			show: "fade",
-			hide: "fade",
+			show: "fade", // string, use any jQuery UI effect here
+			hide: "fade", // see above
 			// visual level
 			stack: false,
 			zIndex: 1000,
