@@ -74,6 +74,8 @@ function MultiDialog(){
 			height: 400, // int, see above
 			// position and effects
 			modal: true,
+			// TODO Dialog options should be possible
+			// check if options set, if so use show(options.dialog.show) and try to add events to animated element; otherwise use show()
 			show: "fade",
 			hide: "fade",
 			// visual level
@@ -982,6 +984,7 @@ $.extend( MultiDialog.prototype, {
 });
 
 // plugin definition
+// TODO make this a non DOM tied jQuery UI Widget (works only in UI 1.9), http://jqueryui.com/upgrade-guide/1.9/#allow-non-dom-based-widgets
 $.fn.MultiDialog = function( options ) {
 	// singleton instance
 	$.MultiDialog = new MultiDialog();
