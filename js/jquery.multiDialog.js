@@ -35,6 +35,7 @@ function MultiDialog(){
 		animationSpeed: 500, // speed of all hide and fade animations
 		em: 0.0757575, // multiplicator for em calculation (resize with text), set to false to disable
 		margin: 26,	// int, margin of the content wrapping divs (jQuery UI CSS: ui-lightness=38, ...)
+		forceFullscreen: false,
 
 		// config for gallery mode
 		gallery: {
@@ -184,7 +185,7 @@ function MultiDialog(){
 
 		// loading handler
 		loadingHandler: function( data ){
-			this.isLoading = true;		
+			this.isLoading = true;
 			this._defaultHandler( '<div class="ui-state-highlight ui-corner-all"><p><span class="ui-icon ui-icon-info"></span><strong>Loading content, please wait!</strong></p></div>', "Loading...", data );
 		},
 
@@ -274,7 +275,7 @@ $.extend( MultiDialog.prototype, {
 
 		// get type
 		if ( !data.type ) {
-			var typeGet = this._getUrlVar( data.href, "type" );
+			var typeGet = this._getUrlVar( data.href, options.getVarPrefix + "type" );
 			if ( typeGet ) {
 				data.type = ( typeGet == "auto" ) ? this._getType( data.href ) : typeGet;
 			} else {
@@ -306,12 +307,12 @@ $.extend( MultiDialog.prototype, {
 
 		// check width and type parameter
 		if ( isNaN( data.width ) ) {
-			var widthGet = this._getUrlVar( data.href, "width" );
-			data.width = ( widthGet ) ? widthGet : false;
+			var widthGet = this._getUrlVar( data.href, options.getVarPrefix + "width" );
+			data.width = ( widthGet ) ? parseInt( widthGet ) : false;
 		}
 		if ( isNaN( data.height ) ) {
-			var heightGet = this._getUrlVar( data.href, "height" );
-			data.height = ( heightGet ) ? heightGet : false;
+			var heightGet = this._getUrlVar( data.href, options.getVarPrefix + "height" );
+			data.height = ( heightGet ) ? parseInt( heightGet ) : false;
 		}
 
 		// check if open function exists
@@ -541,7 +542,7 @@ $.extend( MultiDialog.prototype, {
 				break;
 		}
 		if ( !isNaN( newIndex ) && newIndex != this.index && this.group[ newIndex ] ) {
-			this.index = newIndex;	
+			this.index = newIndex;
 			// caching
 			this.open( this.group[ this.index ] );
 			this._changeGalleryButtons();
@@ -740,7 +741,9 @@ $.extend( MultiDialog.prototype, {
 			duration: this.options.animationSpeed,
 			queue: false,
 			complete: function(){
-				$.ui.dialog.overlay.resize();
+				window.setTimeout( function() {
+					$.ui.dialog.overlay.resize();
+				}, 0 );
 				if ( $.isFunction( callback ) ) callback.call();
 				that._fireCallback( "resize" );
 			}
@@ -898,13 +901,15 @@ $.extend( MultiDialog.prototype, {
 	// needs to be ratio aware
 	_getDimensions: function( data ) {
 		var options = this.options,
-			screenWidth = $( window ).width(),
 			// set dimensions for dialog widget as int
 			width = ( data.width && !isNaN( data.width ) ) ? data.width : options.dialog.width,
 			height = ( data.height && !isNaN( data.height ) ) ? data.height : options.dialog.height,
 			contentHeight = "100%",
 			desc = options.desc.template.call( this, data ),
-			descHeight = 0;
+			descHeight = 0,
+			screenWidth = $( window ).width(),
+			screenHeight,
+			temp;
 
 		// add desc height
 		if ( desc )  {
@@ -912,11 +917,17 @@ $.extend( MultiDialog.prototype, {
 			height += descHeight;
 		}
 
-		// check for viewport width and adjust dimensions with ratio in mind if screen is to small
-		if ( screenWidth < width + options.margin ) {
-			tempWidth = ( screenWidth - options.margin ) * 0.95 ;
-			height = ( height / width ) * tempWidth;
-			width = tempWidth;
+		// check for viewport and adjust size with ratio in mind if screen is to small or fullscreen mode is enabled
+		if ( screenWidth < width + options.margin || options.forceFullscreen ) {
+			temp = ( screenWidth - options.margin ) * 0.95;
+			height = ( height / width ) * temp;
+			width = temp;
+			screenHeight = $( window ).height();
+			if ( screenHeight < ( height + descHeight ) * 1.1) {
+				temp = ( screenHeight - descHeight ) * 0.9;
+				width = ( width / height ) * temp;
+				height = temp;
+			}
 		}
 
 		// set content height in percent
@@ -981,7 +992,7 @@ $.extend( MultiDialog.prototype, {
 			vars.push( hash[ 0 ] );
 			vars[ hash[ 0 ] ] = hash[ 1 ];
 		}
-		get = vars[ this.options.getVarPrefix + name ];
+		get = vars[ name ];
 
 		return get;
 	}

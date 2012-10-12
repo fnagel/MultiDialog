@@ -94,7 +94,7 @@ $(function() {
 
 
 <div class="tabs">
-<ul>
+	<ul>
 		<li><a href="#tabs-group-info">Content types</a></li>
 		<li><a href="#tabs-group-demo">Demo</a></li>
 		<li><a href="#tabs-group-code">Code</a></li>
@@ -404,33 +404,40 @@ $(function() {
 
 <div class="tabs">
 <ul>
-		<li><a href="#tabs-getvars-info">GetVars support</a></li>
-		<li><a href="#tabs-getvars-demo">Demo</a></li>
-		<li><a href="#tabs-getvars-code">Code</a></li>
+		<li><a href="#tabs-examples-info">More examples</a></li>
+		<li><a href="#tabs-examples-demo">Demo</a></li>
+		<li><a href="#tabs-examples-code">Code</a></li>
 	</ul>
-	<div id="tabs-getvars-info">
+	<div id="tabs-examples-info">
 		<p>
-			Set type, width and height via GET parameter.
+			Some more examples: GETvar support, fullscreen mode, ...
 		</p>
 	</div>
-	<div id="tabs-getvars-demo">
+	<div id="tabs-examples-demo">
 		<ul>
-			<li><a class="getvars" title="Some long sample text" href="res/images/DirtyFlowers.jpg?type=iframe">Picture in iframe</a></li>
-			<li><a class="getvars" href="http://www.youtube.com/watch?v=VfOcyrOImLg&width=1024&height=768" title="Opeth - The Devil's Orchard">Large YouTube video</a></li>
+			<li><a class="fullscreen" href="res/images/TheBossHoss.jpg">Force fullscreen mode #1</a></li>
+			<li><a class="fullscreen" href="res/images/DirtyFlowers.jpg">Force fullscreen mode #2</a></li>
+			<li><a class="getvars" title="Some long sample text" href="res/images/DirtyFlowers.jpg?multidialog-type=iframe">Set type via GET parameter (Picture in iframe)</a></li>
+			<li><a class="getvars" href="http://www.youtube.com/watch?v=VfOcyrOImLg&multidialog-width=1024&multidialog-height=576" title="Opeth - The Devil's Orchard">Set width and height via GET parameter (YouTube video)</a></li>
 		</ul>
 	</div>
-	<div id="tabs-getvars-code">
+	<div id="tabs-examples-code">
 		<pre class="brush: js;">
-			$( "a.getvars" ).MultiDialog({
-				testGetVars: true
-			});
+			
+			// GETvar support: works out-of-the-box
+			$( "a.getvars" ).MultiDialog();
 		</pre>
 	</div>
 </div>
 <script>
 $(function() {
+	$( "a.fullscreen" ).MultiDialog({
+		forceFullscreen: true
+	});
+	
 	$( "a.getvars" ).MultiDialog({
-		testGetVars: true
+		// you could prefix MultiDialog GETvars if needed
+		getVarPrefix: "multidialog-"
 	});
 });
 </script>
