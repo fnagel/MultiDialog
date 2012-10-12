@@ -670,12 +670,6 @@ $.extend( MultiDialog.prototype, {
 		this._setDesc( data );
 	},
 
-	_setOldDimensions: function( dimensions ) {
-		// save width and height
-		this.oldWidth = dimensions.width;
-		this.oldHeight = dimensions.height;
-	},
-
 	_setAndShowContent: function( data, dimensions ) {
 		var that = this;
 
@@ -931,6 +925,12 @@ $.extend( MultiDialog.prototype, {
 		}
 
 		return { width: width, height: height, contentHeight: contentHeight };
+	},
+
+	_setOldDimensions: function( dimensions ) {
+		// save width and height
+		this.oldWidth = dimensions.width;
+		this.oldHeight = dimensions.height;
 	},
 
 	_getMeasure: function( value ) {
