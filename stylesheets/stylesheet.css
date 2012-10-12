@@ -3,8 +3,6 @@ Slate Theme for Github Pages
 by Jason Costello, @jsncostello
 *******************************************************************************/
 
-@import url(pygment_trac.css);
-
 /*******************************************************************************
 MeyerWeb Reset
 *******************************************************************************/
@@ -109,7 +107,7 @@ footer p {
 }
 
 a {
-  text-decoration: none;
+  text-decoration: underline;
   color: #007edf;
   text-shadow: none;
 
@@ -125,7 +123,7 @@ a {
   -ms-transition: text-shadow 0.5s ease;
 }
 
-#main_content a:hover {
+#main_content p a:hover {
   color: #0069ba;
   text-shadow: #0090ff 0px 0px 2px;
 }
@@ -274,7 +272,7 @@ Full-Width Styles
   position: relative;
   max-width: 640px;
   padding: 20px 10px;
-  margin: 0 auto;
+  margin: 20px auto;
 }
 
 #forkme_banner {
