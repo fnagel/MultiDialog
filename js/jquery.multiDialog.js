@@ -557,16 +557,16 @@ $.extend( MultiDialog.prototype, {
 	_createDialog: function( data ) {
 		var that = this,
 			resized = false,
-			// get dimensions
-			dimensions = this._getDimensions( data );
-		// save initial dimensions
-		that.oldDimensions = dimensions;
+			// get size
+			size = this._getSize( data );
+		// save initial size
+		that.oldSize = size;
 
 		// prepare wrapper elements
 		this.uiDialogContent = $( "<div />", {
 			'class': this.widgetName + "-content ui-helper-clearfix " + data.type,
 			"aria-describedby": this.uid + "-desc",
-			height: dimensions.contentHeight,
+			height: size.contentHeight,
 			html: data.html
 		});
 
@@ -578,7 +578,7 @@ $.extend( MultiDialog.prototype, {
 
 		this.uiDialogSize = $( "<div />", {
 			'class': this.widgetName + "-size",
-			height: this._getMeasure( dimensions.height ),
+			height: this._getMeasure( size.height ),
 			html: this.uiDialogContent
 		});
 
@@ -589,7 +589,7 @@ $.extend( MultiDialog.prototype, {
 			$.extend( true, {}, that.options.dialog, {
 				dialogClass: this.widgetName,
 				title: data.title,
-				width: dimensions.width + this.options.margin,
+				width: size.width + this.options.margin,
 				height: "auto",
 				close: function( event ){
 					that._close( event );
@@ -620,10 +620,10 @@ $.extend( MultiDialog.prototype, {
 			if ( that.isOpen ) {
 				window.clearTimeout( that.timeout );
 				that.timeout = window.setTimeout( function() {
-					dimensions = that._getDimensions( { width: that.oldDimensions.width, height: that.oldDimensions.height, desc: that.uiDialogDesc.html() } );
-					that.uiDialogSize.css("height",  that._getMeasure( dimensions.height ) );
+					size = that._getSize( { width: that.oldSize.width, height: that.oldSize.height, desc: that.uiDialogDesc.html() } );
+					that.uiDialogSize.css("height",  that._getMeasure( size.height ) );
 					that.uiDialogWidget
-						.css("width", that._getMeasure( dimensions.width + that.options.margin ) )
+						.css("width", that._getMeasure( size.width + that.options.margin ) )
 						.position( that.options.dialog.position );
 					$.ui.dialog.overlay.resize();
 				}, 250 );
@@ -642,22 +642,22 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_openDialog: function( data ) {
-		var dimensions = this._getDimensions( data );
+		var size = this._getSize( data );
 
 		this.uiDialogSize.css({
-			height: this._getMeasure( dimensions.height )
+			height: this._getMeasure( size.height )
 		});
-		this._setContent( data, dimensions );
-		this.oldDimensions = dimensions;
+		this._setContent( data, size );
+		this.oldSize = size;
 		this.uiDialog.dialog( "open" );
 		this._contentAria();
 	},
 
-	_setContent: function( data, dimensions ) {
+	_setContent: function( data, size ) {
 		var that = this;
 
 		this.uiDialogContent
-			.css( "height", dimensions.contentHeight )
+			.css( "height", size.contentHeight )
 			.html( data.html );
 
 		this.uiDialogContent.find(".multibox-api[rel]").bind( "click." + this.widgetName, function( event ){
@@ -669,10 +669,10 @@ $.extend( MultiDialog.prototype, {
 		this._setDesc( data );
 	},
 
-	_setAndShowContent: function( data, dimensions ) {
+	_setAndShowContent: function( data, size ) {
 		var that = this;
 
-		this._setContent( data, dimensions );
+		this._setContent( data, size );
 		this.uiDialogContent.show( this.options.dialog.show, this.options.animationSpeed, function(){
 			that._contentAria();
 			that._fireCallback( "change", null, data );
@@ -690,20 +690,20 @@ $.extend( MultiDialog.prototype, {
 	_changeDialog: function( data ){
 		// reset loading state
 		this.isLoading = false;
-		var dimensions = this._getDimensions( data ),
+		var size = this._getSize( data ),
 			that = this;
 
 		this.uiDialogDesc.hide( this.options.dialog.hide, this.options.animationSpeed );
 		this.uiDialogContent.hide( this.options.dialog.hide, this.options.animationSpeed, function(){
-			// only change dimension and position if dimensions have changed
-			if ( that.oldDimensions.width != dimensions.width || that.oldDimensions.height != dimensions.height ) {
-				that.position( dimensions.width, dimensions.height );
-				that.resize( dimensions.width, dimensions.height, function(){
-					that._setAndShowContent( data, dimensions );
-					that.oldDimensions = dimensions;
+			// only change size and position if size have changed
+			if ( that.oldSize.width != size.width || that.oldSize.height != size.height ) {
+				that.position( size.width, size.height );
+				that.resize( size.width, size.height, function(){
+					that._setAndShowContent( data, size );
+					that.oldSize = size;
 				});
 			} else {
-				that._setAndShowContent( data, dimensions );
+				that._setAndShowContent( data, size );
 			}
 		});
 	},
@@ -894,9 +894,9 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	// needs to be ratio aware
-	_getDimensions: function( data ) {
+	_getSize: function( data ) {
 		var options = this.options,
-			// set dimensions for dialog widget as int
+			// set size for dialog widget as int
 			width = ( data.width && !isNaN( data.width ) ) ? data.width : options.dialog.width,
 			height = ( data.height && !isNaN( data.height ) ) ? data.height : options.dialog.height,
 			contentHeight = "100%",
@@ -944,7 +944,7 @@ $.extend( MultiDialog.prototype, {
 		// do not resize when already open
 		if ( this.isOpen ) {
 			this.uiDialogContent.hide( this.options.dialog.hide, this.options.animationSpeed, function(){
-				that._setAndShowContent( _data, that._getDimensions( _data ) );
+				that._setAndShowContent( _data, that._getSize( _data ) );
 			});
 		} else {
 			that._open( _data );
