@@ -1,5 +1,5 @@
 /*!
- * jQuery MultiDialog Beta (8. Oct 2012)
+ * jQuery MultiDialog Beta (12. Oct 2012)
  *
  * Copyright 2012, Felix Nagel, http://www.felixnagel.com
  * Licensed under the GPL Version 3 license.
