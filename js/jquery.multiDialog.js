@@ -118,7 +118,7 @@ function MultiDialog(){
 					test: function( href ) {
 						return href.match( /\.(jpg|jpeg|png|gif)$/ );
 					},
-					template: '<img width="100%" height="100%" alt="{alt}" title="{title}" src="{path}" />',
+					template: '<a href="#multibox-next" class="multibox-api" rel="next"><img width="100%" height="100%" alt="{alt}" title="{title}" src="{path}" /></a>',
 					title: function( element ) {
 						return element.find( "img" ).attr( "alt" ) || element.text();
 					},
@@ -662,9 +662,17 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_setContent: function( data, dimensions ) {
+		var that = this;
+	
 		this.uiDialogContent
 			.css( "height", dimensions.contentHeight )
 			.html( data.html );
+		
+		this.uiDialogContent.find(".multibox-api[rel]").bind( "click." + this.widgetName, function( event ){
+			that._move( $( this ).attr( "rel" ) );
+			return false;
+		});
+		
 		this.uiDialog.dialog( "option", "title", data.title || this.options.dialog.title );
 		this._setDesc( data );
 	},
