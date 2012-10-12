@@ -559,9 +559,8 @@ $.extend( MultiDialog.prototype, {
 			resized = false,
 			// get dimensions
 			dimensions = this._getDimensions( data );
-
 		// save initial dimensions
-		that._setOldDimensions( dimensions );
+		that.oldDimensions = dimensions;
 
 		// prepare wrapper elements
 		this.uiDialogContent = $( "<div />", {
@@ -621,7 +620,7 @@ $.extend( MultiDialog.prototype, {
 			if ( that.isOpen ) {
 				window.clearTimeout( that.timeout );
 				that.timeout = window.setTimeout( function() {
-					dimensions = that._getDimensions( { width: that.oldWidth, height: that.oldHeight, desc: that.uiDialogDesc.html() } );
+					dimensions = that._getDimensions( { width: that.oldDimensions.width, height: that.oldDimensions.height, desc: that.uiDialogDesc.html() } );
 					that.uiDialogSize.css("height",  that._getMeasure( dimensions.height ) );
 					that.uiDialogWidget
 						.css("width", that._getMeasure( dimensions.width + that.options.margin ) )
@@ -649,7 +648,7 @@ $.extend( MultiDialog.prototype, {
 			height: this._getMeasure( dimensions.height )
 		});
 		this._setContent( data, dimensions );
-		this._setOldDimensions( dimensions );
+		this.oldDimensions = dimensions;
 		this.uiDialog.dialog( "open" );
 		this._contentAria();
 	},
@@ -697,11 +696,11 @@ $.extend( MultiDialog.prototype, {
 		this.uiDialogDesc.hide( this.options.dialog.hide, this.options.animationSpeed );
 		this.uiDialogContent.hide( this.options.dialog.hide, this.options.animationSpeed, function(){
 			// only change dimension and position if dimensions have changed
-			if ( that.oldWidth != dimensions.width || that.oldHeight != dimensions.height ) {
+			if ( that.oldDimensions.width != dimensions.width || that.oldDimensions.height != dimensions.height ) {
 				that.position( dimensions.width, dimensions.height );
 				that.resize( dimensions.width, dimensions.height, function(){
 					that._setAndShowContent( data, dimensions );
-					that._setOldDimensions( dimensions );
+					that.oldDimensions = dimensions;
 				});
 			} else {
 				that._setAndShowContent( data, dimensions );
@@ -932,12 +931,6 @@ $.extend( MultiDialog.prototype, {
 		}
 
 		return { width: width, height: height, contentHeight: contentHeight };
-	},
-
-	_setOldDimensions: function( dimensions ) {
-		// save width and height
-		this.oldWidth = dimensions.width;
-		this.oldHeight = dimensions.height;
 	},
 
 	_getMeasure: function( value ) {
