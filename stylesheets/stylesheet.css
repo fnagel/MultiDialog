@@ -141,7 +141,7 @@ strong {
   font-weight: bold;
 }
 
-img {
+#main_content_wrap img {
   position: relative;
   margin: 0 auto;
   max-width: 739px;
