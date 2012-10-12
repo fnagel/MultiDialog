@@ -127,7 +127,7 @@ function MultiDialog(){
 					},
 					marker: {
 						title: function( element ) {
-							return element.find( "img" ).attr( "title" ) || element.attr( "title" ) || element.text();
+							return element.find( "img" ).attr( "alt" ) || element.attr( "title" ) || element.text();
 						},
 						alt: function( element ) {
 							return element.find( "img" ).attr( "alt" ) || element.find( "img" ).attr( "title" ) || element.attr( "title" ) || element.text();
