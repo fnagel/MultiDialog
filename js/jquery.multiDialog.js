@@ -82,6 +82,7 @@ function MultiDialog(){
 			stack: false,
 			zIndex: 1000,
 			position: {
+				of: window,
 				my: 'center',
 				at: 'center',
 				collision: 'fit'
@@ -557,9 +558,7 @@ $.extend( MultiDialog.prototype, {
 		var that = this,
 			resized = false,
 			// get dimensions
-			dimensions = this._getDimensions( data ),
-			// save default animationSpeed
-			aniSpeedTemp = that.options.animationSpeed;
+			dimensions = this._getDimensions( data );
 
 		// save initial dimensions
 		that._setOldDimensions( dimensions );
@@ -619,15 +618,15 @@ $.extend( MultiDialog.prototype, {
 		// make dialog responsive
 		// TODO make this use _delay once 1.8.x is not in use anymore, http://jqueryui.com/upgrade-guide/1.9/#added-_delay-method
 		$( window ).bind( "resize." + this.widgetName, function( event ){
-			if ( that.open ) {
+			if ( that.isOpen ) {
 				window.clearTimeout( that.timeout );
 				that.timeout = window.setTimeout( function() {
 					dimensions = that._getDimensions( { width: that.oldWidth, height: that.oldHeight, desc: that.uiDialogDesc.html() } );
-					that.options.animationSpeed = 0;
-					that.resize( dimensions.width, dimensions.height );
-					that.position( dimensions.width, dimensions.height );
-					that.uiDialogContent.css( "height", dimensions.contentHeight )
-					that.options.animationSpeed = aniSpeedTemp;
+					that.uiDialogSize.css("height",  that._getMeasure( dimensions.height ) );
+					that.uiDialogWidget
+						.css("width", that._getMeasure( dimensions.width + that.options.margin ) )
+						.position( that.options.dialog.position );
+					$.ui.dialog.overlay.resize();
 				}, 250 );
 			}
 		});
@@ -715,7 +714,6 @@ $.extend( MultiDialog.prototype, {
 			additions = this.uiDialogWidget.children( ".ui-dialog-titlebar").outerHeight() - this.uiDialogWidget.children( ".ui-dialog-buttonpane").outerHeight();
 
 		this.uiDialog.position(	$.extend( {}, that.options.dialog.position, {
-			of: window,
 			using: function( pos ) {
 				that.uiDialogWidget.animate({
 					left: "+=" + ( pos.left + ( that.uiDialogWidget.width() - that.options.margin - width ) / 2 ),
@@ -741,9 +739,7 @@ $.extend( MultiDialog.prototype, {
 			duration: this.options.animationSpeed,
 			queue: false,
 			complete: function(){
-				window.setTimeout( function() {
-					$.ui.dialog.overlay.resize();
-				}, 0 );
+				$.ui.dialog.overlay.resize();
 				if ( $.isFunction( callback ) ) callback.call();
 				that._fireCallback( "resize" );
 			}
