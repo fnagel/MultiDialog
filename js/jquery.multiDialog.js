@@ -543,6 +543,9 @@ $.extend( MultiDialog.prototype, {
 			this.open( this.group[ this.index ] );
 			this._changeGalleryButtons();
 			this._fireCallback( "move", direction, this.group[ this.index ] );
+		} else {
+			// autoclose on failure
+			this.close();
 		}
 	},
 
@@ -650,16 +653,16 @@ $.extend( MultiDialog.prototype, {
 
 	_setContent: function( data, dimensions ) {
 		var that = this;
-	
+
 		this.uiDialogContent
 			.css( "height", dimensions.contentHeight )
 			.html( data.html );
-		
+
 		this.uiDialogContent.find(".multibox-api[rel]").bind( "click." + this.widgetName, function( event ){
 			that._move( $( this ).attr( "rel" ) );
 			return false;
 		});
-		
+
 		this.uiDialog.dialog( "option", "title", data.title || this.options.dialog.title );
 		this._setDesc( data );
 	},
