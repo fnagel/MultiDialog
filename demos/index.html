@@ -165,9 +165,13 @@ $(function() {
 		More examples coming soon... 
 	</div>
 	<div id="tabs-api-code">
-		<pre class="brush: js;">			
+		<pre class="brush: js;">	
 			// make instance
-			api = $.fn.MultiDialog();
+			api = $.fn.MultiDialog({
+				dialog: {
+					title: "API Example"
+				}
+			});
 			
 			$("#api-button-1").click( function(){
 				api.openLink("res/images/DirtyFlowers.jpg");
@@ -185,14 +189,16 @@ $(function() {
 			});
 			
 			$("#api-button-4").click( function(){
-				api.open({ element: $("#tabs-start-about") });
+				api.open({ element: $("#inline-content-group-2") });
 				// shortcut for same functionality
-				// api.open( $("#tabs-start-about"));
+				// api.open( $("#inline-content-group-2"));
 			});
 			
+			api2 = $.fn.MultiDialog();
+			api2.options.gallery.enabled = true;
+			api2.options.dialog.title = "API Gallery Example";
 			$("#api-button-5").click( function(){
-				api.options.gallery.enabled = true;
-				api.openGallery([
+				api2.openGallery([
 					{ href: "res/images/DirtyFlowers.jpg" },
 					{ href: "http://www.youtube.com/watch?v=VfOcyrOImLg" },
 					{ href: "#inline-content-group-1" }
@@ -293,9 +299,9 @@ $(function() {
 	});
 	
 	$("#api-button-4").click( function(){
-		api.open({ element: $("#tabs-start-about") });
+		// api.open({ element: $("#inline-content-group-2") });
 		// shortcut for same functionality
-		// api.open( $("#tabs-start-about"));
+		api.open( $("#inline-content-group-2"));
 	});
 	
 	api2 = $.fn.MultiDialog();
