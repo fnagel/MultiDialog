@@ -464,7 +464,7 @@ $(function() {
 	</div>
 	<div id="tabs-type-code">
 		<pre class="brush: js;">	
-			$( "a.add-type" ).MultiDialog({
+			$( &quot;a.add-type&quot; ).MultiDialog({
 				types: {
 					config: {
 						customPath: {
@@ -472,16 +472,16 @@ $(function() {
 								// search for syntaxhighlighter in URL
 								return href.match( /syntaxhighlighter/i );
 							},					
-							template: '<iframe width="100%" height="100%" src="{url}" frameborder="0"></iframe>'
+							template: '&lt;iframe width=&quot;100%&quot; height=&quot;100%&quot; src=&quot;{url}&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;'
 						}
 					}
 				},
 				openCustom: function( data ){
-					if ( data.type = "customPath" ) {
-						this._parseHtml( data, "iframe", "url" );
+					if ( data.type = &quot;customPath&quot; ) {
+						this._parseHtml( data, &quot;iframe&quot;, &quot;url&quot; );
 						data.width = 1280;
 						data.height = 800;
-						data.title = "SyntaxHighlighter";
+						data.title = &quot;SyntaxHighlighter&quot;;
 						this._open( data );
 					} else {
 						// backfall
