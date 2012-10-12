@@ -37,17 +37,6 @@ p {
 	margin: 0 9px;
 }
 
-
-/* Demo
-   -------------------------------- */
-
-.MultiDialog .ui-state-error,
-.MultiDialog .ui-state-highlight {
-	margin: 0 auto;
-	width: 75%;
-	padding: 0.3em 0.5em;
-}
-
 .syntaxhighlighter, pre {
 	max-height: 300px;
 }

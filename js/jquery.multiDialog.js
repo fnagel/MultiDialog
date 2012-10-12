@@ -184,13 +184,13 @@ function MultiDialog(){
 
 		// loading handler
 		loadingHandler: function( data ){
-			this.isLoading = true;
-			this._defaultHandler( '<p class="ui-state-highlight ui-corner-all">Loading... please wait!</p>', "Loading...", data );
+			this.isLoading = true;		
+			this._defaultHandler( '<div class="ui-state-highlight ui-corner-all"><p><span class="ui-icon ui-icon-info"></span><strong>Loading content, please wait!</strong></p></div>', "Loading...", data );
 		},
 
 		// error handler
 		errorHandler: function( data ){
-			this._defaultHandler( '<p class="ui-state-error ui-corner-all">Sorry, an error has occured. Please try again!</p>', "Error!", data.data );
+			this._defaultHandler( '<div class="ui-state-error ui-corner-all"><p><span class="ui-icon ui-icon-alert"></span><strong>Sorry, an error has occured. Please try again!</strong></p></div>', "Error!", data.data );
 		},
 
 		// callbacks
