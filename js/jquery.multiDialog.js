@@ -254,25 +254,8 @@ $.extend( MultiDialog.prototype, {
 	* @param data {Object, Jquery Object, String} MultiDialog data object (with at least one: html, href or element), can also be an jquery object containing a <a> tag or an URL
 	*/
 	openLink: function( data ) {
-		var options = this.options;
-		// prepare needed data
-		if ( data.href || data.element ) {
-			if ( data.element instanceof jQuery && !data.href ) {
-				data.href = data.element.attr( "href" );
-			}
-		} else {
-			// save parameter and create data object
-			var element = data,
-				data = {};
-			// if jQuery object containing a link
-			if ( element instanceof jQuery ) {
-				data.href = element.attr( "href" );
-				data.element = element;
-			} else {
-				// seems to be a link
-				data.href = element;
-			}
-		}
+		var options = this.options
+		data = this._openLinkHelper( data );
 
 		// get type
 		if ( !data.type ) {
@@ -341,9 +324,10 @@ $.extend( MultiDialog.prototype, {
 
 	/*
 	* OpenXyz functions: opens its specific type, please pass in data.href
-	* @param data {Object} An MultiDialog object, needs at least data.href (target link)
+	* @param data.href (URL), data.element (<a>), jQuery object (<a>), string (URL)
 	*/
 	openImage: function( data ) {
+		data = this._openLinkHelper( data );
 		var that = this,
 			options = this.options,
 			image = new Image();
@@ -369,11 +353,13 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	openIframe: function( data ) {
+		data = this._openLinkHelper( data );
 		this._parseHtml( data, "iframe", "url" );
 		this._open( data );
 	},
 
 	openInline: function( data ) {
+		data = this._openLinkHelper( data );
 		var element = $("#" + data.href.split("#")[1]);
 		if ( element.length ) {
 			this._parseHtml( data, "inline", "content", element.html() );
@@ -384,6 +370,7 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	openYoutube: function( data ) {
+		data = this._openLinkHelper( data );
 		var path = "http://www.youtube.com/embed/" + this._getUrlVar( data.href, "v" ) + this.options.types.config.youtube.addParameters;
 
 		this._parseHtml( data, "youtube", "url", path );
@@ -391,6 +378,7 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	openVimeo: function( data ) {
+		data = this._openLinkHelper( data );
 		var match = data.href.match( /http:\/\/(www\.)?vimeo.com\/(\d+)/ ),
 			path = 'http://player.vimeo.com/video/'+ match[2] + this.options.types.config.vimeo.addParameters;
 
@@ -399,6 +387,7 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	openAjax: function( data ) {
+		data = this._openLinkHelper( data );
 		var that = this,
 			options = this.options;
 
@@ -421,37 +410,52 @@ $.extend( MultiDialog.prototype, {
 		this.xhr = $.ajax( ajaxOptions );
 	},
 
+	// data = html, jQuery object, data.html, data.element
 	openHtml: function( data ) {
+		var isJquery = data instanceof jQuery;		
+		
+		if ( isJquery || data.element ) {
+			if ( isJquery ) data.element = data;
+			data.html = data.element.html();
+		} else  {
+			data.html = data;
+		}		
+		
 		this._open( data );
+	},
+	
+	// checks: data.href (URL), data.element (<a>), jQuery object (<a>), string (URL)
+	_openLinkHelper: function( data ) {
+		if ( !data.href ) {
+			if ( data.element ) {
+				data.href = data.element.attr( "href" );
+			} else {
+				// save parameter and create data object
+				var element = data,
+					data = {};
+				// if jQuery object containing a link
+				if ( element instanceof jQuery ) {
+					data.href = element.attr( "href" );
+					data.element = element;
+				} else {
+					// seems to be a link
+					data.href = element;
+				}
+			}
+		}		
+		
+		return data;
 	},
 
 	/*
 	* Opens a dialog
-	* @param data {Object, Jquery Object, String} MultiDialog data object (with at least one: html, href or element), can also be an jQuery object containing a <a> tag or any other HTML element (its content will be opened) or an URL
+	* @param data {Object, Jquery Object, string )} MultiDialog data object (with at least one: html, href or element), can also be an jQuery object containing a <a> tag or any other HTML element (its content will be opened) or plain HTML
 	*/
 	open: function( data ) {
-		if ( data instanceof jQuery ) {
-			if ( data.is( "a" ) ) {
-				this.openLink( data );
-			} else {
-				this._open( { html: data.html() } );
-			}
+		if ( data.href || ( data.element && data.element.is( "a" ) ) || ( data instanceof jQuery && data.is( "a" ) ) ) {
+			this.openLink( data );
 		} else {
-			if ( data.html ) {
-				this._open( data );
-			} else if ( data.href ) {
-				this.openLink( data );
-			} else if ( data.element && data.element instanceof jQuery ) {
-				if ( data.element.is( "a" ) ) {
-					this.openLink( data );
-				} else {
-					data.html = data.element.html();
-					this._open( data );
-				}
-			} else {
-				// seems to be a url
-				this.openLink( { href: data } );
-			}
+			this.openHtml( data );
 		}
 	},
 
@@ -471,7 +475,7 @@ $.extend( MultiDialog.prototype, {
 
 	/*
 	* Opens a dialog in gallery mode
-	* @param group {Array, Jquery Object} An simple array with MultiDialog data objects, can also be an jquery object containing a set of <a> tags
+	* @param group {Array, Jquery Object} An simple array with MultiDialog data objects, can also be an jquery object containing a set of elements or <a> tags
 	* @param index {Jquery Object, Number} A link tag element within the group parameter or a index (starts with 0), default is the first element in group
 	*/
 	openGallery: function( group, index )  {
