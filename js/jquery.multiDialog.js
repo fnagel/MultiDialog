@@ -30,7 +30,6 @@ function MultiDialog(){
 		disabledFunc: function(){ // returns boolean, addtional function to disable widget
 			return ( $( window ).width() < 400 ) || ( $( window ).height() < 300 ); // disabled on small screens
 		},
-		testGetVars: false, // test for GETvars
 		getVarPrefix: "", // GET var prefix
 		closeOnClickOverlay: true, // close MultiDialog by click on overlay
 		animationSpeed: 500, // speed of all hide and fade animations
@@ -119,7 +118,7 @@ function MultiDialog(){
 					test: function( href ) {
 						return href.match( /\.(jpg|jpeg|png|gif)$/ );
 					},
-					template: '<img width="100%" height="100%" alt="{alt}" title="{title}" src="{path}" />',
+					template: '<a href="#multibox-next" class="multibox-api" rel="next"><img width="100%" height="100%" alt="{alt}" title="{title}" src="{path}" /></a>',
 					title: function( element ) {
 						return element.find( "img" ).attr( "alt" ) || element.text();
 					},
@@ -128,7 +127,7 @@ function MultiDialog(){
 					},
 					marker: {
 						title: function( element ) {
-							return element.find( "img" ).attr( "title" ) || element.attr( "title" ) || element.text();
+							return element.find( "img" ).attr( "alt" ) || element.attr( "title" ) || element.text();
 						},
 						alt: function( element ) {
 							return element.find( "img" ).attr( "alt" ) || element.find( "img" ).attr( "title" ) || element.attr( "title" ) || element.text();
@@ -520,42 +519,33 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_move: function( direction ) {
-		var oldIndex = this.index;
-		try {
-			switch ( direction ) {
-				case 'first':
-					this.index = 0;
-					break;
-				case 'last':
-					this.index = this.group.length - 1;
-					break;
-				case 'next':
-					if ( this.options.gallery.loop && oldIndex == this.group.length - 1 ) {
-						this.index = 0;
-					} else {
-						this.index++;
-					}
-					break;
-				case 'prev':
-					if ( this.options.gallery.loop && oldIndex === 0 ) {
-						this.index = this.group.length - 1;
-					} else {
-						this.index--;
-					}
-					break;
-				default:
-					this.index = direction;
-					break;
-			}
-		} catch( error ) {
-			// do not change index if an error occured
-			this.index = oldIndex;
+		var newIndex = this.index;
+		switch ( direction ) {
+			case 'first':
+				newIndex = 0;
+				break;
+			case 'last':
+				newIndex = this.group.length - 1;
+				break;
+			case 'next':
+				newIndex = ( this.options.gallery.loop && newIndex == this.group.length - 1 ) ? 0 : newIndex + 1;
+				break;
+			case 'prev':
+				newIndex = ( this.options.gallery.loop && newIndex === 0 ) ? this.group.length - 1 : newIndex - 1;
+				break;
+			default:
+				newIndex = direction;
+				break;
 		}
-		if ( oldIndex != this.index ) {
+		if ( !isNaN( newIndex ) && newIndex != this.index && this.group[ newIndex ] ) {
+			this.index = newIndex;	
 			// caching
 			this.open( this.group[ this.index ] );
 			this._changeGalleryButtons();
 			this._fireCallback( "move", direction, this.group[ this.index ] );
+		} else {
+			// autoclose on failure
+			this.close();
 		}
 	},
 
@@ -662,9 +652,17 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_setContent: function( data, dimensions ) {
+		var that = this;
+
 		this.uiDialogContent
 			.css( "height", dimensions.contentHeight )
 			.html( data.html );
+
+		this.uiDialogContent.find(".multibox-api[rel]").bind( "click." + this.widgetName, function( event ){
+			that._move( $( this ).attr( "rel" ) );
+			return false;
+		});
+
 		this.uiDialog.dialog( "option", "title", data.title || this.options.dialog.title );
 		this._setDesc( data );
 	},
@@ -970,21 +968,17 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_getUrlVar: function( href, name ){
-		var get = false;
+		var vars = [],
+			hash,
+			hashes = href.slice( href.indexOf( '?' ) + 1 ).split( '&' ),
+			get = false;
 
-		if ( this.options.testGetVars ) {
-			var vars = [],
-				hash,
-				hashes = href.slice( href.indexOf( '?' ) + 1 ).split( '&' );
-
-			for ( var i = 0; i < hashes.length; i++ ) {
-				hash = hashes[ i ].split( '=' );
-				vars.push( hash[ 0 ] );
-				vars[ hash[ 0 ] ] = hash[ 1 ];
-			}
-
-			get = vars[ this.options.getVarPrefix + name ];
+		for ( var i = 0; i < hashes.length; i++ ) {
+			hash = hashes[ i ].split( '=' );
+			vars.push( hash[ 0 ] );
+			vars[ hash[ 0 ] ] = hash[ 1 ];
 		}
+		get = vars[ this.options.getVarPrefix + name ];
 
 		return get;
 	}
