@@ -204,7 +204,8 @@ function MultiDialog(){
 			resize: null,
 			move: null,
 			// specific
-			imageError: null
+			imageError: null,
+			inlineError: null
 			// use ajaxSettings option for ajax specific callbacks
 			// use loadingHandler and errorHandler as callbacks if needed
 		}
@@ -371,11 +372,13 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	openInline: function( data ) {
-		var url = data.href.split("#"),
-			content = $("#" + url[1]).html();
-
-		this._parseHtml( data, "inline", "content", content );
-		this._open( data );
+		var element = $("#" + data.href.split("#")[1]);
+		if ( element.length ) {
+			this._parseHtml( data, "inline", "content", element.html() );
+			this._open( data );
+		} else {
+			this.options.errorHandler.call( this, this._fireCallback( "inlineError", null, data ) );
+		}
 	},
 
 	openYoutube: function( data ) {
