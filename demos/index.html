@@ -5,7 +5,7 @@
 	<title>jQuery UI MultiDialog - Demos</title>
 
 	<!-- jQuery & jQuery UI files (needed)-->
-	<link rel="stylesheet" href="../css/ui-lightness/jquery-ui-1.9.0.custom.css">
+	<link rel="stylesheet" href="../css/jquery-ui-1.9.0.custom.css">
 	<script src="../js/jquery/jquery-1.8.2.js"></script>
 	<script src="../js/jquery/jquery-ui-1.9.0.custom.js"></script>
 
@@ -23,6 +23,7 @@
 	<link rel="stylesheet" href="res/syntaxhighlighter/styles/shCore.css"/>
 	<link rel="stylesheet" href="res/syntaxhighlighter/styles/shThemeDefault.css"/>
 	<script src="res/jquery/js/jquery.ui.tabs.js"></script>
+	<script src="res/SuperThemeSwitcher/jquery.themeswitcher.js"></script>
 	<script src="res/syntaxhighlighter/scripts/shCore.js" type="text/javascript"></script>
 	<script src="res/syntaxhighlighter/scripts/shBrushJScript.js" type="text/javascript"></script>
 	<script src="res/syntaxhighlighter/scripts/shBrushXml.js" type="text/javascript"></script>
@@ -36,11 +37,12 @@
 		
 		SyntaxHighlighter.all();
 		
-		var tsButton = $("#add-themeswitcher").click(function(){
-			$.getScript('http://ui.jquery.com/applications/themeroller/themeswitchertool/', function() {
-				tsButton.after( $("<div />").themeswitcher() ).remove();
-			});
+		$("#themeswitcher").themeswitcher({
+			imgpath: "res/SuperThemeSwitcher/images/",
+			// TODO should be 1.9.0 when CDN updates
+			jqueryuiversion: "1.8.23"
 		});
+		
 	});
 
 	</script>
@@ -505,13 +507,13 @@ $(function() {
 		</p>
 	</div>
 	<div id="tabs-temeswitcher-demo">
-		Some example themes, delivered by jQuery UI Themeswitcher. 
+		Some example themes, delivered by <a href="https://github.com/harborhoffer/Super-Theme-Switcher">Super Theme Themeswitcher</a>. 
 		<br />
 		<br />
-		<button id="add-themeswitcher">Click here to add Themeswitcher</button>
+		<div id="themeswitcher"></div>
 		<br />
 		<br />
-		Just click the button wait until Themeswitcher is loaded (internet connection needed) and try any demo on this page.
+		Choose a theme and try any demo on this page.
 	</div>
 	<div id="tabs-temeswitcher-code">
 		Just add a new jQuery UI CSS Theme. Built your own with <a href="http://jqueryui.com/themeroller">jQuery UI's Themeroller</a>.
