@@ -161,6 +161,13 @@
 		Go to <a href="http://jqueryui.com/download">jQueryUi.com</a> to built your own jQuery UI file!
 	</div>
 </div>
+<script>
+$(function() {
+	$( "a.multiallybox" ).MultiDialog();
+});
+</script>
+
+
 
 <h2>Examples</h2>
 
@@ -194,7 +201,11 @@
 </div>
 <script>
 $(function() {
-	$( "a.multiallybox" ).MultiDialog();
+	$( "a.lightbox" ).MultiDialog({
+		gallery: {
+			enabled: true
+		}
+	});
 });
 </script>
 
@@ -216,17 +227,17 @@ $(function() {
 		</p>
 		<br />
 		<ul>
-			<li><a class="multiallybox" href="res/images/DirtyFlowers.jpg">Images (jpg, png, gif by file extension)</li>
-			<li><a class="multiallybox" href="res/ajax.html?ajax=true">AJAX content (by adding ?ajax=true to the link)</li>
-			<li><a class="multiallybox" href="http://m.flickr.com?iframe=true">iframes (by adding ?iframe=true to the link)</li>
-			<li><a class="multiallybox" href="http://www.youtube.com/watch?v=VfOcyrOImLg">You Tube video (by domain)</li>
-			<li><a class="multiallybox" href="http://vimeo.com/8237941" title="Thriller (MJ Tribute) - Thomas Herner">Vimeo video (by domain)</a></li>
-			<li><a class="multiallybox" href="#inline-content-group-1">Inline content (by anchor link)</a></li>
+			<li><a class="group" href="res/images/DirtyFlowers.jpg">Images (jpg, png, gif by file extension)</a></li>
+			<li><a class="group" href="res/ajax.html?ajax=true">AJAX content (by adding ?ajax=true to the link)</a></li>
+			<li><a class="group" href="http://m.flickr.com?iframe=true">iframes (by adding ?iframe=true to the link)</a></li>
+			<li><a class="group" href="http://www.youtube.com/watch?v=VfOcyrOImLg">You Tube video (by domain)</a></li>
+			<li><a class="group" href="http://vimeo.com/8237941" title="Thriller (MJ Tribute) - Thomas Herner">Vimeo video (by domain)</a></li>
+			<li><a class="group" href="#inline-content-group-1">Inline content (by anchor link)</a></li>
 		</ul>
 	</div>
 	<div id="tabs-group-code">
 		<pre class="brush: js;">
-			$( "a.inline-content-group" ).MultiDialog({
+			$( "a.group" ).MultiDialog({
 				gallery: {
 					enabled: true,
 					loop: true
@@ -237,9 +248,10 @@ $(function() {
 </div>
 <script>
 $(function() {
-	$( "a.lightbox" ).MultiDialog({
+	$( "a.group" ).MultiDialog({
 		gallery: {
-			enabled: true
+			enabled: true,
+			loop: true
 		}
 	});
 });
