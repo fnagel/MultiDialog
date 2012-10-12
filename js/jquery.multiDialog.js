@@ -184,13 +184,13 @@ function MultiDialog(){
 
 		// loading handler
 		loadingHandler: function( data ){
-			this.isLoading = true;
-			this._defaultHandler( '<p class="ui-state-highlight ui-corner-all">Loading... please wait!</p>', "Loading...", data );
+			this.isLoading = true;		
+			this._defaultHandler( '<div class="ui-state-highlight ui-corner-all"><p><span class="ui-icon ui-icon-info"></span><strong>Loading content, please wait!</strong></p></div>', "Loading...", data );
 		},
 
 		// error handler
 		errorHandler: function( data ){
-			this._defaultHandler( '<p class="ui-state-error ui-corner-all">Sorry, an error has occured. Please try again!</p>', "Error!", data.data );
+			this._defaultHandler( '<div class="ui-state-error ui-corner-all"><p><span class="ui-icon ui-icon-alert"></span><strong>Sorry, an error has occured. Please try again!</strong></p></div>', "Error!", data.data );
 		},
 
 		// callbacks
@@ -204,7 +204,8 @@ function MultiDialog(){
 			resize: null,
 			move: null,
 			// specific
-			imageError: null
+			imageError: null,
+			inlineError: null
 			// use ajaxSettings option for ajax specific callbacks
 			// use loadingHandler and errorHandler as callbacks if needed
 		}
@@ -371,11 +372,13 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	openInline: function( data ) {
-		var url = data.href.split("#"),
-			content = $("#" + url[1]).html();
-
-		this._parseHtml( data, "inline", "content", content );
-		this._open( data );
+		var element = $("#" + data.href.split("#")[1]);
+		if ( element.length ) {
+			this._parseHtml( data, "inline", "content", element.html() );
+			this._open( data );
+		} else {
+			this.options.errorHandler.call( this, this._fireCallback( "inlineError", null, data ) );
+		}
 	},
 
 	openYoutube: function( data ) {
@@ -667,12 +670,6 @@ $.extend( MultiDialog.prototype, {
 		this._setDesc( data );
 	},
 
-	_setOldDimensions: function( dimensions ) {
-		// save width and height
-		this.oldWidth = dimensions.width;
-		this.oldHeight = dimensions.height;
-	},
-
 	_setAndShowContent: function( data, dimensions ) {
 		var that = this;
 
@@ -928,6 +925,12 @@ $.extend( MultiDialog.prototype, {
 		}
 
 		return { width: width, height: height, contentHeight: contentHeight };
+	},
+
+	_setOldDimensions: function( dimensions ) {
+		// save width and height
+		this.oldWidth = dimensions.width;
+		this.oldHeight = dimensions.height;
 	},
 
 	_getMeasure: function( value ) {

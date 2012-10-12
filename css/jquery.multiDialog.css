@@ -6,9 +6,17 @@
  *
  * http://github.com/fnagel/
  */
+ 
+ /* needed styles */
 .ui-dialog.MultiDialog .ui-dialog-content { }
 .ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content { width: 100%; position: relative; }
 .ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content .overflow { overflow: auto; height: 100%; padding: 0 0.5em 0 0; } /* nicer scollbar */
 .ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content iframe { position: absolute; } /* width/height 100% fix */
 .ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-desc { width: 100%; margin: 10px 0 0 0; }
-.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-desc span.positon { font-weight: bold; }
+
+/* recomended styles */
+.MultiDialog .ui-dialog-content .MultiDialog-desc span.positon { font-weight: bold; }
+.MultiDialog .ui-state-error, .MultiDialog .ui-state-highlight { height: 100%; border: 0; }
+.MultiDialog .ui-state-highlight { background: url(images/ajax-loader.gif) no-repeat center center; }
+.MultiDialog .ui-state-error p, .MultiDialog .ui-state-highlight p { width: 16em; margin: 0 auto; padding: 3em 0 0 0; text-align: center; }
+.MultiDialog .ui-state-error .ui-icon, .MultiDialog .ui-state-highlight .ui-icon { float: left; }
