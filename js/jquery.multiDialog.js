@@ -379,7 +379,6 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	openYoutube: function( data ) {
-		console.log(this._getUrlVar( data.href, "v" ));
 		var path = "http://www.youtube.com/embed/" + this._getUrlVar( data.href, "v" ) + this.options.types.config.youtube.addParameters;
 
 		this._parseHtml( data, "youtube", "url", path );
@@ -520,38 +519,26 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_move: function( direction ) {
-		var oldIndex = this.index;
-		try {
-			switch ( direction ) {
-				case 'first':
-					this.index = 0;
-					break;
-				case 'last':
-					this.index = this.group.length - 1;
-					break;
-				case 'next':
-					if ( this.options.gallery.loop && oldIndex == this.group.length - 1 ) {
-						this.index = 0;
-					} else {
-						this.index++;
-					}
-					break;
-				case 'prev':
-					if ( this.options.gallery.loop && oldIndex === 0 ) {
-						this.index = this.group.length - 1;
-					} else {
-						this.index--;
-					}
-					break;
-				default:
-					this.index = direction;
-					break;
-			}
-		} catch( error ) {
-			// do not change index if an error occured
-			this.index = oldIndex;
+		var newIndex = this.index;
+		switch ( direction ) {
+			case 'first':
+				newIndex = 0;
+				break;
+			case 'last':
+				newIndex = this.group.length - 1;
+				break;
+			case 'next':
+				newIndex = ( this.options.gallery.loop && newIndex == this.group.length - 1 ) ? 0 : newIndex + 1;
+				break;
+			case 'prev':
+				newIndex = ( this.options.gallery.loop && newIndex === 0 ) ? this.group.length - 1 : newIndex - 1;
+				break;
+			default:
+				newIndex = direction;
+				break;
 		}
-		if ( oldIndex != this.index ) {
+		if ( !isNaN( newIndex ) && newIndex != this.index && this.group[ newIndex ] ) {
+			this.index = newIndex;	
 			// caching
 			this.open( this.group[ this.index ] );
 			this._changeGalleryButtons();
