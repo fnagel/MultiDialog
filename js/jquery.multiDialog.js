@@ -567,6 +567,9 @@ $.extend( MultiDialog.prototype, {
 			// save default animationSpeed
 			aniSpeedTemp = that.options.animationSpeed;
 
+		// save initial dimensions
+		that._setOldDimensions( dimensions );
+
 		// prepare wrapper elements
 		this.uiDialogContent = $( "<div />", {
 			'class': this.widgetName + "-content ui-helper-clearfix " + data.type,
@@ -618,7 +621,7 @@ $.extend( MultiDialog.prototype, {
 
 		// set ARIA busy when loading
 		if ( this.isLoading ) this._contentAria();
-		
+
 		// make dialog responsive
 		// TODO make this use _delay once 1.8.x is not in use anymore, http://jqueryui.com/upgrade-guide/1.9/#added-_delay-method
 		$( window ).bind( "resize." + this.widgetName, function( event ){
@@ -653,6 +656,7 @@ $.extend( MultiDialog.prototype, {
 			height: this._getMeasure( dimensions.height )
 		});
 		this._setContent( data, dimensions );
+		this._setOldDimensions( dimensions );
 		this.uiDialog.dialog( "open" );
 		this._contentAria();
 	},
@@ -663,6 +667,12 @@ $.extend( MultiDialog.prototype, {
 			.html( data.html );
 		this.uiDialog.dialog( "option", "title", data.title || this.options.dialog.title );
 		this._setDesc( data );
+	},
+
+	_setOldDimensions: function( dimensions ) {
+		// save width and height
+		this.oldWidth = dimensions.width;
+		this.oldHeight = dimensions.height;
 	},
 
 	_setAndShowContent: function( data, dimensions ) {
@@ -681,11 +691,11 @@ $.extend( MultiDialog.prototype, {
 			"aria-relevant": "additions removals text",
 			"aria-busy": this.isLoading
 		});
-		// set loading to false when busy is set to true once
-		if ( this.isLoading ) this.isLoading = false;
 	},
 
 	_changeDialog: function( data ){
+		// reset loading state
+		this.isLoading = false;
 		var dimensions = this._getDimensions( data ),
 			that = this;
 
@@ -696,6 +706,7 @@ $.extend( MultiDialog.prototype, {
 				that.position( dimensions.width, dimensions.height );
 				that.resize( dimensions.width, dimensions.height, function(){
 					that._setAndShowContent( data, dimensions );
+					that._setOldDimensions( dimensions );
 				});
 			} else {
 				that._setAndShowContent( data, dimensions );
@@ -899,16 +910,12 @@ $.extend( MultiDialog.prototype, {
 			contentHeight = "100%",
 			desc = options.desc.template.call( this, data ),
 			descHeight = 0;
-		
+
 		// add desc height
 		if ( desc )  {
 			descHeight = ( options.desc.height == "auto" ) ? this._getDescHeight( desc, width ) : options.desc.height;
 			height += descHeight;
 		}
-		
-		// save original dimensions
-		this.oldWidth = width;
-		this.oldHeight = height - descHeight;		
 
 		// check for viewport width and adjust dimensions with ratio in mind if screen is to small
 		if ( screenWidth < width + options.margin ) {
