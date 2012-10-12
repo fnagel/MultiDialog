@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>jQuery UI MultiDialog - Demos</title>
+
+	<!-- jQuery & jQuery UI files (needed)-->
+	<link rel="stylesheet" href="../css/jquery-ui-1.9.0.custom.css">
+	<script src="../js/jquery/jquery-1.8.2.js"></script>
+	<script src="../js/jquery/jquery-ui-1.9.0.custom.js"></script>
+
+	<!-- MultiDialog files (needed) -->
+	<link rel="stylesheet" href="../css/jquery.MultiDialog.css">
+	<script src="../js/jquery.MultiDialog.js"></script>
+
+	<!-- MultiDialog files (optional) -->
+	<script src="res/jquery/js/jquery.ui.draggable.js"></script>
+	<script src="res/jquery/js/jquery.ui.resizable.js"></script>
+
+	<!-- Demo files (unneeded) -->
+	<link rel="stylesheet" href="res/demos.css">
+	<link rel="stylesheet" href="res/jquery/css/jquery.ui.tabs.css">
+	<link rel="stylesheet" href="res/syntaxhighlighter/styles/shCore.css"/>
+	<link rel="stylesheet" href="res/syntaxhighlighter/styles/shThemeDefault.css"/>
+	<script src="res/jquery/js/jquery.ui.tabs.js"></script>
+	<script src="res/SuperThemeSwitcher/jquery.themeswitcher.js"></script>
+	<script src="res/syntaxhighlighter/scripts/shCore.js" type="text/javascript"></script>
+	<script src="res/syntaxhighlighter/scripts/shBrushJScript.js" type="text/javascript"></script>
+	<script src="res/syntaxhighlighter/scripts/shBrushXml.js" type="text/javascript"></script>
+
+	<!-- init demo related JS -->
+	<script>
+	$(function() {
+		$(".tabs").tabs();
+		
+		$(".tabs button").button();
+		
+		SyntaxHighlighter.all();
+		
+		$("#themeswitcher").themeswitcher({
+			imgpath: "res/SuperThemeSwitcher/images/",
+			// TODO should be 1.9.0 when CDN updates
+			jqueryuiversion: "1.8.23"
+		});
+		
+	});
+
+	</script>
+</head>
+<body>
+
+<div class="demo">
+
+
+<div class="tabs">
+	<ul>
+		<li><a href="#tabs-start-about">About</a></li>
+		<li><a href="#tabs-start-features">Feature list</a></li>
+		<li><a href="#tabs-start-code">Minimal setup</a></li>
+		<li><a href="#tabs-start-requirements">Requirements</a></li>
+	</ul>
+	<div id="tabs-start-about">
+		<p>
+			<strong>MultiDialog utilizes <a href="http://jqueryui.com/demos/dialog/">jQuery UI Dialog</a> for a full featured Modalbox / Lightbox application.</strong>			
+			<br />
+			It's flexible, easy to use but yet extendable and fits great into the jQuery UI Widget family.
+		</p>
+		<br />
+		<ul>
+			<li>Use any jQuery selector or a powerful API</li>
+			<li>Feature rich, very flexible and easy to extend</li>
+			<li>Tested in FF, IE7+, Chrome & Safari</li>
+			<li>Built with <abbr title="accessibility">a11y</abbr> in mind</li>
+		</ul>
+		<br />
+		<p>
+			DialogBox works with <em><a class="multiallybox" href="res/images/DirtyFlowers.jpg">Images</a>,
+			<a class="multiallybox" href="res/ajax.html?ajax=true">AJAX content</a>,
+			<a class="multiallybox" href="http://m.flickr.com?iframe=true">iframes</a>,
+			<a class="multiallybox" href="http://www.youtube.com/watch?v=VfOcyrOImLg" title="Opeth - The Devil's Orchard">You Tube video</a>,
+			<a class="multiallybox" href="http://vimeo.com/8237941" title="Thriller (MJ Tribute) - Thomas Herner">Vimeo video</a> and
+			<a class="multiallybox" href="#inline-content-group-1">inline content (anchor links)</a> and plain HTML</em>. Custom content types are easy to implement.
+		</p>
+	</div>
+	<div id="tabs-start-features">
+		<strong>jQuery UI Dialog features</strong>, <a href="http://jqueryui.com/demos/dialog/">See full feature list</a>
+		<ul>
+			<li>Themes</li>
+			<li>Overlay</li>
+			<li>Configurable show / hide animation</li>
+			<li>Configurable positioning</li>
+			<li>jQuery UI Button support</li>
+			<li>Draggable and resizable</li>
+		</ul>
+		<br />
+		<strong>MutliDialog features</strong>
+		<ul>
+			<li>Image, AJAX, iframe, HTML, YouTube & Vimeo support</li>
+			<li>Gallery mode with loop</li>
+			<li>Keyboard support</li>
+			<li>Dialog size will adjust to viewport if needed ("responsive")</li>
+			<li>ARIA attributes</li>
+			<li>Resizes with text size</li>
+			<li>Templates for content types</li>
+			<li>Set content type, width and height with GetVars</li>
+			<li>Content description (supports HTML)</li>
+			<li>Configure description and title by content type</li>
+			<li>Powerful API</li>
+			<li>Configurable loading handling</li>
+			<li>Configurable error handling</li>
+			<li>Callback events</li>
+			<li>...and much more!</li>
+		</ul>
+		<br />
+		Please see source for all options.
+	</div>
+	<div id="tabs-start-code">
+		Add source files:
+		<pre class="brush: html;">
+			&lt;!-- jQuery &amp; jQuery UI files (needed)--&gt;
+			&lt;link rel=&quot;stylesheet&quot; href=&quot;../css/ui-lightness/jquery-ui-1.8.23.custom.css&quot;&gt;
+			&lt;script src=&quot;../js/jquery/jquery-1.8.0.js&quot;&gt;&lt;/script&gt;
+			&lt;script src=&quot;../js/jquery/jquery-ui-1.8.23.custom.js&quot;&gt;&lt;/script&gt;
+
+			&lt;!-- MultiDialog files (needed) --&gt;
+			&lt;link rel=&quot;stylesheet&quot; href=&quot;../css/jquery.MultiDialog.css&quot;&gt;
+			&lt;script src=&quot;../js/jquery.MultiDialog.js&quot;&gt;&lt;/script&gt;
+		</pre>
+		<br />
+		Add links
+		<pre class="brush: html;">
+			&lt;a href=&quot;#somelink&quot;&gt;Some Link&lt;/a&gt;
+		</pre>
+		<br />
+		Init plugin
+		<pre class="brush: js;">
+			// use any jQuery selector
+			$("a").MultiDialog();
+
+			$("a").MultiDialog({
+				// set options here
+			});
+		</pre>
+	</div>
+	<div id="tabs-start-requirements">
+		MutliDialog depends on the following jQuery / UI components.
+		<pre class="brush: js;">
+			/*
+			 * Depends:
+			 *  jquery.js
+			 *	jquery.ui.core.js
+			 *	jquery.ui.widget.js
+			 *	jquery.ui.position.js
+			 *	jquery.ui.dialog.js
+			 *	jquery.ui.effects-fade.js
+			 *
+			 * Optional (Dialog related)
+			 *  jquery.ui.button.js
+			 *	jquery.ui.resizable.js
+			 *	jquery.ui.draggable.js
+			 */
+		</pre>
+		Go to <a href="http://jqueryui.com/download">jQueryUi.com</a> to built your own jQuery UI file!
+	</div>
+</div>
+<script>
+$(function() {
+	$( "a.multiallybox" ).MultiDialog();
+});
+</script>
+
+
+
+<h2>Examples</h2>
+
+<div class="tabs">
+	<ul>
+		<li><a href="#tabs-lightbox-info">Picture Gallery</a></li>
+		<li><a href="#tabs-lightbox-demo">Demo</a></li>
+		<li><a href="#tabs-lightbox-code">Code</a></li>
+	</ul>
+	<div id="tabs-lightbox-info">
+		<p>
+			A simple lightbox gallery.
+		</p>
+	</div>
+	<div id="tabs-lightbox-demo">
+		<ul class="float ui-helper-clearfix">
+			<li><a class="lightbox" href="res/images/DirtyFlowers.jpg"><img src="res/images/thumb/DirtyFlowers.jpg" title="Open this picture of 'Dirty Flowers' in a larger version" alt="Dirty Flowers at Emergenza Semi-Finale"  longdesc="Dirty Flowers, Emergenza Semi-Finale (Batschkapp Frankfurt am Main - 24.04.08)" /></a></li>
+			<li><a class="lightbox" href="res/images/TheBossHoss.jpg"><img src="res/images/thumb/TheBossHoss.jpg" title="Open this picture of 'The Boss Hoss' in a larger version" alt="The Boss Hoss at Magik Bike Festival" longdesc="The Boss Hoss, Magic Bike Festival (Rüdesheim am Rhein - 22.05.09)" /></a></li>
+			<li><a class="lightbox" href="res/images/RealKeepers.jpg"><img src="res/images/thumb/RealKeepers.jpg"  title="Open this picture of 'Real Keepers' in a larger version" alt="Real Keepers at Emergenza Regio-Finale" longdesc="Real Keepers, Emergenza Regio-Finale (Batschkapp Frankfurt am Main - 25.06.08)" /></a></li>
+		</ul>
+	</div>
+	<div id="tabs-lightbox-code">
+		<pre class="brush: js;">
+			$( "a.lightbox" ).MultiDialog({
+				gallery: {
+					enabled: true
+				}
+			});
+		</pre>
+	</div>
+</div>
+<script>
+$(function() {
+	$( "a.lightbox" ).MultiDialog({
+		gallery: {
+			enabled: true
+		}
+	});
+});
+</script>
+
+
+<div class="tabs">
+<ul>
+		<li><a href="#tabs-group-info">Content types</a></li>
+		<li><a href="#tabs-group-demo">Demo</a></li>
+		<li><a href="#tabs-group-code">Code</a></li>
+	</ul>
+	<div id="tabs-group-info">
+		<p>
+			MultiDialog can handle different content types.
+		</p>
+	</div>
+	<div id="tabs-group-demo">
+		<p>
+			A group of mixed content types with loop functionality enabled.
+		</p>
+		<br />
+		<ul>
+			<li><a class="group" href="res/images/DirtyFlowers.jpg">Images (jpg, png, gif by file extension)</a></li>
+			<li><a class="group" href="res/ajax.html?ajax=true">AJAX content (by adding ?ajax=true to the link)</a></li>
+			<li><a class="group" href="http://m.flickr.com?iframe=true">iframes (by adding ?iframe=true to the link)</a></li>
+			<li><a class="group" href="http://www.youtube.com/watch?v=VfOcyrOImLg">You Tube video (by domain)</a></li>
+			<li><a class="group" href="http://vimeo.com/8237941" title="Thriller (MJ Tribute) - Thomas Herner">Vimeo video (by domain)</a></li>
+			<li><a class="group" href="#inline-content-group-1">Inline content (by anchor link)</a></li>
+		</ul>
+	</div>
+	<div id="tabs-group-code">
+		<pre class="brush: js;">
+			$( "a.group" ).MultiDialog({
+				gallery: {
+					enabled: true,
+					loop: true
+				}
+			});
+		</pre>
+	</div>
+</div>
+<script>
+$(function() {
+	$( "a.group" ).MultiDialog({
+		gallery: {
+			enabled: true,
+			loop: true
+		}
+	});
+});
+</script>
+
+
+<div class="tabs">
+	<ul>
+		<li><a href="#tabs-api-info">API</a></li>
+		<li><a href="#tabs-api-demo">Demo</a></li>
+		<li><a href="#tabs-api-code">Code</a></li>
+		<li><a href="#tabs-api-doc">API Documentation</a></li>
+	</ul>
+	<div id="tabs-api-info">
+		<p>
+			MultiDialog has a powerful API.<br />
+		</p>
+	</div>
+	<div id="tabs-api-demo">
+		<ul>
+			<li><button id="api-button-1">Open an image</button></li>
+			<li><button id="api-button-2">Open a link in iframe</button></li>
+			<li><button id="api-button-3">Open a YouTube video</button></li>
+			<li><button id="api-button-4">Open about tab panel</button></li>
+			<li><button id="api-button-5">Open an mixed gallery</button></li>
+		</ul>
+		<br />
+		More examples coming soon... 
+	</div>
+	<div id="tabs-api-code">
+		<pre class="brush: js;">			
+			// make instance
+			api = $.fn.MultiDialog();
+			
+			$("#api-button-1").click( function(){
+				api.openLink("res/images/DirtyFlowers.jpg");
+			});
+			
+			$("#api-button-2").click( function(){
+				api.openLink({ 
+					href: "http://m.flickr.com",
+					type: "iframe"
+				});
+			});
+			
+			$("#api-button-3").click( function(){
+				api.openYoutube({ href: "http://www.youtube.com/watch?v=VfOcyrOImLg" });
+			});
+			
+			$("#api-button-4").click( function(){
+				api.open({ element: $("#tabs-start-about") });
+				// shortcut for same functionality
+				// api.open( $("#tabs-start-about"));
+			});
+			
+			$("#api-button-5").click( function(){
+				api.options.gallery.enabled = true;
+				api.openGallery([
+					{ href: "res/images/DirtyFlowers.jpg" },
+					{ href: "http://www.youtube.com/watch?v=VfOcyrOImLg" },
+					{ href: "#inline-content-group-1" }
+				]);
+			});
+		</pre>
+	</div>
+	<div id="tabs-api-doc">
+		<em>Sorry, not documented yet. Please see soucecode for available functions:</em>
+		<br />
+		<br />
+		<ul>
+			<li>
+				<em>MultiDialog functions</em>
+				<ul>
+					<li>open</li>
+					<li>close</li>
+					<li>openLink</li>
+					<li>openImage, openAjax, openIframe, openYoutube, openVimeo, openHtml, openInline</li>
+					<li>resize</li>
+					<li>position</li>
+				</ul>
+			</li>
+			<li>
+				<em>MultiDialog gallery functions</em>
+				<ul>
+					<li>openGallery</li>
+					<li>next</li>
+					<li>prev</li>
+					<li>first</li>
+					<li>last</li>
+				</ul>
+			</li>
+			<li>
+				<em>Default jQuery UI functions</em>
+				<ul>
+					<li>destroy</li>
+					<li>widget</li>
+					<li>dialog</li>
+				</ul>
+			</li>
+		</ul>
+		<div class="ui-helper-hidden">
+			<strong>open</strong>
+			<p>
+				This function...
+			</p>
+			<strong>openGallery</strong>
+			<p>
+				This function...
+			</p>
+			<strong>openLink</strong>
+			<p>
+				This function...
+			</p>
+			<strong>openXyz</strong>
+			<p>
+				This function...
+			</p>
+			<strong>next, prev, first, last</strong>
+			<p>
+				This function...
+			</p>
+			<strong>resize</strong>
+			<p>
+				This function...
+			</p>
+			<strong>position</strong>
+			<p>
+				This function...
+			</p>
+		</div>
+	</div>
+</div>
+
+<script>
+$(function() {
+	// make instance
+	api = $.fn.MultiDialog({
+		dialog: {
+			title: "API Example"
+		}
+	});
+	
+	$("#api-button-1").click( function(){
+		api.openLink("res/images/DirtyFlowers.jpg");
+	});
+	
+	$("#api-button-2").click( function(){
+		api.openLink({ 
+			href: "http://m.flickr.com",
+			type: "iframe"
+		});
+	});
+	
+	$("#api-button-3").click( function(){
+		api.openYoutube({ href: "http://www.youtube.com/watch?v=VfOcyrOImLg" });
+	});
+	
+	$("#api-button-4").click( function(){
+		api.open({ element: $("#tabs-start-about") });
+		// shortcut for same functionality
+		// api.open( $("#tabs-start-about"));
+	});
+	
+	api2 = $.fn.MultiDialog();
+	api2.options.gallery.enabled = true;
+	api2.options.dialog.title = "API Gallery Example";
+	$("#api-button-5").click( function(){
+		api2.openGallery([
+			{ href: "res/images/DirtyFlowers.jpg" },
+			{ href: "http://www.youtube.com/watch?v=VfOcyrOImLg" },
+			{ href: "#inline-content-group-1" }
+		]);
+	});
+});
+</script>
+
+
+
+<div class="tabs">
+	<ul>
+		<li><a href="#tabs-dialog-info">jQuery UI Dialog options</a></li>
+		<li><a href="#tabs-dialog-demo">Demo</a></li>
+		<li><a href="#tabs-dialog-code">Code</a></li>
+	</ul>
+	<div id="tabs-dialog-info">
+		<p>
+			This example explains how to use the jQuery UI Dialog options.
+		</p>
+	</div>
+	<div id="tabs-dialog-demo">
+		<p>
+			Open a bigger, resizable, draggable, top positioned Dialog without an overlay.
+		</p>
+		<br />
+		<ul>
+			<li><a class="dialog-options" href="http://www.youtube.com/watch?v=VfOcyrOImLg" title="Opeth - The Devil's Orchard">You Tube video</a></li>
+			<li><a class="dialog-options" href="#inline-content-group-1">HTML</a></li>
+			<li><a class="dialog-options" href="res/images/DirtyFlowers.jpg">Image</a></li>
+		</ul>
+	</div>
+	<div id="tabs-dialog-code">
+		<pre class="brush: js;">			
+			$( "a.dialog-options" ).MultiDialog({
+				dialog: { 
+					width: 900,
+					height: 600,
+					modal: false,
+					position: {
+						my: 'top',
+						at: 'top',
+						offset: '0 10'
+					},
+					draggable: true,
+					resizable: true
+				}
+			});
+		</pre>
+		Please note you need to add jquery.ui.draggable.js and jquery.ui.resizable.js.
+	</div>
+</div>
+
+<script>
+$(function() {			
+	$( "a.dialog-options" ).MultiDialog({
+		dialog: { 
+			width: 900,
+			height: 600,
+			modal: false,
+			position: {
+				my: 'top',
+				at: 'top',
+				offset: '0 10'
+			},
+			draggable: true,
+			resizable: true
+		}
+	});
+});
+</script>
+
+
+<div class="tabs">
+	<ul>
+		<li><a href="#tabs-temeswitcher-info">Theming</a></li>
+		<li><a href="#tabs-temeswitcher-demo">Demo</a></li>
+		<li><a href="#tabs-temeswitcher-code">Code</a></li>
+	</ul>
+	<div id="tabs-temeswitcher-info">
+		<p>
+			MultiDialog is fully compatible to jQuery UI's CSS Framework - so theming is pretty easy!
+		</p>
+	</div>
+	<div id="tabs-temeswitcher-demo">
+		Some example themes, delivered by <a href="https://github.com/harborhoffer/Super-Theme-Switcher">Super Theme Themeswitcher</a>. 
+		<br />
+		<br />
+		<div id="themeswitcher"></div>
+		<br />
+		<br />
+		Choose a theme and try any demo on this page.
+	</div>
+	<div id="tabs-temeswitcher-code">
+		Just add a new jQuery UI CSS Theme. Built your own with <a href="http://jqueryui.com/themeroller">jQuery UI's Themeroller</a>.
+	</div>
+</div>
+
+
+<div class="tabs">
+<ul>
+		<li><a href="#tabs-getvars-info">GetVars support</a></li>
+		<li><a href="#tabs-getvars-demo">Demo</a></li>
+		<li><a href="#tabs-getvars-code">Code</a></li>
+	</ul>
+	<div id="tabs-getvars-info">
+		<p>
+			Set type, width and height via GET parameter.
+		</p>
+	</div>
+	<div id="tabs-getvars-demo">
+		<ul>
+			<li><a class="getvars" title="Some long sample text" href="res/images/DirtyFlowers.jpg?type=iframe">Picture in iframe</a></li>
+			<li><a class="getvars" href="http://www.youtube.com/watch?v=VfOcyrOImLg&width=1024&height=768" title="Opeth - The Devil's Orchard">Large YouTube video</a></li>
+		</ul>
+	</div>
+	<div id="tabs-getvars-code">
+		<pre class="brush: js;">
+			$( "a.getvars" ).MultiDialog({
+				testGetVars: true
+			});
+		</pre>
+	</div>
+</div>
+<script>
+$(function() {
+	$( "a.getvars" ).MultiDialog({
+		testGetVars: true
+	});
+});
+</script>
+
+
+<div class="tabs">
+	<ul>
+		<li><a href="#tabs-type-info">Custom content types</a></li>
+		<li><a href="#tabs-type-demo">Demo</a></li>
+		<li><a href="#tabs-type-code">Code</a></li>
+	</ul>
+	<div id="tabs-type-info">
+		<p>
+			How to add a path related custom content type.
+	</div>
+	<div id="tabs-type-demo">
+		<a class="add-type" href="res/syntaxhighlighter/index.html">Demo link</a>
+	</div>
+	<div id="tabs-type-code">
+		<pre class="brush: js;">	
+			$( "a.add-type" ).MultiDialog({
+				types: {
+					config: {
+						customPath: {
+							test: function( href ) {
+								// search for syntaxhighlighter in URL
+								return href.match( /syntaxhighlighter/i );
+							},					
+							template: '<iframe width="100%" height="100%" src="{url}" frameborder="0"></iframe>'
+						}
+					}
+				},
+				openCustom: function( data ){
+					if ( data.type = "customPath" ) {
+						this._parseHtml( data, "iframe", "url" );
+						data.width = 1280;
+						data.height = 800;
+						data.title = "SyntaxHighlighter";
+						this._open( data );
+					} else {
+						// backfall
+						window.open( data.href, '_newtab' );
+					}
+				}
+			});
+		</pre>
+	</div>
+</div>
+
+<script>
+$(function() {		
+	$( "a.add-type" ).MultiDialog({
+		types: {
+			config: {
+				customPath: {
+					test: function( href ) {
+						// search for syntaxhighlighter in URL
+						return href.match( /syntaxhighlighter/i );
+					},					
+					template: '<iframe width="100%" height="100%" src="{url}" frameborder="0"></iframe>'
+				}
+			}
+		},
+		openCustom: function( data ){
+			if ( data.type = "customPath" ) {
+				this._parseHtml( data, "iframe", "url" );
+				data.width = 1280;
+				data.height = 800;
+				data.title = "SyntaxHighlighter";
+				this._open( data );
+			} else {
+				// backfall
+				window.open( data.href, '_newtab' );
+			}
+		}
+	});
+});
+</script>
+
+
+</div><!-- End demo -->
+
+
+<!-- Some hidden inline content -->
+<div id="inline-content-group-1" class="ui-helper-hidden">
+	<img src="res/images/DirtyFlowers.jpg" style="width: 33%; float: left; margin-right: 3%;" />
+	<p><strong>#1 Some example content with simple HTML.</strong> Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+</div>
+
+<div id="inline-content-group-2" class="ui-helper-hidden">
+	<img src="res/images/TheBossHoss.jpg" style="width: 50%; float: right; margin-left: 3%;" />
+	<p><strong>#2 Some example content with simple HTML.</strong> Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+</div>
+
+</body>
+</html>
