@@ -30,7 +30,6 @@ function MultiDialog(){
 		disabledFunc: function(){ // returns boolean, addtional function to disable widget
 			return ( $( window ).width() < 400 ) || ( $( window ).height() < 300 ); // disabled on small screens
 		},
-		testGetVars: false, // test for GETvars
 		getVarPrefix: "", // GET var prefix
 		closeOnClickOverlay: true, // close MultiDialog by click on overlay
 		animationSpeed: 500, // speed of all hide and fade animations
@@ -380,6 +379,7 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	openYoutube: function( data ) {
+		console.log(this._getUrlVar( data.href, "v" ));
 		var path = "http://www.youtube.com/embed/" + this._getUrlVar( data.href, "v" ) + this.options.types.config.youtube.addParameters;
 
 		this._parseHtml( data, "youtube", "url", path );
@@ -970,21 +970,17 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_getUrlVar: function( href, name ){
-		var get = false;
+		var vars = [],
+			hash,
+			hashes = href.slice( href.indexOf( '?' ) + 1 ).split( '&' ),
+			get = false;
 
-		if ( this.options.testGetVars ) {
-			var vars = [],
-				hash,
-				hashes = href.slice( href.indexOf( '?' ) + 1 ).split( '&' );
-
-			for ( var i = 0; i < hashes.length; i++ ) {
-				hash = hashes[ i ].split( '=' );
-				vars.push( hash[ 0 ] );
-				vars[ hash[ 0 ] ] = hash[ 1 ];
-			}
-
-			get = vars[ this.options.getVarPrefix + name ];
+		for ( var i = 0; i < hashes.length; i++ ) {
+			hash = hashes[ i ].split( '=' );
+			vars.push( hash[ 0 ] );
+			vars[ hash[ 0 ] ] = hash[ 1 ];
 		}
+		get = vars[ this.options.getVarPrefix + name ];
 
 		return get;
 	}
