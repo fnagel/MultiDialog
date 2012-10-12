@@ -35,6 +35,7 @@ function MultiDialog(){
 		animationSpeed: 500, // speed of all hide and fade animations
 		em: 0.0757575, // multiplicator for em calculation (resize with text), set to false to disable
 		margin: 26,	// int, margin of the content wrapping divs (jQuery UI CSS: ui-lightness=38, ...)
+		forceFullscreen: false,
 
 		// config for gallery mode
 		gallery: {
@@ -81,6 +82,7 @@ function MultiDialog(){
 			stack: false,
 			zIndex: 1000,
 			position: {
+				of: window,
 				my: 'center',
 				at: 'center',
 				collision: 'fit'
@@ -184,7 +186,7 @@ function MultiDialog(){
 
 		// loading handler
 		loadingHandler: function( data ){
-			this.isLoading = true;		
+			this.isLoading = true;
 			this._defaultHandler( '<div class="ui-state-highlight ui-corner-all"><p><span class="ui-icon ui-icon-info"></span><strong>Loading content, please wait!</strong></p></div>', "Loading...", data );
 		},
 
@@ -252,29 +254,12 @@ $.extend( MultiDialog.prototype, {
 	* @param data {Object, Jquery Object, String} MultiDialog data object (with at least one: html, href or element), can also be an jquery object containing a <a> tag or an URL
 	*/
 	openLink: function( data ) {
-		var options = this.options;
-		// prepare needed data
-		if ( data.href || data.element ) {
-			if ( data.element instanceof jQuery && !data.href ) {
-				data.href = data.element.attr( "href" );
-			}
-		} else {
-			// save parameter and create data object
-			var element = data,
-				data = {};
-			// if jQuery object containing a link
-			if ( element instanceof jQuery ) {
-				data.href = element.attr( "href" );
-				data.element = element;
-			} else {
-				// seems to be a link
-				data.href = element;
-			}
-		}
+		var options = this.options
+		data = this._openLinkHelper( data );
 
 		// get type
 		if ( !data.type ) {
-			var typeGet = this._getUrlVar( data.href, "type" );
+			var typeGet = this._getUrlVar( data.href, options.getVarPrefix + "type" );
 			if ( typeGet ) {
 				data.type = ( typeGet == "auto" ) ? this._getType( data.href ) : typeGet;
 			} else {
@@ -306,12 +291,12 @@ $.extend( MultiDialog.prototype, {
 
 		// check width and type parameter
 		if ( isNaN( data.width ) ) {
-			var widthGet = this._getUrlVar( data.href, "width" );
-			data.width = ( widthGet ) ? widthGet : false;
+			var widthGet = this._getUrlVar( data.href, options.getVarPrefix + "width" );
+			data.width = ( widthGet ) ? parseInt( widthGet ) : false;
 		}
 		if ( isNaN( data.height ) ) {
-			var heightGet = this._getUrlVar( data.href, "height" );
-			data.height = ( heightGet ) ? heightGet : false;
+			var heightGet = this._getUrlVar( data.href, options.getVarPrefix + "height" );
+			data.height = ( heightGet ) ? parseInt( heightGet ) : false;
 		}
 
 		// check if open function exists
@@ -339,9 +324,10 @@ $.extend( MultiDialog.prototype, {
 
 	/*
 	* OpenXyz functions: opens its specific type, please pass in data.href
-	* @param data {Object} An MultiDialog object, needs at least data.href (target link)
+	* @param data.href (URL), data.element (<a>), jQuery object (<a>), string (URL)
 	*/
 	openImage: function( data ) {
+		data = this._openLinkHelper( data );
 		var that = this,
 			options = this.options,
 			image = new Image();
@@ -367,11 +353,13 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	openIframe: function( data ) {
+		data = this._openLinkHelper( data );
 		this._parseHtml( data, "iframe", "url" );
 		this._open( data );
 	},
 
 	openInline: function( data ) {
+		data = this._openLinkHelper( data );
 		var element = $("#" + data.href.split("#")[1]);
 		if ( element.length ) {
 			this._parseHtml( data, "inline", "content", element.html() );
@@ -382,6 +370,7 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	openYoutube: function( data ) {
+		data = this._openLinkHelper( data );
 		var path = "http://www.youtube.com/embed/" + this._getUrlVar( data.href, "v" ) + this.options.types.config.youtube.addParameters;
 
 		this._parseHtml( data, "youtube", "url", path );
@@ -389,6 +378,7 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	openVimeo: function( data ) {
+		data = this._openLinkHelper( data );
 		var match = data.href.match( /http:\/\/(www\.)?vimeo.com\/(\d+)/ ),
 			path = 'http://player.vimeo.com/video/'+ match[2] + this.options.types.config.vimeo.addParameters;
 
@@ -397,6 +387,7 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	openAjax: function( data ) {
+		data = this._openLinkHelper( data );
 		var that = this,
 			options = this.options;
 
@@ -419,37 +410,52 @@ $.extend( MultiDialog.prototype, {
 		this.xhr = $.ajax( ajaxOptions );
 	},
 
+	// data = html, jQuery object, data.html, data.element
 	openHtml: function( data ) {
+		var isJquery = data instanceof jQuery;		
+		
+		if ( isJquery || data.element ) {
+			if ( isJquery ) data.element = data;
+			data.html = data.element.html();
+		} else  {
+			data.html = data;
+		}		
+		
 		this._open( data );
+	},
+	
+	// checks: data.href (URL), data.element (<a>), jQuery object (<a>), string (URL)
+	_openLinkHelper: function( data ) {
+		if ( !data.href ) {
+			if ( data.element ) {
+				data.href = data.element.attr( "href" );
+			} else {
+				// save parameter and create data object
+				var element = data,
+					data = {};
+				// if jQuery object containing a link
+				if ( element instanceof jQuery ) {
+					data.href = element.attr( "href" );
+					data.element = element;
+				} else {
+					// seems to be a link
+					data.href = element;
+				}
+			}
+		}		
+		
+		return data;
 	},
 
 	/*
 	* Opens a dialog
-	* @param data {Object, Jquery Object, String} MultiDialog data object (with at least one: html, href or element), can also be an jQuery object containing a <a> tag or any other HTML element (its content will be opened) or an URL
+	* @param data {Object, Jquery Object, string )} MultiDialog data object (with at least one: html, href or element), can also be an jQuery object containing a <a> tag or any other HTML element (its content will be opened) or plain HTML
 	*/
 	open: function( data ) {
-		if ( data instanceof jQuery ) {
-			if ( data.is( "a" ) ) {
-				this.openLink( data );
-			} else {
-				this._open( { html: data.html() } );
-			}
+		if ( data.href || ( data.element && data.element.is( "a" ) ) || ( data instanceof jQuery && data.is( "a" ) ) ) {
+			this.openLink( data );
 		} else {
-			if ( data.html ) {
-				this._open( data );
-			} else if ( data.href ) {
-				this.openLink( data );
-			} else if ( data.element && data.element instanceof jQuery ) {
-				if ( data.element.is( "a" ) ) {
-					this.openLink( data );
-				} else {
-					data.html = data.element.html();
-					this._open( data );
-				}
-			} else {
-				// seems to be a url
-				this.openLink( { href: data } );
-			}
+			this.openHtml( data );
 		}
 	},
 
@@ -469,7 +475,7 @@ $.extend( MultiDialog.prototype, {
 
 	/*
 	* Opens a dialog in gallery mode
-	* @param group {Array, Jquery Object} An simple array with MultiDialog data objects, can also be an jquery object containing a set of <a> tags
+	* @param group {Array, Jquery Object} An simple array with MultiDialog data objects, can also be an jquery object containing a set of elements or <a> tags
 	* @param index {Jquery Object, Number} A link tag element within the group parameter or a index (starts with 0), default is the first element in group
 	*/
 	openGallery: function( group, index )  {
@@ -541,7 +547,7 @@ $.extend( MultiDialog.prototype, {
 				break;
 		}
 		if ( !isNaN( newIndex ) && newIndex != this.index && this.group[ newIndex ] ) {
-			this.index = newIndex;	
+			this.index = newIndex;
 			// caching
 			this.open( this.group[ this.index ] );
 			this._changeGalleryButtons();
@@ -555,19 +561,16 @@ $.extend( MultiDialog.prototype, {
 	_createDialog: function( data ) {
 		var that = this,
 			resized = false,
-			// get dimensions
-			dimensions = this._getDimensions( data ),
-			// save default animationSpeed
-			aniSpeedTemp = that.options.animationSpeed;
-
-		// save initial dimensions
-		that._setOldDimensions( dimensions );
+			// get size
+			size = this._getSize( data );
+		// save initial size
+		that.oldSize = size;
 
 		// prepare wrapper elements
 		this.uiDialogContent = $( "<div />", {
 			'class': this.widgetName + "-content ui-helper-clearfix " + data.type,
 			"aria-describedby": this.uid + "-desc",
-			height: dimensions.contentHeight,
+			height: size.contentHeight,
 			html: data.html
 		});
 
@@ -579,7 +582,7 @@ $.extend( MultiDialog.prototype, {
 
 		this.uiDialogSize = $( "<div />", {
 			'class': this.widgetName + "-size",
-			height: this._getMeasure( dimensions.height ),
+			height: this._getMeasure( size.height ),
 			html: this.uiDialogContent
 		});
 
@@ -590,7 +593,7 @@ $.extend( MultiDialog.prototype, {
 			$.extend( true, {}, that.options.dialog, {
 				dialogClass: this.widgetName,
 				title: data.title,
-				width: dimensions.width + this.options.margin,
+				width: size.width + this.options.margin,
 				height: "auto",
 				close: function( event ){
 					that._close( event );
@@ -618,15 +621,15 @@ $.extend( MultiDialog.prototype, {
 		// make dialog responsive
 		// TODO make this use _delay once 1.8.x is not in use anymore, http://jqueryui.com/upgrade-guide/1.9/#added-_delay-method
 		$( window ).bind( "resize." + this.widgetName, function( event ){
-			if ( that.open ) {
+			if ( that.isOpen ) {
 				window.clearTimeout( that.timeout );
 				that.timeout = window.setTimeout( function() {
-					dimensions = that._getDimensions( { width: that.oldWidth, height: that.oldHeight, desc: that.uiDialogDesc.html() } );
-					that.options.animationSpeed = 0;
-					that.resize( dimensions.width, dimensions.height );
-					that.position( dimensions.width, dimensions.height );
-					that.uiDialogContent.css( "height", dimensions.contentHeight )
-					that.options.animationSpeed = aniSpeedTemp;
+					size = that._getSize( { width: that.oldSize.width, height: that.oldSize.height, desc: that.uiDialogDesc.html() } );
+					that.uiDialogSize.css("height",  that._getMeasure( size.height ) );
+					that.uiDialogWidget
+						.css("width", that._getMeasure( size.width + that.options.margin ) )
+						.position( that.options.dialog.position );
+					$.ui.dialog.overlay.resize();
 				}, 250 );
 			}
 		});
@@ -643,22 +646,22 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_openDialog: function( data ) {
-		var dimensions = this._getDimensions( data );
+		var size = this._getSize( data );
 
 		this.uiDialogSize.css({
-			height: this._getMeasure( dimensions.height )
+			height: this._getMeasure( size.height )
 		});
-		this._setContent( data, dimensions );
-		this._setOldDimensions( dimensions );
+		this._setContent( data, size );
+		this.oldSize = size;
 		this.uiDialog.dialog( "open" );
 		this._contentAria();
 	},
 
-	_setContent: function( data, dimensions ) {
+	_setContent: function( data, size ) {
 		var that = this;
 
 		this.uiDialogContent
-			.css( "height", dimensions.contentHeight )
+			.css( "height", size.contentHeight )
 			.html( data.html );
 
 		this.uiDialogContent.find(".multibox-api[rel]").bind( "click." + this.widgetName, function( event ){
@@ -670,10 +673,10 @@ $.extend( MultiDialog.prototype, {
 		this._setDesc( data );
 	},
 
-	_setAndShowContent: function( data, dimensions ) {
+	_setAndShowContent: function( data, size ) {
 		var that = this;
 
-		this._setContent( data, dimensions );
+		this._setContent( data, size );
 		this.uiDialogContent.show( this.options.dialog.show, this.options.animationSpeed, function(){
 			that._contentAria();
 			that._fireCallback( "change", null, data );
@@ -691,20 +694,20 @@ $.extend( MultiDialog.prototype, {
 	_changeDialog: function( data ){
 		// reset loading state
 		this.isLoading = false;
-		var dimensions = this._getDimensions( data ),
+		var size = this._getSize( data ),
 			that = this;
 
 		this.uiDialogDesc.hide( this.options.dialog.hide, this.options.animationSpeed );
 		this.uiDialogContent.hide( this.options.dialog.hide, this.options.animationSpeed, function(){
-			// only change dimension and position if dimensions have changed
-			if ( that.oldWidth != dimensions.width || that.oldHeight != dimensions.height ) {
-				that.position( dimensions.width, dimensions.height );
-				that.resize( dimensions.width, dimensions.height, function(){
-					that._setAndShowContent( data, dimensions );
-					that._setOldDimensions( dimensions );
+			// only change size and position if size have changed
+			if ( that.oldSize.width != size.width || that.oldSize.height != size.height ) {
+				that.position( size.width, size.height );
+				that.resize( size.width, size.height, function(){
+					that._setAndShowContent( data, size );
+					that.oldSize = size;
 				});
 			} else {
-				that._setAndShowContent( data, dimensions );
+				that._setAndShowContent( data, size );
 			}
 		});
 	},
@@ -714,7 +717,6 @@ $.extend( MultiDialog.prototype, {
 			additions = this.uiDialogWidget.children( ".ui-dialog-titlebar").outerHeight() - this.uiDialogWidget.children( ".ui-dialog-buttonpane").outerHeight();
 
 		this.uiDialog.position(	$.extend( {}, that.options.dialog.position, {
-			of: window,
 			using: function( pos ) {
 				that.uiDialogWidget.animate({
 					left: "+=" + ( pos.left + ( that.uiDialogWidget.width() - that.options.margin - width ) / 2 ),
@@ -896,15 +898,17 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	// needs to be ratio aware
-	_getDimensions: function( data ) {
+	_getSize: function( data ) {
 		var options = this.options,
-			screenWidth = $( window ).width(),
-			// set dimensions for dialog widget as int
+			// set size for dialog widget as int
 			width = ( data.width && !isNaN( data.width ) ) ? data.width : options.dialog.width,
 			height = ( data.height && !isNaN( data.height ) ) ? data.height : options.dialog.height,
 			contentHeight = "100%",
 			desc = options.desc.template.call( this, data ),
-			descHeight = 0;
+			descHeight = 0,
+			screenWidth = $( window ).width(),
+			screenHeight,
+			temp;
 
 		// add desc height
 		if ( desc )  {
@@ -912,11 +916,17 @@ $.extend( MultiDialog.prototype, {
 			height += descHeight;
 		}
 
-		// check for viewport width and adjust dimensions with ratio in mind if screen is to small
-		if ( screenWidth < width + options.margin ) {
-			tempWidth = ( screenWidth - options.margin ) * 0.95 ;
-			height = ( height / width ) * tempWidth;
-			width = tempWidth;
+		// check for viewport and adjust size with ratio in mind if screen is to small or fullscreen mode is enabled
+		if ( screenWidth < width + options.margin || options.forceFullscreen ) {
+			temp = ( screenWidth - options.margin ) * 0.95;
+			height = ( height / width ) * temp;
+			width = temp;
+			screenHeight = $( window ).height();
+			if ( screenHeight < ( height + descHeight ) * 1.1) {
+				temp = ( screenHeight - descHeight ) * 0.9;
+				width = ( width / height ) * temp;
+				height = temp;
+			}
 		}
 
 		// set content height in percent
@@ -925,12 +935,6 @@ $.extend( MultiDialog.prototype, {
 		}
 
 		return { width: width, height: height, contentHeight: contentHeight };
-	},
-
-	_setOldDimensions: function( dimensions ) {
-		// save width and height
-		this.oldWidth = dimensions.width;
-		this.oldHeight = dimensions.height;
 	},
 
 	_getMeasure: function( value ) {
@@ -944,7 +948,7 @@ $.extend( MultiDialog.prototype, {
 		// do not resize when already open
 		if ( this.isOpen ) {
 			this.uiDialogContent.hide( this.options.dialog.hide, this.options.animationSpeed, function(){
-				that._setAndShowContent( _data, that._getDimensions( _data ) );
+				that._setAndShowContent( _data, that._getSize( _data ) );
 			});
 		} else {
 			that._open( _data );
@@ -981,7 +985,7 @@ $.extend( MultiDialog.prototype, {
 			vars.push( hash[ 0 ] );
 			vars[ hash[ 0 ] ] = hash[ 1 ];
 		}
-		get = vars[ this.options.getVarPrefix + name ];
+		get = vars[ name ];
 
 		return get;
 	}
