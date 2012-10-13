@@ -34,7 +34,7 @@ p {
 .demo ul.float li{
 	list-style-type: none;
 	float: left;
-	margin: 0 9px;
+	margin: 0.33em;
 }
 
 .syntaxhighlighter, pre {
