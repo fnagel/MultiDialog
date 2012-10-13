@@ -895,6 +895,7 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	// needs to be ratio aware
+	// TODO too much _getDescHeight(), fixen indem man nur die content size rechnet?
 	_getSize: function( data ) {
 		var options = this.options,
 			// set size for dialog widget as int
@@ -909,28 +910,31 @@ $.extend( MultiDialog.prototype, {
 			temp;
 
 		// add desc height
-		if ( desc )  {
+		if ( desc ) {
 			descHeight = ( options.desc.height == "auto" ) ? this._getDescHeight( desc, width ) : options.desc.height;
-			height += descHeight;
+			height += descHeight;			
 		}
 
 		// check for viewport and adjust size with ratio in mind if screen is to small or fullscreen mode is enabled
 		if ( screenWidth < width + options.margin || options.forceFullscreen ) {
+			var changed = true;
 			temp = ( screenWidth - options.margin ) * 0.95;
 			height = ( height / width ) * temp;
-			width = temp;
+			width = temp;			
+			if ( options.desc.height == "auto" ) descHeight = this._getDescHeight( desc, width );			
 		}			
-		if ( screenHeight < height || options.forceFullscreen) {
-			temp = ( screenHeight - descHeight ) * 0.95;
+		if ( screenHeight < height * 1.1 || options.forceFullscreen) {
+			temp = ( screenHeight - descHeight ) * 0.85;
 			width = ( width / height ) * temp;
 			height = temp;
+			if ( options.desc.height == "auto" ) descHeight = this._getDescHeight( desc, width );	
 		}
-
-		// set content height in percent
+		
+		
 		if ( desc ) {
-			contentHeight = ( 100 / height ) * ( height - descHeight ) + "%";
+			contentHeight = ( 100 / ( height ) ) * ( height - descHeight ) + "%";
 		}
-
+		
 		return { width: width, height: height, contentHeight: contentHeight };
 	},
 
