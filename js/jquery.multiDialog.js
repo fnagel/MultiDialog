@@ -1,5 +1,5 @@
 /*!
- * jQuery MultiDialog Beta (12. Oct 2012)
+ * jQuery MultiDialog Beta (13. Oct 2012)
  *
  * Copyright 2012, Felix Nagel, http://www.felixnagel.com
  * Licensed under the GPL Version 3 license.
@@ -907,6 +907,7 @@ $.extend( MultiDialog.prototype, {
 			desc = options.desc.template.call( this, data ),
 			descHeight = 0,
 			screenWidth = $( window ).width(),
+			screenHeight = $( window ).height(),
 			screenHeight,
 			temp;
 
@@ -921,12 +922,11 @@ $.extend( MultiDialog.prototype, {
 			temp = ( screenWidth - options.margin ) * 0.95;
 			height = ( height / width ) * temp;
 			width = temp;
-			screenHeight = $( window ).height();
-			if ( screenHeight < ( height + descHeight ) * 1.1) {
-				temp = ( screenHeight - descHeight ) * 0.9;
-				width = ( width / height ) * temp;
-				height = temp;
-			}
+		}			
+		if ( screenHeight < height || options.forceFullscreen) {
+			temp = ( screenHeight - descHeight ) * 0.95;
+			width = ( width / height ) * temp;
+			height = temp;
 		}
 
 		// set content height in percent
