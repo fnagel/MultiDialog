@@ -500,8 +500,6 @@ $.extend( MultiDialog.prototype, {
 
 		if ( this.group.length > 1 ) {
 			this._addGalleryButtons();
-			// caching, this builds a reference between this.group the data object changed later on
-			// .html will be saved (after loading image, ajax, etc) and not rendered again
 			this.open( this.group[ this.index ] );
 			this._addKeyboardControl();
 		}
@@ -548,7 +546,6 @@ $.extend( MultiDialog.prototype, {
 		}
 		if ( !isNaN( newIndex ) && newIndex != this.index && this.group[ newIndex ] ) {
 			this.index = newIndex;
-			// caching
 			this.open( this.group[ this.index ] );
 			this._changeGalleryButtons();
 			this._fireCallback( "move", direction, this.group[ this.index ] );
