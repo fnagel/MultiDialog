@@ -221,6 +221,7 @@ $.extend( MultiDialog.prototype, {
         this.options = $.extend( true, {}, this.defaults, options );
 		this.uid = this.widgetName + "-" + Math.random().toString( 16 ).slice( 2, 10 );
 		this.isOpen = false;
+		this.changedTop = 0;
 
 		var that = this,
 			options = this.options,
@@ -710,14 +711,35 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	position: function( width, height, position, callback ) {
-		var	that = this,
-			additions = this.uiDialogWidget.children( ".ui-dialog-titlebar").outerHeight() - this.uiDialogWidget.children( ".ui-dialog-buttonpane").outerHeight();
+		var	that = this;
+		
+		var titleHeight = this.uiDialogWidget.children( ".ui-dialog-titlebar").outerHeight();
+		var buttonHeight = this.uiDialogWidget.children( ".ui-dialog-buttonpane").outerHeight();
 
 		this.uiDialog.position(	$.extend( {}, that.options.dialog.position, {
 			using: function( pos ) {
+				var heightDiff = that.oldSize.height - height;
+				var futureHeight = height + ( that.uiDialogWidget.outerHeight() - that.oldSize.height );
+				
+				if ( futureHeight > $( window ).height() ) {
+					topPos = $( window ).scrollTop() + 15;
+					// console.log("an window ausrichten " + topPos );
+					// that.changedTop = 1;
+				} else {
+					// reset wont work atm
+					// if ( that.changedTop ) {
+						// heightDiff = heightDiff + ( that.oldSize.height - height ) / 2;
+						// console.log();
+						// heightDiff = heightDiff + ( that.oldSize.height - height );
+					// }
+					// funzt gut, sonderfall 9 -> 10 testen und debuggen
+					topPos = "+=" + ( pos.top + ( heightDiff / 2 ) );
+					// that.changedTop = 0;
+				}
+				
 				that.uiDialogWidget.animate({
 					left: "+=" + ( pos.left + ( that.uiDialogWidget.width() - that.options.margin - width ) / 2 ),
-					top: "+=" + ( pos.top + ( that.uiDialogSize.height() - height + additions ) / 2 )
+					top: topPos
 				}, {
 					duration: that.options.animationSpeed,
 					complete: function(){
@@ -728,6 +750,10 @@ $.extend( MultiDialog.prototype, {
 				});
 			}
 		}, position ));
+		// }, {
+			// of: document,
+			// collision: "flip flip"
+		// }));
 	},
 
 	resize: function( width, height, callback ){
@@ -910,32 +936,32 @@ $.extend( MultiDialog.prototype, {
 			temp;
 
 		// add desc height
-		if ( desc ) {
-			descHeight = ( options.desc.height == "auto" ) ? this._getDescHeight( desc, width ) : options.desc.height;
-			height += descHeight;			
-		}
+		// if ( desc ) {
+			// descHeight = ( options.desc.height == "auto" ) ? this._getDescHeight( desc, width ) : options.desc.height;
+			// height += descHeight;			
+		// }
 
 		// check for viewport and adjust size with ratio in mind if screen is to small or fullscreen mode is enabled
 		if ( screenWidth < width + options.margin || options.forceFullscreen ) {
-			var changed = true;
 			temp = ( screenWidth - options.margin ) * 0.95;
 			height = ( height / width ) * temp;
 			width = temp;			
-			if ( options.desc.height == "auto" ) descHeight = this._getDescHeight( desc, width );			
+			// if ( desc && options.desc.height == "auto" ) descHeight = this._getDescHeight( desc, width );			
 		}			
-		if ( screenHeight < height * 1.1 || options.forceFullscreen) {
-			temp = ( screenHeight - descHeight ) * 0.85;
-			width = ( width / height ) * temp;
-			height = temp;
-			if ( options.desc.height == "auto" ) descHeight = this._getDescHeight( desc, width );	
-		}
-		
+		// if ( screenHeight < height * 1.1 || options.forceFullscreen) {
+			// temp = screenHeight * 0.85;
+			// temp = screenHeight;
+			// width = ( width / height ) * temp;
+			// height = temp;
+			// if ( desc && options.desc.height == "auto" ) descHeight = this._getDescHeight( desc, width );	
+		// }		
 		
 		if ( desc ) {
-			contentHeight = ( 100 / ( height ) ) * ( height - descHeight ) + "%";
+			descHeight = ( options.desc.height == "auto" ) ? this._getDescHeight( desc, width ) : options.desc.height;
+			contentHeight = ( 100 / ( height + descHeight ) ) * height + "%";
 		}
 		
-		return { width: width, height: height, contentHeight: contentHeight };
+		return { width: width, height: height + descHeight, contentHeight: contentHeight };
 	},
 
 	_getMeasure: function( value ) {
