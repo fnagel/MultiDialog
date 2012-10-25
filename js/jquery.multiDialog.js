@@ -1,10 +1,10 @@
 /*!
- * jQuery MultiDialog Beta (12. Oct 2012)
+ * jQuery MultiDialog Beta (25. Oct 2012)
  *
  * Copyright 2012, Felix Nagel, http://www.felixnagel.com
  * Licensed under the GPL Version 3 license.
  *
- * http://github.com/fnagel/
+ * http://fnagel.github.com/MultiDialog/
 */
 /*
  * Depends:
@@ -55,6 +55,7 @@ function MultiDialog(){
 			template: function( data ) {
 				var html = '';
 				if ( this.options.desc.enabled ) {
+					// TODO do not show this when loading
 					if ( this.options.gallery.enabled && this.group.length > 0 && !this.isLoading ) {
 						html = '<span class="positon">' + this.options.gallery.strings.position.replace( '{index}', this.index + 1 ).replace( '{amount}', this.group.length ) + '</span>';
 					}
@@ -221,6 +222,7 @@ $.extend( MultiDialog.prototype, {
         this.options = $.extend( true, {}, this.defaults, options );
 		this.uid = this.widgetName + "-" + Math.random().toString( 16 ).slice( 2, 10 );
 		this.isOpen = false;
+		this.isLoading = false;
 
 		var that = this,
 			options = this.options,
@@ -412,18 +414,18 @@ $.extend( MultiDialog.prototype, {
 
 	// data = html, jQuery object, data.html, data.element
 	openHtml: function( data ) {
-		var isJquery = data instanceof jQuery;		
-		
+		var isJquery = data instanceof jQuery;
+
 		if ( isJquery || data.element ) {
 			if ( isJquery ) data.element = data;
 			data.html = data.element.html();
 		} else  {
 			data.html = data;
-		}		
-		
+		}
+
 		this._open( data );
 	},
-	
+
 	// checks: data.href (URL), data.element (<a>), jQuery object (<a>), string (URL)
 	_openLinkHelper: function( data ) {
 		if ( !data.href ) {
@@ -442,8 +444,8 @@ $.extend( MultiDialog.prototype, {
 					data.href = element;
 				}
 			}
-		}		
-		
+		}
+
 		return data;
 	},
 
@@ -500,8 +502,6 @@ $.extend( MultiDialog.prototype, {
 
 		if ( this.group.length > 1 ) {
 			this._addGalleryButtons();
-			// caching, this builds a reference between this.group the data object changed later on
-			// .html will be saved (after loading image, ajax, etc) and not rendered again
 			this.open( this.group[ this.index ] );
 			this._addKeyboardControl();
 		}
@@ -548,7 +548,6 @@ $.extend( MultiDialog.prototype, {
 		}
 		if ( !isNaN( newIndex ) && newIndex != this.index && this.group[ newIndex ] ) {
 			this.index = newIndex;
-			// caching
 			this.open( this.group[ this.index ] );
 			this._changeGalleryButtons();
 			this._fireCallback( "move", direction, this.group[ this.index ] );
@@ -625,7 +624,9 @@ $.extend( MultiDialog.prototype, {
 				window.clearTimeout( that.timeout );
 				that.timeout = window.setTimeout( function() {
 					size = that._getSize( { width: that.oldSize.width, height: that.oldSize.height, desc: that.uiDialogDesc.html() } );
+					that.oldSize = size;
 					that.uiDialogSize.css("height",  that._getMeasure( size.height ) );
+					that.uiDialogContent.css( "height", size.contentHeight );
 					that.uiDialogWidget
 						.css("width", that._getMeasure( size.width + that.options.margin ) )
 						.position( that.options.dialog.position );
@@ -713,14 +714,18 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	position: function( width, height, position, callback ) {
-		var	that = this,
-			additions = this.uiDialogWidget.children( ".ui-dialog-titlebar").outerHeight() - this.uiDialogWidget.children( ".ui-dialog-buttonpane").outerHeight();
+		var	that = this;
 
-		this.uiDialog.position(	$.extend( {}, that.options.dialog.position, {
+		this.uiDialogWidget.position( $.extend( {}, {
 			using: function( pos ) {
+				if ( height + ( that.uiDialogWidget.outerHeight() - that.oldSize.height ) > $( window ).height() ) {
+					topPos = $( window ).scrollTop() + 15;
+				} else {
+					topPos = "+=" + ( ( that.oldSize.height - height ) / 2 );
+				}
 				that.uiDialogWidget.animate({
-					left: "+=" + ( pos.left + ( that.uiDialogWidget.width() - that.options.margin - width ) / 2 ),
-					top: "+=" + ( pos.top + ( that.uiDialogSize.height() - height + additions ) / 2 )
+					left: "+=" + ( that.oldSize.width - width ) / 2,
+					top: topPos,
 				}, {
 					duration: that.options.animationSpeed,
 					complete: function(){
@@ -730,7 +735,7 @@ $.extend( MultiDialog.prototype, {
 					queue: false
 				});
 			}
-		}, position ));
+		}, that.options.dialog.position, position ));
 	},
 
 	resize: function( width, height, callback ){
@@ -811,26 +816,29 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_addKeyboardControl: function(){
-		var that = this;
+		var that = this,
+			eventType = "keydown." + this.widgetName;
 		// add keyboard control
-		this.uiDialogWidget.bind( "keydown." + this.widgetName, function( event ){
-			switch( event.keyCode ) {
+		this.uiDialogWidget.unbind( eventType ).bind( eventType, function( e ){
+			switch( e.keyCode ) {
 				case $.ui.keyCode.RIGHT:
 				case $.ui.keyCode.DOWN:
 				case $.ui.keyCode.SPACE:
 					that.next();
+					e.preventDefault();
 					break;
 				case $.ui.keyCode.LEFT:
 				case $.ui.keyCode.UP:
 					that.prev();
+					e.preventDefault();
 					break;
 				case $.ui.keyCode.END:
 					that.last();
-					event.preventDefault();
+					e.preventDefault();
 					break;
 				case $.ui.keyCode.HOME:
 					that.first();
-					event.preventDefault();
+					e.preventDefault();
 					break;
 			}
 		});
@@ -907,34 +915,21 @@ $.extend( MultiDialog.prototype, {
 			desc = options.desc.template.call( this, data ),
 			descHeight = 0,
 			screenWidth = $( window ).width(),
-			screenHeight,
 			temp;
-
-		// add desc height
-		if ( desc )  {
-			descHeight = ( options.desc.height == "auto" ) ? this._getDescHeight( desc, width ) : options.desc.height;
-			height += descHeight;
-		}
 
 		// check for viewport and adjust size with ratio in mind if screen is to small or fullscreen mode is enabled
 		if ( screenWidth < width + options.margin || options.forceFullscreen ) {
 			temp = ( screenWidth - options.margin ) * 0.95;
 			height = ( height / width ) * temp;
 			width = temp;
-			screenHeight = $( window ).height();
-			if ( screenHeight < ( height + descHeight ) * 1.1) {
-				temp = ( screenHeight - descHeight ) * 0.9;
-				width = ( width / height ) * temp;
-				height = temp;
-			}
 		}
 
-		// set content height in percent
 		if ( desc ) {
-			contentHeight = ( 100 / height ) * ( height - descHeight ) + "%";
+			descHeight = ( options.desc.height == "auto" ) ? this._getDescHeight( desc, width ) : options.desc.height;
+			contentHeight = ( 100 / ( height + descHeight ) ) * height + "%";
 		}
 
-		return { width: width, height: height, contentHeight: contentHeight };
+		return { width: width, height: height + descHeight, contentHeight: contentHeight };
 	},
 
 	_getMeasure: function( value ) {
