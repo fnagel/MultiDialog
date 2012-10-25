@@ -68,8 +68,8 @@
 					<li><a href="#tabs-start-about">About</a></li>
 					<li><a href="#tabs-start-demos">Demos</a></li>
 					<li><a href="#tabs-start-features">Feature list</a></li>
-					<li><a href="#tabs-start-code">Minimal setup</a></li>
 					<li><a href="#tabs-start-requirements">Requirements</a></li>
+					<li><a href="#tabs-start-code">Minimal setup</a></li>
 				</ul>
 				<div id="tabs-start-about">
 					<p>
@@ -87,7 +87,7 @@
 					<br />
 					<p>
 						DialogBox works with <em>
-						<a class="multiallybox" href="./demos/res/images/DirtyFlowers.jpg">Images</a>,
+						<a class="multiallybox" href="http://lorempixel.com/g/800/600?type=image" title="Description Text">Images</a>,
 						<a class="multiallybox" href="./demos/res/ajax.html?ajax=true">AJAX content</a>,
 						<a class="multiallybox" href="http://m.flickr.com?iframe=true">iframes</a>,
 						<a class="multiallybox" href="http://www.youtube.com/watch?v=VfOcyrOImLg" title="Opeth - The Devil's Orchard">You Tube video</a>,
@@ -137,6 +137,26 @@
 					<br />
 					Please see source for all options.
 				</div>
+				<div id="tabs-start-requirements">
+					MutliDialog depends on the following jQuery / UI components.
+					<pre class="brush: js;">
+						/*
+						 * Depends:
+						 *  jquery.js
+						 *	jquery.ui.core.js
+						 *	jquery.ui.widget.js
+						 *	jquery.ui.position.js
+						 *	jquery.ui.dialog.js
+						 *	jquery.ui.effects-fade.js
+						 *
+						 * Optional (Dialog related)
+						 *  jquery.ui.button.js
+						 *	jquery.ui.resizable.js
+						 *	jquery.ui.draggable.js
+						 */
+					</pre>
+					Go to <a href="http://jqueryui.com/download">jQueryUi.com</a> to built your own jQuery UI file!
+				</div>
 				<div id="tabs-start-code">
 					Add source files:
 					<pre class="brush: html;">
@@ -164,26 +184,6 @@
 							// set options here
 						});
 					</pre>
-				</div>
-				<div id="tabs-start-requirements">
-					MutliDialog depends on the following jQuery / UI components.
-					<pre class="brush: js;">
-						/*
-						 * Depends:
-						 *  jquery.js
-						 *	jquery.ui.core.js
-						 *	jquery.ui.widget.js
-						 *	jquery.ui.position.js
-						 *	jquery.ui.dialog.js
-						 *	jquery.ui.effects-fade.js
-						 *
-						 * Optional (Dialog related)
-						 *  jquery.ui.button.js
-						 *	jquery.ui.resizable.js
-						 *	jquery.ui.draggable.js
-						 */
-					</pre>
-					Go to <a href="http://jqueryui.com/download">jQueryUi.com</a> to built your own jQuery UI file!
 				</div>
 			</div>
 			<script>
