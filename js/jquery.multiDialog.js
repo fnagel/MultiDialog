@@ -1,10 +1,10 @@
 /*!
- * jQuery MultiDialog Beta (13. Oct 2012)
+ * jQuery MultiDialog Beta (24. Oct 2012)
  *
  * Copyright 2012, Felix Nagel, http://www.felixnagel.com
  * Licensed under the GPL Version 3 license.
  *
- * http://github.com/fnagel/
+ * http://fnagel.github.com/MultiDialog/
 */
 /*
  * Depends:
@@ -221,7 +221,7 @@ $.extend( MultiDialog.prototype, {
         this.options = $.extend( true, {}, this.defaults, options );
 		this.uid = this.widgetName + "-" + Math.random().toString( 16 ).slice( 2, 10 );
 		this.isOpen = false;
-		this.changedTop = 0;
+		this.isLoading = false;
 
 		var that = this,
 			options = this.options,
@@ -413,18 +413,18 @@ $.extend( MultiDialog.prototype, {
 
 	// data = html, jQuery object, data.html, data.element
 	openHtml: function( data ) {
-		var isJquery = data instanceof jQuery;		
-		
+		var isJquery = data instanceof jQuery;
+
 		if ( isJquery || data.element ) {
 			if ( isJquery ) data.element = data;
 			data.html = data.element.html();
 		} else  {
 			data.html = data;
-		}		
-		
+		}
+
 		this._open( data );
 	},
-	
+
 	// checks: data.href (URL), data.element (<a>), jQuery object (<a>), string (URL)
 	_openLinkHelper: function( data ) {
 		if ( !data.href ) {
@@ -443,8 +443,8 @@ $.extend( MultiDialog.prototype, {
 					data.href = element;
 				}
 			}
-		}		
-		
+		}
+
 		return data;
 	},
 
@@ -623,7 +623,9 @@ $.extend( MultiDialog.prototype, {
 				window.clearTimeout( that.timeout );
 				that.timeout = window.setTimeout( function() {
 					size = that._getSize( { width: that.oldSize.width, height: that.oldSize.height, desc: that.uiDialogDesc.html() } );
+					that.oldSize = size;
 					that.uiDialogSize.css("height",  that._getMeasure( size.height ) );
+					that.uiDialogContent.css( "height", size.contentHeight );
 					that.uiDialogWidget
 						.css("width", that._getMeasure( size.width + that.options.margin ) )
 						.position( that.options.dialog.position );
@@ -712,34 +714,17 @@ $.extend( MultiDialog.prototype, {
 
 	position: function( width, height, position, callback ) {
 		var	that = this;
-		
-		var titleHeight = this.uiDialogWidget.children( ".ui-dialog-titlebar").outerHeight();
-		var buttonHeight = this.uiDialogWidget.children( ".ui-dialog-buttonpane").outerHeight();
 
-		this.uiDialog.position(	$.extend( {}, that.options.dialog.position, {
+		this.uiDialogWidget.position( $.extend( {}, {
 			using: function( pos ) {
-				var heightDiff = that.oldSize.height - height;
-				var futureHeight = height + ( that.uiDialogWidget.outerHeight() - that.oldSize.height );
-				
-				if ( futureHeight > $( window ).height() ) {
+				if ( height + ( that.uiDialogWidget.outerHeight() - that.oldSize.height ) > $( window ).height() ) {
 					topPos = $( window ).scrollTop() + 15;
-					// console.log("an window ausrichten " + topPos );
-					// that.changedTop = 1;
 				} else {
-					// reset wont work atm
-					// if ( that.changedTop ) {
-						// heightDiff = heightDiff + ( that.oldSize.height - height ) / 2;
-						// console.log();
-						// heightDiff = heightDiff + ( that.oldSize.height - height );
-					// }
-					// funzt gut, sonderfall 9 -> 10 testen und debuggen
-					topPos = "+=" + ( pos.top + ( heightDiff / 2 ) );
-					// that.changedTop = 0;
+					topPos = "+=" + ( ( that.oldSize.height - height ) / 2 );
 				}
-				
 				that.uiDialogWidget.animate({
-					left: "+=" + ( pos.left + ( that.uiDialogWidget.width() - that.options.margin - width ) / 2 ),
-					top: topPos
+					left: "+=" + ( that.oldSize.width - width ) / 2,
+					top: topPos,
 				}, {
 					duration: that.options.animationSpeed,
 					complete: function(){
@@ -749,11 +734,7 @@ $.extend( MultiDialog.prototype, {
 					queue: false
 				});
 			}
-		}, position ));
-		// }, {
-			// of: document,
-			// collision: "flip flip"
-		// }));
+		}, that.options.dialog.position, position ));
 	},
 
 	resize: function( width, height, callback ){
@@ -834,26 +815,29 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_addKeyboardControl: function(){
-		var that = this;
+		var that = this,
+			eventType = "keydown." + this.widgetName;
 		// add keyboard control
-		this.uiDialogWidget.bind( "keydown." + this.widgetName, function( event ){
-			switch( event.keyCode ) {
+		this.uiDialogWidget.unbind( eventType ).bind( eventType, function( e ){
+			switch( e.keyCode ) {
 				case $.ui.keyCode.RIGHT:
 				case $.ui.keyCode.DOWN:
 				case $.ui.keyCode.SPACE:
 					that.next();
+					e.preventDefault();
 					break;
 				case $.ui.keyCode.LEFT:
 				case $.ui.keyCode.UP:
 					that.prev();
+					e.preventDefault();
 					break;
 				case $.ui.keyCode.END:
 					that.last();
-					event.preventDefault();
+					e.preventDefault();
 					break;
 				case $.ui.keyCode.HOME:
 					that.first();
-					event.preventDefault();
+					e.preventDefault();
 					break;
 			}
 		});
@@ -921,7 +905,6 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	// needs to be ratio aware
-	// TODO too much _getDescHeight(), fixen indem man nur die content size rechnet?
 	_getSize: function( data ) {
 		var options = this.options,
 			// set size for dialog widget as int
@@ -931,36 +914,20 @@ $.extend( MultiDialog.prototype, {
 			desc = options.desc.template.call( this, data ),
 			descHeight = 0,
 			screenWidth = $( window ).width(),
-			screenHeight = $( window ).height(),
-			screenHeight,
 			temp;
-
-		// add desc height
-		// if ( desc ) {
-			// descHeight = ( options.desc.height == "auto" ) ? this._getDescHeight( desc, width ) : options.desc.height;
-			// height += descHeight;			
-		// }
 
 		// check for viewport and adjust size with ratio in mind if screen is to small or fullscreen mode is enabled
 		if ( screenWidth < width + options.margin || options.forceFullscreen ) {
 			temp = ( screenWidth - options.margin ) * 0.95;
 			height = ( height / width ) * temp;
-			width = temp;			
-			// if ( desc && options.desc.height == "auto" ) descHeight = this._getDescHeight( desc, width );			
-		}			
-		// if ( screenHeight < height * 1.1 || options.forceFullscreen) {
-			// temp = screenHeight * 0.85;
-			// temp = screenHeight;
-			// width = ( width / height ) * temp;
-			// height = temp;
-			// if ( desc && options.desc.height == "auto" ) descHeight = this._getDescHeight( desc, width );	
-		// }		
-		
+			width = temp;
+		}
+
 		if ( desc ) {
 			descHeight = ( options.desc.height == "auto" ) ? this._getDescHeight( desc, width ) : options.desc.height;
 			contentHeight = ( 100 / ( height + descHeight ) ) * height + "%";
 		}
-		
+
 		return { width: width, height: height + descHeight, contentHeight: contentHeight };
 	},
 
