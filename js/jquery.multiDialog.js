@@ -1,5 +1,5 @@
 /*!
- * jQuery MultiDialog Beta (24. Oct 2012)
+ * jQuery MultiDialog Beta (25. Oct 2012)
  *
  * Copyright 2012, Felix Nagel, http://www.felixnagel.com
  * Licensed under the GPL Version 3 license.
@@ -55,6 +55,7 @@ function MultiDialog(){
 			template: function( data ) {
 				var html = '';
 				if ( this.options.desc.enabled ) {
+					// TODO do not show this when loading
 					if ( this.options.gallery.enabled && this.group.length > 0 && !this.isLoading ) {
 						html = '<span class="positon">' + this.options.gallery.strings.position.replace( '{index}', this.index + 1 ).replace( '{amount}', this.group.length ) + '</span>';
 					}
