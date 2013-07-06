@@ -972,17 +972,15 @@ $.extend( MultiDialog.prototype, {
 	_getUrlVar: function( href, name ){
 		var vars = [],
 			hash,
-			hashes = href.slice( href.indexOf( '?' ) + 1 ).split( '&' ),
-			get = false;
+			hashes = href.slice( href.indexOf( '?' ) + 1 ).split( '&' );
 
 		for ( var i = 0; i < hashes.length; i++ ) {
 			hash = hashes[ i ].split( '=' );
 			vars.push( hash[ 0 ] );
 			vars[ hash[ 0 ] ] = hash[ 1 ];
 		}
-		get = vars[ name ];
 
-		return get;
+		return vars[ name ];
 	}
 });
 
