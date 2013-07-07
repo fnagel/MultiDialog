@@ -1,7 +1,7 @@
 /*!
- * jQuery MultiDialog Beta (25. Oct 2012)
+ * jQuery MultiDialog Beta2
  *
- * Copyright 2012, Felix Nagel, http://www.felixnagel.com
+ * Copyright 2012-2013, Felix Nagel, http://www.felixnagel.com
  * Licensed under the GPL Version 3 license.
  *
  * http://fnagel.github.com/MultiDialog/
@@ -256,8 +256,8 @@ $.extend( MultiDialog.prototype, {
 	* @param data {Object, Jquery Object, String} MultiDialog data object (with at least one: html, href or element), can also be an jquery object containing a <a> tag or an URL
 	*/
 	openLink: function( data ) {
-		var options = this.options
-		data = this._openLinkHelper( data );
+		var options = this.options,
+			data = this._openLinkHelper( data );
 
 		// get type
 		if ( !data.type ) {
