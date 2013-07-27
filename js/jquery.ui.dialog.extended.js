@@ -29,7 +29,7 @@ $.widget( "ui.dialog", $.ui.dialog, {
 		height: 200, // auto is not allowed when using animation
 
 		closeModalOnClick: true,
-		
+
 		// viewport settings
 		forceFullscreen: false,
 		resizeOnWindowResize: false,
@@ -53,18 +53,16 @@ $.widget( "ui.dialog", $.ui.dialog, {
 
 	// Changes content and resizes dialog
 	change: function( content, width, height, animate ) {
-		var that = this;
-		
 		if ( typeof animate !== "boolean" ) {
 			animate = this.options.useAnimation;
 		}
 
 		if ( animate ) {
 			this.setAriaLive( true );
-			this.element.one( this.widgetEventPrefix + "resized", function() {
-				that.element.html( content );
-				that.setAriaLive( false );
-				that.focusTabbable();
+			this.element.one( this.widgetEventPrefix + "resized", this, function( event ) {
+				event.data.element.html( content );
+				event.data.setAriaLive( false );
+				event.data.focusTabbable();
 			});
 		} else {
 			this.element.html( content );
@@ -72,7 +70,7 @@ $.widget( "ui.dialog", $.ui.dialog, {
 
 		this.changeSize( width, height );
 	},
-	
+
 	// Changes size
 	changeSize: function( width, height ) {
 		this._setOptions({
@@ -80,56 +78,55 @@ $.widget( "ui.dialog", $.ui.dialog, {
 			height: height
 		});
 	},
-	
+
 	_setOption: function( key, value ) {
-		if ( key === "width" ) {			
+		if ( key === "width" ) {
 			this._oldSize.width = value;
 		}
 		if ( key === "height" ) {
 			this._oldSize.height = value;
 		}
-			
+
 		// we need to adjust the size as we need to set the overall dialog size
 		if ( this.options.useAnimation && this.options.useContentSize && this._isVisible ) {
-			if ( key === "width" ) {		
-				value = value + ( this.uiDialog.width() - this.element.width() );	
+			if ( key === "width" ) {
+				value = value + ( this.uiDialog.width() - this.element.width() );
 			}
 			if ( key === "height" ) {
 				value = value + ( this.uiDialog.outerHeight() - this.element.height() );
 			}
 		}
 
-		this._super( key, value );		
+		this._super( key, value );
 	},
 
 	_getSize: function( data ) {
 		var options = this.options,
 			feedback = $.position.getWithinInfo( options.position.of ),
 			portrait = ( feedback.height >= feedback.width ) ? true : false,
-			fullscreen = {
-				width: feedback.width,
+			viewport = {
+				width: feedback.width - ( this.uiDialog.outerWidth() - this.uiDialog.width() ),
 				height: feedback.height
 			};
 
 		if ( options.forceFullscreen ) {
-			return fullscreen;
+			return viewport;
 		}
 
 		if ( options.resizeToBestPossibleSize ) {
 			if ( portrait ) {
-				data = this._calcSize( data, feedback.height, "height", "width" );
+				data = this._calcSize( data, viewport.width, "width", "height" );
 			} else {
-				data = this._calcSize( data, feedback.height, "height", "width" );
+				data = this._calcSize( data, viewport.height, "height", "width" );
 			}
-			return data;
 		}
 
 		if ( options.resizeAccordingToViewport ) {
-			if ( feedback.width < data.width ) {
-				data = this._calcSize( data, feedback.width, "width", "height" );
+			if ( viewport.width < data.width ) {
+				data = this._calcSize( data, viewport.width, "width", "height" );
 			}
-			if ( feedback.height < data.height ) {
-				data = this._calcSize( data, feedback.height, "height", "width" );
+			if ( viewport.height < data.height ) {
+				data = this._calcSize( data, viewport.height, "height", "width" );
 			}
 		}
 
@@ -148,7 +145,7 @@ $.widget( "ui.dialog", $.ui.dialog, {
 	_size: function() {
 		// overwrite options with recalculated dimensions
 		$.extend( this.options, this._getSize( this.options ) );
-		
+
 		if ( this._isVisible && this.options.useAnimation ) {
 			this._animateSize();
 			return;
@@ -193,31 +190,29 @@ $.widget( "ui.dialog", $.ui.dialog, {
 				width: options.width + nonContentWidth
 			})
 			.outerHeight();
-			
+
 		actualSize = this._getSize({
 			width: options.width + nonContentWidth,
 			height: options.height + nonContentHeight
 		});
-		
-		this.uiDialog.css( "width", actualSize.width );		
+
+		this.uiDialog.css( "width", actualSize.width );
 		this.element.height( Math.max( 0, actualSize.height - nonContentHeight ) );
-			
+
 		if (this.uiDialog.is(":data(ui-resizable)") ) {
 			this.uiDialog.resizable( "option", "minHeight", this._minHeight() );
 		}
-		
+
 		// save calculated overall size
-		$.extend( options, actualSize );		
+		$.extend( options, actualSize );
 	},
 
 	// Processes the animated positioning (position using callback), works with any width and height options
 	_animateUsing: function( position, data, content ) {
 		var that = this;
-
 		// calculate new position based on the viewport
-		position.left = ( data.target.left + ( data.target.width - data.element.width + ( data.element.width - this.options.width ) ) / 2 );
-		position.top = ( data.target.top + ( data.target.height - data.element.height + ( data.element.height - this.options.height ) ) / 2 );
-
+		position.left = ( data.target.left + ( data.target.width - this.options.width - ( this.uiDialog.outerWidth() - this.uiDialog.width() ) ) / 2 );
+		position.top = ( data.target.top + ( data.target.height - this.options.height ) / 2 );
 		if ( position.top < 0 ) {
 			position.top = 0;
 		}
@@ -245,22 +240,17 @@ $.widget( "ui.dialog", $.ui.dialog, {
 
 	// position overwrite for animated positioning
 	_position: function() {
-		var that = this,
-			options = this.options,
-			originalUsing = options.position.using;
-
-		if ( !options.useAnimation || !this._isVisible ) {
-			this._super();
-			return;
-		}
-
+		var that = this;
+		this._positionOptions = this.options.position;
 		// change position.using mechanism
-		options.position.using = function( position, feedback  ) {
-			that._animateUsing( position, feedback , content );
-		};
+		if ( this.options.useAnimation && this._isVisible ) {
+			this.options.position.using = function( position, feedback  ) {
+				that._animateUsing( position, feedback , content );
+			};
+		}
 		this._super();
 		// reset position.using mechanism
-		options.position.using = originalUsing;
+		this.options.position = this._positionOptions;
 	},
 
 	// ARIA helper
@@ -287,7 +277,7 @@ $.widget( "ui.dialog", $.ui.dialog, {
 
 	_windowResizeEvents: {
 		resize: function( event ){
-			if ( this.options.resizeOnWindowResize ) {
+			if ( this.options.resizeOnWindowResize && window == event.target ) {
 				this._addTimeout( function() {
 					this._setOptions( this._oldSize );
 				});
@@ -302,12 +292,27 @@ $.widget( "ui.dialog", $.ui.dialog, {
 			}
 		}
 	},
-	
+
 	_addTimeout: function( callback ) {
 		clearTimeout( this.timeout );
 		if ( this._isVisible ) {
 			this.timeout = this._delay( callback, 250 );
-		}	
+		}
+	},
+
+	_makeResizable: function() {
+		this._super();
+		this.element.on( this.widgetEventPrefix + "resizestop", this, function( event ) {
+			event.data.element.css( "width", "auto" );
+			event.data.uiDialog.css( "height", "auto" );
+		});
+	},
+
+	_makeDraggable: function() {
+		this._super();
+		this.element.on( this.widgetEventPrefix + "dragstop", this, function( event ) {
+			event.data.options.position = event.data._positionOptions;
+		});
 	},
 
 	open: function() {
@@ -319,14 +324,14 @@ $.widget( "ui.dialog", $.ui.dialog, {
 		this._super();
 		this._isVisible = false;
 	},
-	
+
 	focusTabbable: function() {
 		this._focusTabbable();
 	},
-	
+
 	_createOverlay: function(){
 		this._super();
-		if ( this.options.modal && this.options.closeModalOnClick ) {		
+		if ( this.options.modal && this.options.closeModalOnClick ) {
 			this._on( this.overlay, {
 				mousedown: function( event ){
 					this.close( event );

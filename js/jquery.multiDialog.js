@@ -77,8 +77,6 @@ function MultiDialog(){
 			resized: null,
 
 			// do not alter these!
-			draggable: false,
-			resizable: false,
 			useContentSize: true
 		},
 
