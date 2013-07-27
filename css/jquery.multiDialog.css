@@ -39,6 +39,13 @@
     opacity: 0.8;
 }
 
+/* fix resizeable handler */
+.ui-resizable-e,
+.ui-dialog .ui-resizable-se,
+.ui-dialog .ui-resizable-ne {
+    right: -1px;
+}
+
 /* API links */
 .ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content .multibox-api {
 	height: 100%;
