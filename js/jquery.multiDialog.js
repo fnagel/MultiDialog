@@ -37,8 +37,7 @@ function MultiDialog(){
 			},
 			showPositionInfo: {
 				title: true,
-				desc: true,
-				buttons: true
+				desc: false
 			}
 		},
 
@@ -72,19 +71,18 @@ function MultiDialog(){
 			show: "fade", // string, use any jQuery UI effect here
 			hide: "fade",
 			modal: true,
-			buttons: {},	// overwritten if gallery mode is enabled
+			buttons: null, // options: null (default, adds pre/next buttons in gallery mode), {} (no buttons at all), or use as default dialog option
 
 			// callbacks, please note: close, open and resize callback are not available
 			resized: null,
 
 			// do not alter these!
+			draggable: false,
+			resizable: false,
 			useContentSize: true
 		},
 
 		disabled: false, // disable plugin
-		disabledFunc: function(){ // returns boolean, addtional function to disable widget
-			return ( $( window ).width() < 400 ) || ( $( window ).height() < 300 ); // disabled on small screens
-		},
 		getVarPrefix: "", // GET var prefix
 
 		// set testing condition, description, alt and title atttribute for each content type
@@ -108,7 +106,7 @@ function MultiDialog(){
 					test: function( href ) {
 						return href.match( /\.(jpg|jpeg|png|gif)$/ );
 					},
-					template: '<a href="#multibox-next" class="multibox-api" rel="next"><img width="100%" height="100%" alt="{alt}" title="{title}" src="{path}" /></a>',
+					template: '<a href="#next" class="multibox-api next" rel="next"></a><a href="#prev" class="multibox-api prev" rel="prev"></a><img width="100%" height="100%" alt="{alt}" title="{title}" src="{path}" />',
 					title: function( element ) {
 						return element.find( "img" ).attr( "alt" ) || element.text();
 					},
@@ -150,7 +148,7 @@ function MultiDialog(){
 						return href.match( /ajax=true/i );
 					},
 					// $.ajax settings
-					ajaxSettings: {
+					settings: {
 						// Please note: be careful with error, success and href
 						dataType: "html"
 					}
@@ -195,7 +193,7 @@ function MultiDialog(){
 			// specific
 			imageError: null,
 			inlineError: null
-			// use ajaxSettings option for ajax specific callbacks
+			// use ajax.settings option for ajax specific callbacks
 			// use loadingHandler and errorHandler as callbacks if needed
 		}
 	};
@@ -220,7 +218,7 @@ $.extend( MultiDialog.prototype, {
 		});
 
 		// set click event if not disabled and not API
-		if ( elements.length && !( options.disabled || options.disabledFunc.call( this ) ) ) {
+		if ( elements.length && !options.disabled ) {
 			elements.bind( "click." + this.widgetName, function( event ){
 				if ( elements.length > 1 && options.gallery.enabled ) {
 					that.openGallery( elements, $( this ) );
@@ -321,23 +319,25 @@ $.extend( MultiDialog.prototype, {
 			image = new Image();
 
 		// open loading message
-		that.options.loadingHandler.call( this, data );
+		options.loadingHandler.call( this, data );
 
 		// preload image
 		image.onload = function(){
 			if ( !data.width ) data.width = image.width;
 			if ( !data.height ) data.height = image.height;
 			that._parseHtml( data, "image", "path" );
-			that._changeDialog( data );
+			setTimeout( function(){
+				that._changeDialog( data );
+			}, 1000);
 			// unload onload, IE specific, prevent animated gif failures
 			image.onload = function(){};
 		};
 		// error handling
 		image.onerror = function( error ){
-			that.options.errorHandler.call( that, that._fireCallback( "imageError", error, data ) );
+			options.errorHandler.call( that, that._fireCallback( "imageError", error, data ) );
 		};
 		// load image
-		image.src = data.href + this.options.types.config.image.addParameters;
+		image.src = data.href + options.types.config.image.addParameters;
 	},
 
 	openIframe: function( data ) {
@@ -392,7 +392,7 @@ $.extend( MultiDialog.prototype, {
 				that._parseHtml( data, "ajax", "content", html );
 				that._changeDialog( data );
 			}
-		}, options.types.config.ajax.ajaxSettings );
+		}, options.types.config.ajax.settings );
 
 		// get data and show content
 		this.xhr = $.ajax( ajaxOptions );
@@ -487,7 +487,7 @@ $.extend( MultiDialog.prototype, {
 		}
 
 		if ( this.group.length > 1 ) {
-			this._addGalleryButtons();
+			if ( !this.options.dialog.buttons ) this._addGalleryButtons();
 			this.open( this.group[ this.index ] );
 			this._addKeyboardControl();
 		}
@@ -579,12 +579,10 @@ $.extend( MultiDialog.prototype, {
 				}
 			})
 		);
-		// save widget and set width to auto
 		this.uiDialogWidget = this.uiDialog.dialog( "widget" );
-
 		this._setDesc( data );
 		this._setTitle( data );
-		
+
 		// search for api links
 		this.uiDialogWidget.on( "click." + this.widgetName, ".multibox-api[rel]", function( event ){
 			that._move( $( this ).attr( "rel" ) );
@@ -593,7 +591,7 @@ $.extend( MultiDialog.prototype, {
 
 		// set ARIA busy when loading
 		if ( this.isLoading ) {
-			this.uiDialog.dialog( "setAriaLive", true );
+			this._setAria();
 		}
 
 		that._fireCallback( "createDialog", null, data );
@@ -602,9 +600,13 @@ $.extend( MultiDialog.prototype, {
 	_openDialog: function( data ) {
 		this._setSize( data );
 		this._setContent( data );
-		this.uiDialog
-			.dialog( "open" )
-			.dialog( "setAriaLive", this.isLoading );
+		this._setAria();
+		this.uiDialog.dialog( "open" );
+	},
+
+	_setAria: function() {
+		this.uiDialog.dialog( "setAriaLive", this.isLoading );
+		this.uiDialogWidget.toggleClass( "loading", this.isLoading );
 	},
 
 	_setContent: function( data ) {
@@ -618,16 +620,21 @@ $.extend( MultiDialog.prototype, {
 
 		this._setContent( data );
 		$.Widget.prototype._show( this.uiDialogContent, this.options.dialog.show, function(){
-			that.uiDialog.dialog( "setAriaLive", this.isLoading );
+			that._setAria();
+			that.uiDialog.dialog( "focusTabbable", $.Event() );
 			that._fireCallback( "change", null, data );
 		});
 	},
 
 	_changeDialog: function( data ){
-		var that = this;
-
 		this.isLoading = false;
 		this._setSize( data );
+		this._processContent( data );
+	},
+
+	_processContent: function( data ) {
+		var that = this;
+
 		$.Widget.prototype._hide( this.uiDialogDesc, this.options.dialog.hide );
 		$.Widget.prototype._hide( this.uiDialogContent, this.options.dialog.hide, function(){
 			that._setAndShowContent( data );
@@ -635,12 +642,10 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_setDesc: function ( data ) {
-		var html = this._getPositionInfo( "desc" ) + data.desc;		
-		if ( html ) {
-			this.uiDialogDesc.children( ".inner" ).html( html );
+		var string = this._getPositionInfo( "desc" ) + data.desc;
+		if ( string ) {
+			this.uiDialogDesc.children( ".inner" ).html( string );
 			$.Widget.prototype._show( this.uiDialogDesc, this.options.dialog.show );
-		} else {
-			this.uiDialogDesc.hide();
 		}
 	},
 
@@ -671,7 +676,7 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_changeGalleryButtons: function(){
-		if ( !this.options.gallery.loop ) {
+		if ( !this.options.gallery.loop && this.options.dialog.buttons ) {
 			var buttonpane = this.uiDialogWidget.children( ".ui-dialog-buttonpane" ),
 				prev = buttonpane.find( ".prev" ),
 				next = buttonpane.find( ".next" );
@@ -760,8 +765,8 @@ $.extend( MultiDialog.prototype, {
 			this.xhr.abort();
 		}
 		// remove content
-		this.uiDialogContent.empty();
-		this.uiDialogDesc.empty();
+		this.uiDialogContent.hide().empty();
+		this.uiDialogDesc.hide().children( ".inner" ).empty();
 		// restore original clicked element
 		if ( this.clickedElement ) {
 			$( this.clickedElement ).focus();
@@ -784,10 +789,9 @@ $.extend( MultiDialog.prototype, {
 
 	_defaultHandler: function( html, title, data ) {
 		var _data = $.extend( {}, data, { html: html, title: title, desc: "" } );
-
 		// do not resize when already open
 		if ( this.isOpen ) {
-			$.Widget.prototype._hide( this.uiDialogContent, this.options.dialog.hide, this._setAndShowContent( _data ) );
+			this._processContent( _data );
 		} else {
 			this._open( _data );
 		}
@@ -795,9 +799,9 @@ $.extend( MultiDialog.prototype, {
 
 	_getPositionInfo: function( key ) {
 		if ( this.options.gallery.enabled && this.group.length > 0 && this.options.gallery.showPositionInfo[ key ] && !this.isLoading ) {
-			return '<span class="positon">' + this.options.gallery.strings.position.replace( '{index}', this.index + 1 ).replace( '{amount}', this.group.length ) + '</span>';				
-		}	
-		
+			return '<span class="positon">' + this.options.gallery.strings.position.replace( '{index}', this.index + 1 ).replace( '{amount}', this.group.length ) + '</span>';
+		}
+
 		return "";
 	},
 

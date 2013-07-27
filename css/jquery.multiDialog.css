@@ -7,9 +7,10 @@
  * http://github.com/fnagel/
  */
  
- /* needed styles */
-.ui-dialog.MultiDialog .ui-dialog-content {
-}
+ /* 
+  * needed styles
+  */
+  
 .ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content { 
 	position: relative; 
 	width: 100%;
@@ -23,8 +24,8 @@
 .ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content iframe { 
 	position: absolute; /* width/height 100% fix */
 }
-.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content.image img { }
 .ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-desc { 
+	display: none;
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -32,16 +33,41 @@
 	width: 100%;
 }
 .ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-desc .inner { 
-	padding: 0.3em 0.5em; 
+	padding: 0.4em 0.5em; 
 	margin: 0.5em 1em;
-	background: url(images/ui-bg_flat_0_eeeeee_40x100.png) repeat-x scroll 50% 50% #EEEEEE;
+	background: #EEEEEE;
     opacity: 0.8;
 }
 
-/* recomended styles */
-.MultiDialog .ui-dialog-content .MultiDialog-desc span.positon { 
-	font-weight: bold; 
+/* API links */
+.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content .multibox-api {
+	height: 100%;
+	width: 50%;
+	position: relative;
+	position: absolute;
+	display: block;
+	cursor: ew-resize;
 }
+.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content .multibox-api.prev {
+	left: 0;
+}
+.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content .multibox-api.next {
+	right: 0;
+}
+
+/* 
+ * recomended styles
+ */
+  
+/* reduce jQuery UI Dialog default padding */
+.ui-dialog.MultiDialog .ui-dialog-content {
+	padding: 0.3em 0 0.2em;
+}
+.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-desc .inner { 
+	margin: 0 0 0.2em;
+}
+
+/* loading and error messages */
 .MultiDialog .ui-state-error, .MultiDialog .ui-state-highlight { 
 	height: 100%; 
 	border: 0; 
@@ -57,4 +83,12 @@
 }
 .MultiDialog .ui-state-error .ui-icon, .MultiDialog .ui-state-highlight .ui-icon { 
 	float: left;
+}
+
+/* Misc */
+.MultiDialog .ui-dialog-content .MultiDialog-desc span.positon { 
+	font-weight: bold; 
+}
+.MultiDialog.loading { 
+	cursor: progress;
 }

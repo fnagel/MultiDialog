@@ -64,6 +64,7 @@ $.widget( "ui.dialog", $.ui.dialog, {
 			this.element.one( this.widgetEventPrefix + "resized", function() {
 				that.element.html( content );
 				that.setAriaLive( false );
+				that.focusTabbable();
 			});
 		} else {
 			this.element.html( content );
@@ -317,6 +318,10 @@ $.widget( "ui.dialog", $.ui.dialog, {
 	close: function() {
 		this._super();
 		this._isVisible = false;
+	},
+	
+	focusTabbable: function() {
+		this._focusTabbable();
 	},
 	
 	_createOverlay: function(){
