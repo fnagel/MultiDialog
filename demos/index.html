@@ -32,10 +32,14 @@
 	<!-- init demo related JS -->
 	<script>
 	$(function() {
-		$(".tabs").tabs();
+		var tabs = $(".tabs").tabs();
 		
 		$(".tabs button").button();
 		
+		
+		tabs.each(function(){
+			$(this).find("pre").text($(this).next("script").text());
+		});
 		SyntaxHighlighter.all();
 		
 		$("#themeswitcher").themeswitcher({
@@ -62,7 +66,7 @@
 	</ul>
 	<div id="tabs-lightbox-info">
 		<p>
-			A simple lightbox gallery. Different sizes and very big images will be handled without problems.
+			A simple lightbox gallery without gallery buttons. Different sizes and very big images will be handled without problems.
 		</p>
 	</div>
 	<div id="tabs-lightbox-demo">
@@ -80,13 +84,7 @@
 		</ul>
 	</div>
 	<div id="tabs-lightbox-code">
-		<pre class="brush: js;">
-			$( "a.lightbox" ).MultiDialog({
-				gallery: {
-					enabled: true
-				}
-			});
-		</pre>
+		<pre class="brush: js;"></pre>
 	</div>
 </div>
 <script>
@@ -94,6 +92,9 @@ $(function() {
 	$( "a.lightbox" ).MultiDialog({
 		gallery: {
 			enabled: true
+		},
+		dialog: {
+			buttons: {}
 		}
 	});
 });
@@ -126,14 +127,7 @@ $(function() {
 		</ul>
 	</div>
 	<div id="tabs-group-code">
-		<pre class="brush: js;">
-			$( "a.group" ).MultiDialog({
-				gallery: {
-					enabled: true,
-					loop: true
-				}
-			});
-		</pre>
+		<pre class="brush: js;"></pre>
 	</div>
 </div>
 <script>
@@ -172,46 +166,7 @@ $(function() {
 		More examples coming soon... 
 	</div>
 	<div id="tabs-api-code">
-		<pre class="brush: js;">	
-			// make instance
-			api = $.fn.MultiDialog({
-				dialog: {
-					title: "API Example"
-				}
-			});
-			
-			$("#api-button-1").click( function(){
-				api.openLink("res/images/dummy-800x600-color730046.jpg");
-			});
-			
-			$("#api-button-2").click( function(){
-				api.openLink({ 
-					href: "http://m.flickr.com",
-					type: "iframe"
-				});
-			});
-			
-			$("#api-button-3").click( function(){
-				api.openYoutube({ href: "http://www.youtube.com/watch?v=VfOcyrOImLg" });
-			});
-			
-			$("#api-button-4").click( function(){
-				api.open({ element: $("#inline-content-group-2") });
-				// shortcut for same functionality
-				// api.open( $("#inline-content-group-2"));
-			});
-			
-			api2 = $.fn.MultiDialog();
-			api2.options.gallery.enabled = true;
-			api2.options.dialog.title = "API Gallery Example";
-			$("#api-button-5").click( function(){
-				api2.openGallery([
-					{ href: "res/images/dummy-800x600-color730046.jpg" },
-					{ href: "http://www.youtube.com/watch?v=VfOcyrOImLg" },
-					{ href: "#inline-content-group-1" }
-				]);
-			});
-		</pre>
+		<pre class="brush: js;"></pre>
 	</div>
 	<div id="tabs-api-doc">
 		<em>Sorry, not documented yet. Please see soucecode for available functions:</em>
@@ -349,25 +304,7 @@ $(function() {
 		</ul>
 	</div>
 	<div id="tabs-dialog-code">
-		<pre class="brush: js;">	
-			$( "a.dialog-options" ).MultiDialog({
-				dialog: { 
-					width: 400,
-					height: 300,
-					modal: false,
-					position: {
-						my: 'left top',
-						at: 'left bottom',
-						offset: '0 10',
-						// overwriting using is needed!
-						using: null,
-						of: $( "#tabs-dialog-demo" )
-					},
-					draggable: true,
-					resizable: true
-				}
-			});
-		</pre>
+		<pre class="brush: js;"></pre>
 		Please note you need to add jquery.ui.draggable.js and jquery.ui.resizable.js.
 	</div>
 </div>
@@ -442,16 +379,7 @@ $(function() {
 		</ul>
 	</div>
 	<div id="tabs-examples-code">
-		<pre class="brush: js;">					
-			$( "a.fullscreen" ).MultiDialog({
-				forceFullscreen: true
-			});
-			
-			$( "a.getvars" ).MultiDialog({
-				// you could prefix MultiDialog GETvars if needed
-				getVarPrefix: "multidialog-"
-			});
-		</pre>
+		<pre class="brush: js;"></pre>
 	</div>
 </div>
 <script>
@@ -482,33 +410,7 @@ $(function() {
 		<a class="add-type" href="res/syntaxhighlighter/index.html">Demo link</a>
 	</div>
 	<div id="tabs-type-code">
-		<pre class="brush: js;">	
-			$( &quot;a.add-type&quot; ).MultiDialog({
-				types: {
-					config: {
-						customPath: {
-							test: function( href ) {
-								// search for syntaxhighlighter in URL
-								return href.match( /syntaxhighlighter/i );
-							},					
-							template: '&lt;iframe width=&quot;100%&quot; height=&quot;100%&quot; src=&quot;{url}&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;'
-						}
-					}
-				},
-				openCustom: function( data ){
-					if ( data.type = &quot;customPath&quot; ) {
-						this._parseHtml( data, &quot;iframe&quot;, &quot;url&quot; );
-						data.width = 1280;
-						data.height = 800;
-						data.title = &quot;SyntaxHighlighter&quot;;
-						this._open( data );
-					} else {
-						// backfall
-						window.open( data.href, '_newtab' );
-					}
-				}
-			});
-		</pre>
+		<pre class="brush: js;"></pre>
 	</div>
 </div>
 
