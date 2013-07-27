@@ -7,15 +7,15 @@
     <meta name="description" content="MultiDialog utilizes jQuery UI Dialog Widget for a full featured Modalbox / Lightbox application." />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-	
-	
+
 	<!-- jQuery & jQuery UI files (needed)-->
-	<link rel="stylesheet" href="css/jquery-ui-1.9.0.custom.css">
-	<script src="js/jquery/jquery-1.8.2.js"></script>
-	<script src="js/jquery/jquery-ui-1.9.0.custom.js"></script>
+	<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.css">
+	<script src="js/jquery/jquery-1.9.1.js"></script>
+	<script src="js/jquery/jquery-ui-1.10.3.custom.js"></script>
 
 	<!-- MultiDialog files (needed) -->
 	<link rel="stylesheet" href="css/jquery.multiDialog.css">
+	<script src="js/jquery.ui.dialog.extended.js"></script>
 	<script src="js/jquery.multiDialog.js"></script>
 
 	<!-- Demo files (unneeded) -->
@@ -32,9 +32,9 @@
 	<script>
 	$(function() {
 		$(".tabs").tabs();
-		
-		$( "a.multiallybox" ).MultiDialog();
-				
+
+		$( "a.multidialog" ).MultiDialog();
+
 		SyntaxHighlighter.all();
 	});
 
@@ -62,7 +62,7 @@
 
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
-		<section id="main_content" class="inner">        
+		<section id="main_content" class="inner">
 			<div class="tabs">
 				<ul>
 					<li><a href="#tabs-start-about">About</a></li>
@@ -73,7 +73,7 @@
 				</ul>
 				<div id="tabs-start-about">
 					<p>
-						<strong>MultiDialog utilizes <a href="http://jqueryui.com/demos/dialog/">jQuery UI Dialog</a> for a full featured Modalbox / Lightbox application.</strong>			
+						<strong>MultiDialog utilizes <a href="http://jqueryui.com/demos/dialog/">jQuery UI Dialog</a> for a full featured Modalbox / Lightbox application.</strong>
 						<br />
 						It's flexible, easy to use but yet extendable and fits great into the jQuery UI Widget family.
 					</p>
@@ -82,23 +82,23 @@
 						<li>Use any jQuery selector or a powerful API</li>
 						<li>Feature rich, very flexible and easy to extend</li>
 						<li>Tested in FF, IE7+, Chrome & Safari</li>
-						<li>Built with <abbr title="accessibility">a11y</abbr> in mind</li>
+						<li>Built with <abbr title="accessibility">a11y</abbr> and RWD in mind</li>
 					</ul>
 					<br />
 					<p>
 						DialogBox works with <em>
-						<a class="multiallybox" href="http://lorempixel.com/g/800/600?type=image" title="Description Text">Images</a>,
-						<a class="multiallybox" href="./demos/res/ajax.html?ajax=true">AJAX content</a>,
-						<a class="multiallybox" href="http://m.flickr.com?iframe=true">iframes</a>,
-						<a class="multiallybox" href="http://www.youtube.com/watch?v=VfOcyrOImLg" title="Opeth - The Devil's Orchard">You Tube video</a>,
-						<a class="multiallybox" href="http://vimeo.com/8237941" title="Thriller (MJ Tribute) - Thomas Herner">Vimeo video</a> and
-						<a class="multiallybox" href="#tabs-start-features" title="Feature list">inline content (anchor links)</a> and plain HTML</em>. 
+						<a class="multidialog" href="http://lorempixel.com/g/800/600?type=image" title="Description Text">Images</a>,
+						<a class="multidialog" href="./demos/res/ajax.html?ajax=true">AJAX content</a>,
+						<a class="multidialog" href="http://m.flickr.com?iframe=true">iframes</a>,
+						<a class="multidialog" href="http://www.youtube.com/watch?v=VfOcyrOImLg" title="Opeth - The Devil's Orchard">You Tube video</a>,
+						<a class="multidialog" href="http://vimeo.com/8237941" title="Thriller (MJ Tribute) - Thomas Herner">Vimeo video</a> and
+						<a class="multidialog" href="#tabs-start-features" title="Feature list">inline content (anchor links)</a> and plain HTML</em>.
 						Custom content types are easy to implement.
 					</p>
 				</div>
 				<div id="tabs-start-demos">
 					<p>
-						<strong>See demo files:</strong>	
+						<strong>See demo files:</strong>
 					</p>
 					<br />
 					<ul>
@@ -161,13 +161,14 @@
 					Add source files:
 					<pre class="brush: html;">
 						&lt;!-- jQuery &amp; jQuery UI files (needed)--&gt;
-						&lt;link rel=&quot;stylesheet&quot; href=&quot;../css/ui-lightness/jquery-ui-1.8.23.custom.css&quot;&gt;
-						&lt;script src=&quot;demos/js/jquery/jquery-1.8.0.js&quot;&gt;&lt;/script&gt;
-						&lt;script src=&quot;demos/js/jquery/jquery-ui-1.8.23.custom.js&quot;&gt;&lt;/script&gt;
+						&lt;link rel=&quot;stylesheet&quot; href=&quot;css/jquery-ui-1.10.3.custom.css&quot;&gt;
+						&lt;script src=&quot;js/jquery/jquery-1.9.1.js&quot;&gt;&lt;/script&gt;
+						&lt;script src=&quot;js/jquery/jquery-ui-1.10.3.custom.js&quot;&gt;&lt;/script&gt;
 
 						&lt;!-- MultiDialog files (needed) --&gt;
-						&lt;link rel=&quot;stylesheet&quot; href=&quot;../css/jquery.MultiDialog.css&quot;&gt;
-						&lt;script src=&quot;demos/js/jquery.MultiDialog.js&quot;&gt;&lt;/script&gt;
+						&lt;link rel=&quot;stylesheet&quot; href=&quot;css/jquery.multiDialog.css&quot;&gt;
+						&lt;script src=&quot;js/jquery.ui.dialog.extended.js&quot;&gt;&lt;/script&gt;
+						&lt;script src=&quot;js/jquery.multiDialog.js&quot;&gt;&lt;/script&gt;
 					</pre>
 					<br />
 					Add links
@@ -177,10 +178,10 @@
 					<br />
 					Init plugin
 					<pre class="brush: js;">
-						// use any jQuery selector						
-						$( "a.multiallybox" ).MultiDialog();
+						// use any jQuery selector
+						$( "a.multidialog" ).MultiDialog();
 
-						$("amultiallybox").MultiDialog({
+						$("a.multidialog").MultiDialog({
 							// set options here
 						});
 					</pre>
@@ -189,7 +190,7 @@
 			<script>
 			</script>
 
-		
+
 		</section>
     </div>
 
