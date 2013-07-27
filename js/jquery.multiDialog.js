@@ -324,9 +324,7 @@ $.extend( MultiDialog.prototype, {
 			if ( !data.width ) data.width = image.width;
 			if ( !data.height ) data.height = image.height;
 			that._parseHtml( data, "image", "path" );
-			setTimeout( function(){
-				that._changeDialog( data );
-			}, 1000);
+			that._changeDialog( data );
 			// unload onload, IE specific, prevent animated gif failures
 			image.onload = function(){};
 		};
@@ -448,11 +446,7 @@ $.extend( MultiDialog.prototype, {
 	_open: function( data ) {
 		if ( !this.options.disabled ) {
 			if ( this.uiDialog ) {
-				if ( this.isOpen ) {
-					this._changeDialog( data );
-				} else {
-					this._openDialog( data );
-				}
+				this._changeDialog( data );
 			} else {
 				this._createDialog( data );
 			}
@@ -595,28 +589,17 @@ $.extend( MultiDialog.prototype, {
 		that._fireCallback( "createDialog", null, data );
 	},
 
-	_openDialog: function( data ) {
-		this._setSize( data );
-		this._setContent( data );
-		this._setAria();
-		this.uiDialog.dialog( "open" );
-	},
-
 	_setAria: function() {
 		this.uiDialog.dialog( "setAriaLive", this.isLoading );
 		this.uiDialogWidget.toggleClass( "loading", this.isLoading );
 	},
 
-	_setContent: function( data ) {
-		this.uiDialogContent.html( data.html );
-		this._setTitle( data );
-		this._setDesc( data );
-	},
-
 	_setAndShowContent: function( data ) {
 		var that = this;
 
-		this._setContent( data );
+		this.uiDialogContent.html( data.html );
+		this._setTitle( data );
+		this._setDesc( data );
 		$.Widget.prototype._show( this.uiDialogContent, this.options.dialog.show, function(){
 			that._setAria();
 			that.uiDialog.dialog( "focusTabbable" );
@@ -755,14 +738,14 @@ $.extend( MultiDialog.prototype, {
 		this.uiDialog.dialog( "close", event );
 	},
 
-	// called by dialogs close callback
+	// called by dialog close callback
 	_close: function( event ){
 		if ( this.xhr ) {
 			this.xhr.abort();
 		}
-		// remove content
-		this.uiDialogContent.hide().empty();
-		this.uiDialogDesc.hide().children( ".inner" ).empty();
+		// remove dialog
+		this.uiDialog.dialog( "destroy" );
+		this.uiDialog = null;
 		// restore original clicked element
 		if ( this.clickedElement ) {
 			$( this.clickedElement ).focus();
