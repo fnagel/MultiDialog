@@ -621,23 +621,21 @@ $.extend( MultiDialog.prototype, {
 		this._setContent( data );
 		$.Widget.prototype._show( this.uiDialogContent, this.options.dialog.show, function(){
 			that._setAria();
-			that.uiDialog.dialog( "focusTabbable", $.Event() );
+			that.uiDialog.dialog( "focusTabbable" );
 			that._fireCallback( "change", null, data );
 		});
 	},
 
 	_changeDialog: function( data ){
-		this.isLoading = false;
-		this._setSize( data );
-		this._processContent( data );
-	},
-
-	_processContent: function( data ) {
 		var that = this;
 
+		this.isLoading = false;
 		$.Widget.prototype._hide( this.uiDialogDesc, this.options.dialog.hide );
 		$.Widget.prototype._hide( this.uiDialogContent, this.options.dialog.hide, function(){
-			that._setAndShowContent( data );
+			that._setSize( data );
+			that.uiDialogWidget.one( "dialogresized", function() {
+				that._setAndShowContent( data );
+			});
 		});
 	},
 
@@ -788,10 +786,14 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_defaultHandler: function( html, title, data ) {
-		var _data = $.extend( {}, data, { html: html, title: title, desc: "" } );
+		var that = this,
+			_data = $.extend( {}, data, { html: html, title: title, desc: "" } );
 		// do not resize when already open
 		if ( this.isOpen ) {
-			this._processContent( _data );
+			$.Widget.prototype._hide( this.uiDialogDesc, this.options.dialog.hide );
+			$.Widget.prototype._hide( this.uiDialogContent, this.options.dialog.hide, function(){
+				that._setAndShowContent( _data );
+			});
 		} else {
 			this._open( _data );
 		}
