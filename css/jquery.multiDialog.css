@@ -11,20 +11,21 @@
   * needed styles
   */
   
-.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content { 
+.MultiDialog .MultiDialog-content { 
 	position: relative; 
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
 }
-.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content .overflow { 
+.MultiDialog .MultiDialog-content .overflow { 
 	overflow: auto;  /* nicer scollbar */
 	height: 100%; 
 	padding: 0 0.5em 0 0; 
 }
-.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content iframe { 
+.MultiDialog .MultiDialog-content iframe { 
 	position: absolute; /* width/height 100% fix */
 }
-.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-desc { 
+.MultiDialog .MultiDialog-desc { 
 	display: none;
 	position: absolute;
 	bottom: 0;
@@ -32,7 +33,7 @@
 	right: 0;
 	width: 100%;
 }
-.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-desc .inner { 
+.MultiDialog .MultiDialog-desc .inner { 
 	padding: 0.4em 0.5em; 
 	margin: 0.5em 1em;
 	background: #EEEEEE;
@@ -40,25 +41,29 @@
 }
 
 /* fix resizeable handler */
-.ui-resizable-e,
-.ui-dialog .ui-resizable-se,
-.ui-dialog .ui-resizable-ne {
+.MultiDialog .ui-resizable-e,
+.MultiDialog .ui-dialog .ui-resizable-se,
+.MultiDialog .ui-dialog .ui-resizable-ne {
     right: -1px;
 }
 
 /* API links */
-.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content .multibox-api {
+.MultiDialog .MultiDialog-content.image .multibox-api {
 	height: 100%;
 	width: 50%;
 	position: relative;
 	position: absolute;
 	display: block;
 	cursor: ew-resize;
+	background-image:url(about:blank);
 }
-.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content .multibox-api.prev {
+.MultiDialog .MultiDialog-content.image a.multibox-api {
+	outline: 0;
+}
+.MultiDialog .MultiDialog-content .multibox-api.prev {
 	left: 0;
 }
-.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content .multibox-api.next {
+.MultiDialog .MultiDialog-content .multibox-api.next {
 	right: 0;
 }
 
@@ -67,10 +72,10 @@
  */
   
 /* reduce jQuery UI Dialog default padding */
-.ui-dialog.MultiDialog .ui-dialog-content {
+.MultiDialog .ui-dialog-content {
 	padding: 0.3em 0 0.2em;
 }
-.ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-desc .inner { 
+.MultiDialog .MultiDialog-desc .inner { 
 	margin: 0 0 0.2em;
 }
 
