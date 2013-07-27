@@ -1,7 +1,7 @@
 /*!
- * jQuery MultiDialog Beta (25. Oct 2012)
+ * jQuery MultiDialog Beta2
  *
- * Copyright 2012, Felix Nagel, http://www.felixnagel.com
+ * Copyright 2012-2013, Felix Nagel, http://www.felixnagel.com
  * Licensed under the GPL Version 3 license.
  *
  * http://fnagel.github.com/MultiDialog/
@@ -13,6 +13,7 @@
  *	jquery.ui.widget.js
  *	jquery.ui.position.js
  *	jquery.ui.dialog.js
+ *	jquery.ui.dialog.extended.js
  *	jquery.ui.effects-fade.js
  *
  * Optional (Dialog related)
@@ -25,80 +26,64 @@
 
 function MultiDialog(){
 	this.defaults = {
-		// general MultiDialog options
-		disabled: false, // boolean
-		disabledFunc: function(){ // returns boolean, addtional function to disable widget
-			return ( $( window ).width() < 400 ) || ( $( window ).height() < 300 ); // disabled on small screens
-		},
-		getVarPrefix: "", // GET var prefix
-		closeOnClickOverlay: true, // close MultiDialog by click on overlay
-		animationSpeed: 500, // speed of all hide and fade animations
-		em: 0.0757575, // multiplicator for em calculation (resize with text), set to false to disable
-		margin: 26,	// int, margin of the content wrapping divs (jQuery UI CSS: ui-lightness=38, ...)
-		forceFullscreen: false,
-
 		// config for gallery mode
 		gallery: {
 			enabled: false,	// use all selected elements as a gallery
 			loop: false,
 			strings: {
-				position: "Item {index} of {amount} ",
+				position: "Item {index} of {amount}: ",
 				next: "Next",
 				prev: "Previous"
+			},
+			showPositionInfo: {
+				title: true,
+				desc: false
 			}
 		},
 
-		// configuration for description
-		desc: {
-			enabled: true,
-			height: "auto",	// int or "auto", sets height of the description pane
-			template: function( data ) {
-				var html = '';
-				if ( this.options.desc.enabled ) {
-					// TODO do not show this when loading
-					if ( this.options.gallery.enabled && this.group.length > 0 && !this.isLoading ) {
-						html = '<span class="positon">' + this.options.gallery.strings.position.replace( '{index}', this.index + 1 ).replace( '{amount}', this.group.length ) + '</span>';
-					}
-					if ( data.desc )  html += data.desc;
-				}
-				return html;
-			}
-		},
+		descEnabled: true, // enable description pane
 
 		// jQuery UI Dialog options
-		dialog: { // see jQuery UI Dialog options, removed options are not available!
+		dialog: {
+			// see jQuery UI Dialog docs for al options, some options are not available!
 			closeOnEscape: true,
 			closeText: 'close',
-			title: '',
-			// size
-			width: 600, // int, "auto" is not possible, please note this is content width, not widget width like native Dialog behaviour
-			height: 400, // see above
-			// position and effects
-			modal: true,
-			// TODO Dialog options should be possible
-			// check if options set, if so use show(options.dialog.show) and try to add events to animated element; otherwise use show()
-			show: "fade", // string, use any jQuery UI effect here
-			hide: "fade", // see above
-			// visual level
-			stack: false,
-			zIndex: 1000,
-			position: {
-				of: window,
-				my: 'center',
-				at: 'center',
-				collision: 'fit'
+			closeModalOnClick : true, // close MultiDialog by click on overlay
+
+			// size (int), width and height set the content size, not overall size, auto not allowed
+			width: 600,
+			height: 400,
+
+			// viewport settings
+			forceFullscreen: false,
+			resizeOnWindowResize: true,
+			scrollWithViewport: true,
+			resizeAccordingToViewport: true,
+			resizeToBestPossibleSize: false,
+
+			// animated options
+			useAnimation: true,
+			animateOptions: {
+				duration: 500,
+				queue: false
 			},
-			draggable: false, // you need to include jQuery UI draggable
-			// resizable
-			resizable: false, // you need to include jQuery UI resizable
-			maxHeight: false,
-			maxWidth: false,
-			minHeight: 150,
-			minWidth: 150,
-			// buttonpane
-			buttons: {}	// overwritten if gallery mode is enabled
-			// please note: close, open and resize callback are not available
+
+			show: "fade", // string, use any jQuery UI effect here
+			hide: "fade",
+			modal: true,
+			buttons: null, // options: null (default, adds pre/next buttons in gallery mode), {} (no buttons at all), or use as default dialog option
+
+			// callbacks, please note: close, open and resize callback are not available
+			resized: null,
+
+			// do not alter these!
+			draggable: false,
+			resizable: false,
+			useContentSize: true
 		},
+
+		disabled: false, // disable plugin
+		getVarPrefix: "", // GET var prefix
 
 		// set testing condition, description, alt and title atttribute for each content type
 		types: {
@@ -121,7 +106,7 @@ function MultiDialog(){
 					test: function( href ) {
 						return href.match( /\.(jpg|jpeg|png|gif)$/ );
 					},
-					template: '<a href="#multibox-next" class="multibox-api" rel="next"><img width="100%" height="100%" alt="{alt}" title="{title}" src="{path}" /></a>',
+					template: '<a href="#next" class="multibox-api next" rel="next"></a><a href="#prev" class="multibox-api prev" rel="prev"></a><img width="100%" height="100%" alt="{alt}" title="{title}" src="{path}" />',
 					title: function( element ) {
 						return element.find( "img" ).attr( "alt" ) || element.text();
 					},
@@ -163,10 +148,9 @@ function MultiDialog(){
 						return href.match( /ajax=true/i );
 					},
 					// $.ajax settings
-					ajaxSettings: {
+					settings: {
 						// Please note: be careful with error, success and href
-						dataType: "html",
-						global: false
+						dataType: "html"
 					}
 				},
 				inline: {
@@ -209,7 +193,7 @@ function MultiDialog(){
 			// specific
 			imageError: null,
 			inlineError: null
-			// use ajaxSettings option for ajax specific callbacks
+			// use ajax.settings option for ajax specific callbacks
 			// use loadingHandler and errorHandler as callbacks if needed
 		}
 	};
@@ -234,7 +218,7 @@ $.extend( MultiDialog.prototype, {
 		});
 
 		// set click event if not disabled and not API
-		if ( elements.length && !( options.disabled || options.disabledFunc.call( this ) ) ) {
+		if ( elements.length && !options.disabled ) {
 			elements.bind( "click." + this.widgetName, function( event ){
 				if ( elements.length > 1 && options.gallery.enabled ) {
 					that.openGallery( elements, $( this ) );
@@ -256,8 +240,8 @@ $.extend( MultiDialog.prototype, {
 	* @param data {Object, Jquery Object, String} MultiDialog data object (with at least one: html, href or element), can also be an jquery object containing a <a> tag or an URL
 	*/
 	openLink: function( data ) {
-		var options = this.options
-		data = this._openLinkHelper( data );
+		var options = this.options,
+			data = this._openLinkHelper( data );
 
 		// get type
 		if ( !data.type ) {
@@ -286,12 +270,12 @@ $.extend( MultiDialog.prototype, {
 				data.title = config.title.call( this, data.element );
 			}
 
-			if ( options.desc.enabled && !data.desc && $.isFunction( config.desc ) ) {
+			if ( options.descEnabled && !data.desc && $.isFunction( config.desc ) ) {
 				data.desc = config.desc.call( this, data.element );
 			}
 		}
 
-		// check width and type parameter
+		// check size parameter
 		if ( isNaN( data.width ) ) {
 			var widthGet = this._getUrlVar( data.href, options.getVarPrefix + "width" );
 			data.width = ( widthGet ) ? parseInt( widthGet ) : false;
@@ -335,23 +319,25 @@ $.extend( MultiDialog.prototype, {
 			image = new Image();
 
 		// open loading message
-		that.options.loadingHandler.call( this, data );
+		options.loadingHandler.call( this, data );
 
 		// preload image
 		image.onload = function(){
 			if ( !data.width ) data.width = image.width;
 			if ( !data.height ) data.height = image.height;
 			that._parseHtml( data, "image", "path" );
-			that._changeDialog( data );
+			setTimeout( function(){
+				that._changeDialog( data );
+			}, 1000);
 			// unload onload, IE specific, prevent animated gif failures
 			image.onload = function(){};
 		};
 		// error handling
 		image.onerror = function( error ){
-			that.options.errorHandler.call( that, that._fireCallback( "imageError", error, data ) );
+			options.errorHandler.call( that, that._fireCallback( "imageError", error, data ) );
 		};
 		// load image
-		image.src = data.href + this.options.types.config.image.addParameters;
+		image.src = data.href + options.types.config.image.addParameters;
 	},
 
 	openIframe: function( data ) {
@@ -406,7 +392,7 @@ $.extend( MultiDialog.prototype, {
 				that._parseHtml( data, "ajax", "content", html );
 				that._changeDialog( data );
 			}
-		}, options.types.config.ajax.ajaxSettings );
+		}, options.types.config.ajax.settings );
 
 		// get data and show content
 		this.xhr = $.ajax( ajaxOptions );
@@ -501,7 +487,7 @@ $.extend( MultiDialog.prototype, {
 		}
 
 		if ( this.group.length > 1 ) {
-			this._addGalleryButtons();
+			if ( !this.options.dialog.buttons ) this._addGalleryButtons();
 			this.open( this.group[ this.index ] );
 			this._addKeyboardControl();
 		}
@@ -562,211 +548,108 @@ $.extend( MultiDialog.prototype, {
 			resized = false,
 			// get size
 			size = this._getSize( data );
-		// save initial size
-		that.oldSize = size;
 
 		// prepare wrapper elements
+		this.uiDialog = $( "<div />" );
+
 		this.uiDialogContent = $( "<div />", {
 			'class': this.widgetName + "-content ui-helper-clearfix " + data.type,
 			"aria-describedby": this.uid + "-desc",
-			height: size.contentHeight,
 			html: data.html
-		});
+		}).appendTo( this.uiDialog );
 
 		this.uiDialogDesc = $( '<div />', {
 			"class": this.widgetName + '-desc ui-helper-clearfix',
-			"id": this.uid + "-desc"
-		});
-		this._setDesc( data );
-
-		this.uiDialogSize = $( "<div />", {
-			'class': this.widgetName + "-size",
-			height: this._getMeasure( size.height ),
-			html: this.uiDialogContent
-		});
+			"id": this.uid + "-desc",
+			html: $( '<div class="inner">' )
+		}).appendTo( this.uiDialog );
 
 		// create dialog
-		this.uiDialog = $( "<div />", {
-			html: this.uiDialogSize.append(this.uiDialogDesc)
-		}).dialog(
+		this.uiDialog.dialog(
 			$.extend( true, {}, that.options.dialog, {
 				dialogClass: this.widgetName,
-				title: data.title,
-				width: size.width + this.options.margin,
-				height: "auto",
 				close: function( event ){
 					that._close( event );
 				},
+				width: size.width,
+				height: size.height,
 				open: function() {
 					that.isOpen = true;
 					that._fireCallback( "open", data );
-				},
-				resize: function(){
-					// make resizable content possible
-					if ( !resized ) {
-						that.uiDialogSize.css( "height", "100%" );
-						resized = true;
-					}
 				}
 			})
 		);
-
-		// save widget and set width to auto
 		this.uiDialogWidget = this.uiDialog.dialog( "widget" );
+		this._setDesc( data );
+		this._setTitle( data );
 
-		// set ARIA busy when loading
-		if ( this.isLoading ) this._contentAria();
-
-		// make dialog responsive
-		// TODO make this use _delay once 1.8.x is not in use anymore, http://jqueryui.com/upgrade-guide/1.9/#added-_delay-method
-		$( window ).bind( "resize." + this.widgetName, function( event ){
-			if ( that.isOpen ) {
-				window.clearTimeout( that.timeout );
-				that.timeout = window.setTimeout( function() {
-					size = that._getSize( { width: that.oldSize.width, height: that.oldSize.height, desc: that.uiDialogDesc.html() } );
-					that.oldSize = size;
-					that.uiDialogSize.css("height",  that._getMeasure( size.height ) );
-					that.uiDialogContent.css( "height", size.contentHeight );
-					that.uiDialogWidget
-						.css("width", that._getMeasure( size.width + that.options.margin ) )
-						.position( that.options.dialog.position );
-					$.ui.dialog.overlay.resize();
-				}, 250 );
-			}
+		// search for api links
+		this.uiDialogWidget.on( "click." + this.widgetName, ".multibox-api[rel]", function( event ){
+			that._move( $( this ).attr( "rel" ) );
+			event.preventDefault();
 		});
 
-		// overlay click closes multibox
-		if ( that.options.closeOnClickOverlay ) {
-			// TODO search for a better solution
-			$("body > .ui-widget-overlay").live( "click." + this.widgetName, function( event ){
-				that.close( event );
-			});
+		// set ARIA busy when loading
+		if ( this.isLoading ) {
+			this._setAria();
 		}
 
 		that._fireCallback( "createDialog", null, data );
 	},
 
 	_openDialog: function( data ) {
-		var size = this._getSize( data );
-
-		this.uiDialogSize.css({
-			height: this._getMeasure( size.height )
-		});
-		this._setContent( data, size );
-		this.oldSize = size;
+		this._setSize( data );
+		this._setContent( data );
+		this._setAria();
 		this.uiDialog.dialog( "open" );
-		this._contentAria();
 	},
 
-	_setContent: function( data, size ) {
-		var that = this;
+	_setAria: function() {
+		this.uiDialog.dialog( "setAriaLive", this.isLoading );
+		this.uiDialogWidget.toggleClass( "loading", this.isLoading );
+	},
 
-		this.uiDialogContent
-			.css( "height", size.contentHeight )
-			.html( data.html );
-
-		this.uiDialogContent.find(".multibox-api[rel]").bind( "click." + this.widgetName, function( event ){
-			that._move( $( this ).attr( "rel" ) );
-			return false;
-		});
-
-		this.uiDialog.dialog( "option", "title", data.title || this.options.dialog.title );
+	_setContent: function( data ) {
+		this.uiDialogContent.html( data.html );
+		this._setTitle( data );
 		this._setDesc( data );
 	},
 
-	_setAndShowContent: function( data, size ) {
+	_setAndShowContent: function( data ) {
 		var that = this;
 
-		this._setContent( data, size );
-		this.uiDialogContent.show( this.options.dialog.show, this.options.animationSpeed, function(){
-			that._contentAria();
+		this._setContent( data );
+		$.Widget.prototype._show( this.uiDialogContent, this.options.dialog.show, function(){
+			that._setAria();
+			that.uiDialog.dialog( "focusTabbable" );
 			that._fireCallback( "change", null, data );
 		});
 	},
 
-	_contentAria: function(){
-		this.uiDialogWidget.attr({
-			"aria-live": "assertive",
-			"aria-relevant": "additions removals text",
-			"aria-busy": this.isLoading
-		});
-	},
-
 	_changeDialog: function( data ){
-		// reset loading state
-		this.isLoading = false;
-		var size = this._getSize( data ),
-			that = this;
-
-		this.uiDialogDesc.hide( this.options.dialog.hide, this.options.animationSpeed );
-		this.uiDialogContent.hide( this.options.dialog.hide, this.options.animationSpeed, function(){
-			// only change size and position if size have changed
-			if ( that.oldSize.width != size.width || that.oldSize.height != size.height ) {
-				that.position( size.width, size.height );
-				that.resize( size.width, size.height, function(){
-					that._setAndShowContent( data, size );
-					that.oldSize = size;
-				});
-			} else {
-				that._setAndShowContent( data, size );
-			}
-		});
-	},
-
-	position: function( width, height, position, callback ) {
-		var	that = this;
-
-		this.uiDialogWidget.position( $.extend( {}, {
-			using: function( pos ) {
-				if ( height + ( that.uiDialogWidget.outerHeight() - that.oldSize.height ) > $( window ).height() ) {
-					topPos = $( window ).scrollTop() + 15;
-				} else {
-					topPos = "+=" + ( ( that.oldSize.height - height ) / 2 );
-				}
-				that.uiDialogWidget.animate({
-					left: "+=" + ( that.oldSize.width - width ) / 2,
-					top: topPos,
-				}, {
-					duration: that.options.animationSpeed,
-					complete: function(){
-						if ( $.isFunction( callback ) ) callback.call();
-						that._fireCallback( "position" );
-					},
-					queue: false
-				});
-			}
-		}, that.options.dialog.position, position ));
-	},
-
-	resize: function( width, height, callback ){
 		var that = this;
 
-		this.uiDialogSize.animate({
-			height: this._getMeasure( height )
-		}, {
-			duration: this.options.animationSpeed,
-			queue: false,
-			complete: function(){
-				$.ui.dialog.overlay.resize();
-				if ( $.isFunction( callback ) ) callback.call();
-				that._fireCallback( "resize" );
-			}
-		});
-		this.uiDialogWidget.animate({
-			width: this._getMeasure( width + that.options.margin )
-		}, {
-			duration: this.options.animationSpeed,
-			queue: false
+		this.isLoading = false;
+		$.Widget.prototype._hide( this.uiDialogDesc, this.options.dialog.hide );
+		$.Widget.prototype._hide( this.uiDialogContent, this.options.dialog.hide, function(){
+			that._setSize( data );
+			that.uiDialogWidget.one( "dialogresized", function() {
+				that._setAndShowContent( data );
+			});
 		});
 	},
 
 	_setDesc: function ( data ) {
-		var desc = this.options.desc.template.call( this, data );
-		if ( desc ) {
-			this.uiDialogDesc.html( desc ).show( this.options.dialog.show, this.options.animationSpeed );
-		} else {
-			this.uiDialogDesc.hide();
+		var string = this._getPositionInfo( "desc" ) + data.desc;
+		if ( string ) {
+			this.uiDialogDesc.children( ".inner" ).html( string );
+			$.Widget.prototype._show( this.uiDialogDesc, this.options.dialog.show );
 		}
+	},
+
+	_setTitle: function ( data ) {
+		var html = this._getPositionInfo( "title" ) + ( data.title || this.options.dialog.title );
+		this.uiDialog.dialog( "option", "title", $( '<div>' + html + '</div>' ).text() );
 	},
 
 	_addGalleryButtons: function(){
@@ -791,7 +674,7 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_changeGalleryButtons: function(){
-		if ( !this.options.gallery.loop ) {
+		if ( !this.options.gallery.loop && this.options.dialog.buttons ) {
 			var buttonpane = this.uiDialogWidget.children( ".ui-dialog-buttonpane" ),
 				prev = buttonpane.find( ".prev" ),
 				next = buttonpane.find( ".next" );
@@ -859,7 +742,6 @@ $.extend( MultiDialog.prototype, {
 
 	destroy: function(){
 		this.element.unbind( this.widgetName );
-		$("body > .ui-widget-overlay").unbind( this.widgetName );
 		this.uiDialog.dialog( "destroy" );
 	},
 
@@ -881,8 +763,8 @@ $.extend( MultiDialog.prototype, {
 			this.xhr.abort();
 		}
 		// remove content
-		this.uiDialogContent.empty();
-		this.uiDialogDesc.empty();
+		this.uiDialogContent.hide().empty();
+		this.uiDialogDesc.hide().children( ".inner" ).empty();
 		// restore original clicked element
 		if ( this.clickedElement ) {
 			$( this.clickedElement ).focus();
@@ -891,63 +773,38 @@ $.extend( MultiDialog.prototype, {
 		this._fireCallback( "close", event );
 	},
 
-	_getDescHeight: function( html, width ) {
-		var clone = $( '<div />', {
-			'class': 'ui-dialog ui-widget ui-widget-content ' + this.widgetName,
-			html: '<div class="ui-dialog-content ui-widget-content"><div class="' + this.widgetName + '-size" style="width: ' + width + 'px;"><div class="' + this.widgetName + '-desc ui-helper-clearfix">' + html + '</div></div></div>',
-			position: 'absolute',
-			left: -10000
-		}).appendTo( 'body' );
-
-		var height = clone.find( '.' + this.widgetName + '-desc' ).outerHeight( true );
-		clone.remove();
-
-		return height;
-	},
-
-	// needs to be ratio aware
 	_getSize: function( data ) {
-		var options = this.options,
-			// set size for dialog widget as int
-			width = ( data.width && !isNaN( data.width ) ) ? data.width : options.dialog.width,
-			height = ( data.height && !isNaN( data.height ) ) ? data.height : options.dialog.height,
-			contentHeight = "100%",
-			desc = options.desc.template.call( this, data ),
-			descHeight = 0,
-			screenWidth = $( window ).width(),
-			temp;
-
-		// check for viewport and adjust size with ratio in mind if screen is to small or fullscreen mode is enabled
-		if ( screenWidth < width + options.margin || options.forceFullscreen ) {
-			temp = ( screenWidth - options.margin ) * 0.95;
-			height = ( height / width ) * temp;
-			width = temp;
-		}
-
-		if ( desc ) {
-			descHeight = ( options.desc.height == "auto" ) ? this._getDescHeight( desc, width ) : options.desc.height;
-			contentHeight = ( 100 / ( height + descHeight ) ) * height + "%";
-		}
-
-		return { width: width, height: height + descHeight, contentHeight: contentHeight };
+		return {
+			width: ( data.width && !isNaN( data.width ) ) ? data.width : this.options.dialog.width,
+			height: ( data.height && !isNaN( data.height ) ) ? data.height : this.options.dialog.height
+		};
 	},
 
-	_getMeasure: function( value ) {
-		return ( this.options.em ) ? value * this.options.em + "em" : value + "px";
+	_setSize: function( data ) {
+		var size = this._getSize( data );
+		this.uiDialog.dialog( "changeSize", size.width, size.height );
 	},
 
 	_defaultHandler: function( html, title, data ) {
 		var that = this,
-			_data = $.extend( {}, data, { html: html, title: title, desc: false } );
-
+			_data = $.extend( {}, data, { html: html, title: title, desc: "" } );
 		// do not resize when already open
 		if ( this.isOpen ) {
-			this.uiDialogContent.hide( this.options.dialog.hide, this.options.animationSpeed, function(){
-				that._setAndShowContent( _data, that._getSize( _data ) );
+			$.Widget.prototype._hide( this.uiDialogDesc, this.options.dialog.hide );
+			$.Widget.prototype._hide( this.uiDialogContent, this.options.dialog.hide, function(){
+				that._setAndShowContent( _data );
 			});
 		} else {
-			that._open( _data );
+			this._open( _data );
 		}
+	},
+
+	_getPositionInfo: function( key ) {
+		if ( this.options.gallery.enabled && this.group.length > 0 && this.options.gallery.showPositionInfo[ key ] && !this.isLoading ) {
+			return '<span class="positon">' + this.options.gallery.strings.position.replace( '{index}', this.index + 1 ).replace( '{amount}', this.group.length ) + '</span>';
+		}
+
+		return "";
 	},
 
 	// TODO testing
@@ -970,24 +827,21 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_getUrlVar: function( href, name ){
-		var vars = [],
-			hash,
-			hashes = href.slice( href.indexOf( '?' ) + 1 ).split( '&' ),
-			get = false;
+		var hashes = href.slice( href.indexOf( '?' ) + 1 ).split( '&' ),
+			vars = [],
+			hash;
 
 		for ( var i = 0; i < hashes.length; i++ ) {
 			hash = hashes[ i ].split( '=' );
 			vars.push( hash[ 0 ] );
 			vars[ hash[ 0 ] ] = hash[ 1 ];
 		}
-		get = vars[ name ];
 
-		return get;
+		return vars[ name ];
 	}
 });
 
 // plugin definition
-// TODO make this a non DOM tied jQuery UI Widget (works only in UI 1.9), http://jqueryui.com/upgrade-guide/1.9/#allow-non-dom-based-widgets
 $.fn.MultiDialog = function( options ) {
 	// singleton instance
 	$.MultiDialog = new MultiDialog();
