@@ -584,6 +584,12 @@ $.extend( MultiDialog.prototype, {
 
 		this._setDesc( data );
 		this._setTitle( data );
+		
+		// search for api links
+		this.uiDialogWidget.on( "click." + this.widgetName, ".multibox-api[rel]", function( event ){
+			that._move( $( this ).attr( "rel" ) );
+			event.preventDefault();
+		});
 
 		// set ARIA busy when loading
 		if ( this.isLoading ) {
@@ -602,15 +608,7 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_setContent: function( data ) {
-		var that = this;
-
-		this.uiDialogContent
-			.html( data.html )
-			.find(".multibox-api[rel]").bind( "click." + this.widgetName, function( event ){
-				that._move( $( this ).attr( "rel" ) );
-				return false;
-			});
-
+		this.uiDialogContent.html( data.html );
 		this._setTitle( data );
 		this._setDesc( data );
 	},
