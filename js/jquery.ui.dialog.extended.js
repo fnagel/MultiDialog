@@ -208,7 +208,7 @@ $.widget( "ui.dialog", $.ui.dialog, {
 	},
 
 	// Processes the animated positioning (position using callback), works with any width and height options
-	_animateUsing: function( position, data, content ) {
+	_animateUsing: function( position, data ) {
 		var that = this;
 		// calculate new position based on the viewport
 		position.left = ( data.target.left + ( data.target.width - this.options.width - ( this.uiDialog.outerWidth() - this.uiDialog.width() ) ) / 2 );
@@ -245,7 +245,7 @@ $.widget( "ui.dialog", $.ui.dialog, {
 		// change position.using mechanism
 		if ( this.options.useAnimation && this._isVisible ) {
 			this.options.position.using = function( position, feedback  ) {
-				that._animateUsing( position, feedback , content );
+				that._animateUsing( position, feedback );
 			};
 		}
 		this._super();
