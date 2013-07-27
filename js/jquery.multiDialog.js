@@ -31,27 +31,18 @@ function MultiDialog(){
 			enabled: false,	// use all selected elements as a gallery
 			loop: false,
 			strings: {
-				position: "Item {index} of {amount} ",
+				position: "Item {index} of {amount}: ",
 				next: "Next",
 				prev: "Previous"
+			},
+			showPositionInfo: {
+				title: true,
+				desc: true,
+				buttons: true
 			}
 		},
 
-		// configuration for description
-		desc: {
-			enabled: true,
-			template: function( data ) {
-				var html = '';
-				if ( this.options.desc.enabled ) {
-					// TODO do not show this when loading
-					if ( this.options.gallery.enabled && this.group.length > 0 && !this.isLoading ) {
-						html = '<span class="positon">' + this.options.gallery.strings.position.replace( '{index}', this.index + 1 ).replace( '{amount}', this.group.length ) + '</span>';
-					}
-					if ( data.desc )  html += data.desc;
-				}
-				return html;
-			}
-		},
+		descEnabled: true, // enable description pane
 
 		// jQuery UI Dialog options
 		dialog: {
@@ -281,7 +272,7 @@ $.extend( MultiDialog.prototype, {
 				data.title = config.title.call( this, data.element );
 			}
 
-			if ( options.desc.enabled && !data.desc && $.isFunction( config.desc ) ) {
+			if ( options.descEnabled && !data.desc && $.isFunction( config.desc ) ) {
 				data.desc = config.desc.call( this, data.element );
 			}
 		}
@@ -557,28 +548,26 @@ $.extend( MultiDialog.prototype, {
 			resized = false,
 			// get size
 			size = this._getSize( data );
-			
+
 		// prepare wrapper elements
 		this.uiDialog = $( "<div />" );
-		
+
 		this.uiDialogContent = $( "<div />", {
 			'class': this.widgetName + "-content ui-helper-clearfix " + data.type,
 			"aria-describedby": this.uid + "-desc",
 			html: data.html
 		}).appendTo( this.uiDialog );
-		
+
 		this.uiDialogDesc = $( '<div />', {
 			"class": this.widgetName + '-desc ui-helper-clearfix',
 			"id": this.uid + "-desc",
 			html: $( '<div class="inner">' )
 		}).appendTo( this.uiDialog );
-		this._setDesc( data );
-		
+
 		// create dialog
 		this.uiDialog.dialog(
 			$.extend( true, {}, that.options.dialog, {
 				dialogClass: this.widgetName,
-				title: data.title,
 				close: function( event ){
 					that._close( event );
 				},
@@ -590,18 +579,22 @@ $.extend( MultiDialog.prototype, {
 				}
 			})
 		);
-
 		// save widget and set width to auto
 		this.uiDialogWidget = this.uiDialog.dialog( "widget" );
-				
+
+		this._setDesc( data );
+		this._setTitle( data );
+
 		// set ARIA busy when loading
-		if ( this.isLoading ) this.uiDialog.dialog( "setAriaLive", true );
+		if ( this.isLoading ) {
+			this.uiDialog.dialog( "setAriaLive", true );
+		}
 
 		that._fireCallback( "createDialog", null, data );
 	},
 
 	_openDialog: function( data ) {
-		this._setSize( data );		
+		this._setSize( data );
 		this._setContent( data );
 		this.uiDialog
 			.dialog( "open" )
@@ -618,14 +611,14 @@ $.extend( MultiDialog.prototype, {
 				return false;
 			});
 
-		this.uiDialog.dialog( "option", "title", data.title || this.options.dialog.title );
+		this._setTitle( data );
 		this._setDesc( data );
 	},
 
 	_setAndShowContent: function( data ) {
 		var that = this;
-		
-		this._setContent( data );		
+
+		this._setContent( data );
 		$.Widget.prototype._show( this.uiDialogContent, this.options.dialog.show, function(){
 			that.uiDialog.dialog( "setAriaLive", this.isLoading );
 			that._fireCallback( "change", null, data );
@@ -633,24 +626,29 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_changeDialog: function( data ){
-		var that = this;		
-		// reset loading state
+		var that = this;
+
 		this.isLoading = false;
 		this._setSize( data );
-		$.Widget.prototype._hide( this.uiDialogDesc, this.options.dialog.hide );			
-		$.Widget.prototype._hide( this.uiDialogContent, this.options.dialog.hide, function(){	
+		$.Widget.prototype._hide( this.uiDialogDesc, this.options.dialog.hide );
+		$.Widget.prototype._hide( this.uiDialogContent, this.options.dialog.hide, function(){
 			that._setAndShowContent( data );
-		});	
+		});
 	},
 
 	_setDesc: function ( data ) {
-		var desc = this.options.desc.template.call( this, data );
-		if ( desc ) {
-			this.uiDialogDesc.children( ".inner" ).html( desc );
+		var html = this._getPositionInfo( "desc" ) + data.desc;		
+		if ( html ) {
+			this.uiDialogDesc.children( ".inner" ).html( html );
 			$.Widget.prototype._show( this.uiDialogDesc, this.options.dialog.show );
 		} else {
 			this.uiDialogDesc.hide();
 		}
+	},
+
+	_setTitle: function ( data ) {
+		var html = this._getPositionInfo( "title" ) + ( data.title || this.options.dialog.title );
+		this.uiDialog.dialog( "option", "title", $( '<div>' + html + '</div>' ).text() );
 	},
 
 	_addGalleryButtons: function(){
@@ -775,19 +773,19 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_getSize: function( data ) {
-		return { 
-			width: ( data.width && !isNaN( data.width ) ) ? data.width : this.options.dialog.width, 
-			height: ( data.height && !isNaN( data.height ) ) ? data.height : this.options.dialog.height 			
+		return {
+			width: ( data.width && !isNaN( data.width ) ) ? data.width : this.options.dialog.width,
+			height: ( data.height && !isNaN( data.height ) ) ? data.height : this.options.dialog.height
 		};
 	},
-	
-	_setSize: function( data ) {	
+
+	_setSize: function( data ) {
 		var size = this._getSize( data );
 		this.uiDialog.dialog( "changeSize", size.width, size.height );
 	},
 
 	_defaultHandler: function( html, title, data ) {
-		var _data = $.extend( {}, data, { html: html, title: title, desc: false } );
+		var _data = $.extend( {}, data, { html: html, title: title, desc: "" } );
 
 		// do not resize when already open
 		if ( this.isOpen ) {
@@ -795,6 +793,14 @@ $.extend( MultiDialog.prototype, {
 		} else {
 			this._open( _data );
 		}
+	},
+
+	_getPositionInfo: function( key ) {
+		if ( this.options.gallery.enabled && this.group.length > 0 && this.options.gallery.showPositionInfo[ key ] && !this.isLoading ) {
+			return '<span class="positon">' + this.options.gallery.strings.position.replace( '{index}', this.index + 1 ).replace( '{amount}', this.group.length ) + '</span>';				
+		}	
+		
+		return "";
 	},
 
 	// TODO testing
