@@ -640,7 +640,7 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_setDesc: function ( data ) {
-		var string = this._getPositionInfo( "desc" ) + data.desc;
+		var string = this._getPositionInfo( "desc" ) + ( data.desc || "" );
 		if ( string ) {
 			this.uiDialogDesc.children( ".inner" ).html( string );
 			$.Widget.prototype._show( this.uiDialogDesc, this.options.dialog.show );
