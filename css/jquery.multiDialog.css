@@ -55,6 +55,7 @@
 	position: absolute;
 	display: block;
 	cursor: ew-resize;
+	background-image:url(about:blank);
 }
 .ui-dialog.MultiDialog .ui-dialog-content .MultiDialog-content .multibox-api.prev {
 	left: 0;
