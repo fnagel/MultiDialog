@@ -7,14 +7,11 @@
  * http://github.com/fnagel/jquery-ui-extensions
  *
  * Depends:
+ *	jquery.ui.core.js
+ *	jquery.ui.widget.js
  *	jquery.ui.dialog.js
  */
 (function( $ ) {
-
-/*
-	TODO
-	Fix moveable, resizable and draggable functionality
-*/
 
 /*
  * Option width and height normally set the overall dialog dimensions.
@@ -100,6 +97,7 @@ $.widget( "ui.dialog", $.ui.dialog, {
 		this._super( key, value );
 	},
 
+	// calculate actual displayed size, data contains already the overall dimensions
 	_getSize: function( data ) {
 		var options = this.options,
 			feedback = $.position.getWithinInfo( options.position.of ),
@@ -121,7 +119,7 @@ $.widget( "ui.dialog", $.ui.dialog, {
 			}
 		}
 
-		if ( options.resizeAccordingToViewport ) {
+		if ( options.resizeAccordingToViewport || options.resizeToBestPossibleSize ) {
 			if ( viewport.width < data.width ) {
 				data = this._calcSize( data, viewport.width, "width", "height" );
 			}
