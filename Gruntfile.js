@@ -18,7 +18,11 @@ module.exports = function (grunt) {
 				"trailing": true,
 				"undef": true,
 				"unused": true,
-				"node": true
+				"node": true,
+				"browser": true,
+				"globals": {
+					"jQuery": true
+				}
 			}
 		},
 		csslint: {
