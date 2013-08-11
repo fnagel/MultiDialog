@@ -1,4 +1,4 @@
-/*! v1.0.0 - 11-08-2013 17:37 */
+/*! v1.0.1 - 12-08-2013 00:58 */
 /*!
  * jQuery UI Dialog Extended
  *
@@ -167,7 +167,7 @@ $.widget( "ui.dialog", $.ui.dialog, {
 	_contentSize: function() {
 		// If the user has resized the dialog, the .ui-dialog and .ui-dialog-content
 		// divs will both have width and height set, so we need to reset them
-		var nonContentHeight, nonContentWidth, minContentHeight, maxContentHeight, actualSize,
+		var nonContentHeight, nonContentWidth, actualSize,
 			options = this.options;
 
 		// Reset content sizing
@@ -277,13 +277,13 @@ $.widget( "ui.dialog", $.ui.dialog, {
 
 	_windowResizeEvents: {
 		resize: function( event ){
-			if ( this.options.resizeOnWindowResize && window == event.target ) {
+			if ( this.options.resizeOnWindowResize && window === event.target ) {
 				this._addTimeout( function() {
 					this._setOptions( this._oldSize );
 				});
 			}
 		},
-		scroll: function( event ){
+		scroll: function(){
 			// second test prevents initial page load scroll event
 			if ( this.options.scrollWithViewport && this.timeout ) {
 				this._addTimeout( function() {
