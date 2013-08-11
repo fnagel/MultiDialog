@@ -1,89 +1,110 @@
 module.exports = function (grunt) {
 
 	grunt.initConfig({
-		pkg : grunt.file.readJSON('package.json'),
+		pkg : grunt.file.readJSON("package.json"),
 		jshint : {
-			files : ['gruntfile.js', 'js/*.js'],
+			files : ["gruntfile.js", "js/*.js"],
 			options : {
-				globals : {
-					jQuery : true
-				}
+				"boss": true,
+				"curly": true,
+				"eqeqeq": true,
+				"eqnull": true,
+				"expr": true,
+				"immed": true,
+				"noarg": true,
+				"onevar": true,
+				"quotmark": "double",
+				"smarttabs": true,
+				"trailing": true,
+				"undef": true,
+				"unused": true,
+				"node": true
 			}
 		},
 		csslint: {
+			options: {
+				"adjoining-classes": false,
+				"box-model": false,
+				"compatible-vendor-prefixes": false,
+				"duplicate-background-images": false,
+				"import": false,
+				"important": false,
+				"outline-none": false,
+				"overqualified-elements": false,
+				"text-indent": false
+			},
 			standard: {
 				src: "css/jquery.multiDialog.css"
 			}
 		},
 		concat : {
 			options : {
-				banner : '/*! v<%= pkg.version %> - <%= grunt.template.today("dd-mm-yyyy HH:MM") %> */\n'
+				banner : "/*! v<%= pkg.version %> - <%= grunt.template.today('dd-mm-yyyy HH:MM') %> */\n"
 			},
 			standard : {
-				src : [ 'js/jquery.multiDialog.js', 'js/jquery.ui.dialog.extended-*.js' ],
-				dest : 'compiled/js/<%= pkg.name %>-<%= pkg.version %>.js'
+				src : [ "js/jquery.multiDialog.js", "js/jquery.ui.dialog.extended-*.js" ],
+				dest : "compiled/js/<%= pkg.name %>-<%= pkg.version %>.js"
 			},
 			standalone : {
-				src : [ 'js/jquery.multiDialog.js', 'js/jquery/jquery-ui-*.custom.js', 'js/jquery.ui.dialog.extended-*.js' ],
-				dest : 'compiled/js/<%= pkg.name %>-<%= pkg.version %>_standalone.js'
+				src : [ "js/jquery.multiDialog.js", "js/jquery/jquery-ui-*.custom.js", "js/jquery.ui.dialog.extended-*.js" ],
+				dest : "compiled/js/<%= pkg.name %>-<%= pkg.version %>_standalone.js"
 			}
 		},
 		uglify : {
 			options: {
-				report: 'min',
-				preserveComments : 'some'
+				report: "min",
+				preserveComments : "some"
 			},
 			standard : {
-				src : [ 'compiled/js/<%= pkg.name %>-<%= pkg.version %>.js' ],
-				dest : 'compiled/js/<%= pkg.name %>-<%= pkg.version %>.min.js'
+				src : [ "compiled/js/<%= pkg.name %>-<%= pkg.version %>.js" ],
+				dest : "compiled/js/<%= pkg.name %>-<%= pkg.version %>.min.js"
 			},
 			standalone : {
-				src : [ 'compiled/js/<%= pkg.name %>-<%= pkg.version %>_standalone.js' ],
-				dest : 'compiled/js/<%= pkg.name %>-<%= pkg.version %>_standalone.min.js'
+				src : [ "compiled/js/<%= pkg.name %>-<%= pkg.version %>_standalone.js" ],
+				dest : "compiled/js/<%= pkg.name %>-<%= pkg.version %>_standalone.min.js"
 			}
 		},
 		cssmin: {
 			options: {
-				report: 'min'
+				report: "min"
 			},
 			standard : {
-				src: ['css/jquery.multiDialog.css'],
-				dest: 'compiled/css/<%= pkg.name %>.css'
+				src: ["css/jquery.multiDialog.css"],
+				dest: "compiled/css/<%= pkg.name %>.css"
 			},
 			standalone : {
-				src: ['css/*.css'],
-				dest: 'compiled/css/<%= pkg.name %>_standalone.css'
+				src: ["css/*.css"],
+				dest: "compiled/css/<%= pkg.name %>_standalone.css"
 			}
 		},
 		compress: {
 			main: {
 				options: {
-					archive: '<%= pkg.name %>-<%= pkg.version %>.zip'
+					archive: "<%= pkg.name %>-<%= pkg.version %>.zip"
 				},
 				files: [
-					{ src: ['./**', '!./node_modules/**', '!./*.zip'], dest: '<%= pkg.name %>-<%= pkg.version %>/' }
+					{ src: ["./**", "!./node_modules/**", "!./*.zip"], dest: "<%= pkg.name %>-<%= pkg.version %>/" }
 				]
 			}
 		},
 		watch : {
-			files : ['<%= jshint.files %>'],
-			tasks : ['jshint']
+			files : ["<%= jshint.files %>"],
+			tasks : ["jshint"]
 		}
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-csslint');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-compress');
+	grunt.loadNpmTasks("grunt-contrib-uglify");
+	grunt.loadNpmTasks("grunt-contrib-jshint");
+	grunt.loadNpmTasks("grunt-contrib-csslint");
+	grunt.loadNpmTasks("grunt-contrib-cssmin");
+	grunt.loadNpmTasks("grunt-contrib-watch");
+	grunt.loadNpmTasks("grunt-contrib-concat");
+	grunt.loadNpmTasks("grunt-contrib-compress");
 
-	grunt.registerTask('test', ['jshint']);
-	
-	grunt.registerTask('watch', ['watch']);
+	grunt.registerTask("test", ["jshint"]);
 
-	// grunt.registerTask('default', ['jshint', 'csslint', 'concat', 'uglify', 'copy', 'cssmin', 'compress']);
-	grunt.registerTask('default', ['concat', 'uglify', 'cssmin', 'compress']);
+	grunt.registerTask("watch", ["watch"]);
+
+	grunt.registerTask("default", ["jshint", "csslint", "concat", "uglify", "cssmin", "compress"]);
 
 };
