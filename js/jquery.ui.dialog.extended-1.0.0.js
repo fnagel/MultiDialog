@@ -1,3 +1,4 @@
+/*! v1.0.0 - 11-08-2013 17:37 */
 /*!
  * jQuery UI Dialog Extended
  *
@@ -15,8 +16,9 @@
 
 /*
  * Option width and height normally set the overall dialog dimensions.
- * This extensions make these options the dimensions of the content pane.
- * This way it's possible to set the real content dimensions.
+ * This extensions make these options the dimensions of the content pane if 
+ * option useContentSize is enabled. This way it's possible to set the real 
+ * content dimensions.
  *
  * Please note you won't get the original size but the calculated overall size
  * when using the width and height option getter.
