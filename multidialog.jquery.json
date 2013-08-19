@@ -40,8 +40,8 @@
 		"ui.button": ">=1.10.3",
 		"ui.draggable": ">=1.10.3",
 		"ui.position": ">=1.10.3",
-		"ui.resizable": ">=1.10.3"
-		"ui.dialog": ">=1.10.3"
+		"ui.resizable": ">=1.10.3",
+		"ui.dialog": ">=1.10.3",
 		"ui.dialog.extended": ">=1.0.0"
 	}
 }
