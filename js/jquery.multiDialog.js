@@ -180,7 +180,7 @@ function MultiDialog(){
 
 		// callbacks
 		on: {
-			ceate: null,
+			create: null,
 			createDialog: null,
 			open: null,
 			change: null,
