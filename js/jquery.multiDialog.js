@@ -102,7 +102,7 @@ function MultiDialog(){
 			config: {
 				image: {
 					test: function( href ) {
-						return href.match( /\.(jpg|jpeg|png|gif)$/ );
+						return href.match( /\.(jpg|jpeg|png|gif)(\?.*)?$/ );
 					},
 					template: "<a href='#next' class='multibox-api next' rel='next'></a><a href='#prev' class='multibox-api prev' rel='prev'></a><img width='100%' height='100%' alt='{alt}' title='{title}' src='{path}' />",
 					title: function( element ) {
