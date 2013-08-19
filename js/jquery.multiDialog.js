@@ -12,14 +12,15 @@
  *	jquery.ui.core.js
  *	jquery.ui.widget.js
  *	jquery.ui.position.js
+ *	jquery.ui.button.js
  *	jquery.ui.dialog.js
  *	jquery.ui.dialog.extended.js
  *	jquery.ui.effects-fade.js
  *
- * Optional (Dialog related)
- *	jquery.ui.button.js
+ * Optional
  *	jquery.ui.resizable.js
  *	jquery.ui.draggable.js
+ *	jquery.event.swipe.js
  */
 
 (function( $, undefined ) {
@@ -491,7 +492,7 @@ $.extend( MultiDialog.prototype, {
 				this._addGalleryButtons();
 			}
 			this.open( this.group[ this.index ] );
-			this._addKeyboardControl();
+			this._addNonMouseControl();
 		}
 	},
 
@@ -688,11 +689,11 @@ $.extend( MultiDialog.prototype, {
 		b2.focus();
 	},
 
-	_addKeyboardControl: function(){
-		var that = this,
-			eventType = "keydown." + this.widgetName;
+	_addNonMouseControl: function(){
+		var that = this;
+
 		// add keyboard control
-		this.uiDialogWidget.unbind( eventType ).bind( eventType, function( event ){
+		this.uiDialogWidget.on( "keydown." + this.widgetName, function( event ){
 			switch( event.keyCode ) {
 				case $.ui.keyCode.RIGHT:
 				case $.ui.keyCode.DOWN:
@@ -715,6 +716,18 @@ $.extend( MultiDialog.prototype, {
 					break;
 			}
 		});
+
+		if ( $.event.special.swipe ) {
+			this.uiDialogWidget
+				.on( "swipeleft." + this.widgetName, function( event ){
+					that.next();
+					event.preventDefault();
+				})
+				.on( "swiperight." + this.widgetName, function( event ){
+					that.prev();
+					event.preventDefault();
+				});
+		}
 	},
 
 	_parseHtml: function( data, type, marker, value ) {
