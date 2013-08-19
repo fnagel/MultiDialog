@@ -1,5 +1,5 @@
 {
-	"name": "ui.dialog.extended",
+	"name": "jquery.multiDialog",
 	"title": "jQuery MultiDialog",
 	"description": "MultiDialog utilizes jQuery UI Dialog Widget for a full featured Modalbox / Lightbox application.",
 	"version": "0.9.0dev",
