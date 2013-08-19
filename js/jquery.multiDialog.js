@@ -8,7 +8,7 @@
 */
 /*
  * Depends:
- *  jquery.js
+ *	jquery.js
  *	jquery.ui.core.js
  *	jquery.ui.widget.js
  *	jquery.ui.position.js
@@ -17,7 +17,7 @@
  *	jquery.ui.effects-fade.js
  *
  * Optional (Dialog related)
- *  jquery.ui.button.js
+ *	jquery.ui.button.js
  *	jquery.ui.resizable.js
  *	jquery.ui.draggable.js
  */
@@ -200,8 +200,8 @@ function MultiDialog(){
 $.extend( MultiDialog.prototype, {
 	_create: function( _elements, _options ) {
 		// set jQuery UI similar defaults
-        this.widgetName = "MultiDialog";
-        this.options = $.extend( true, {}, this.defaults, _options );
+		this.widgetName = "MultiDialog";
+		this.options = $.extend( true, {}, this.defaults, _options );
 		this.uid = this.widgetName + "-" + Math.random().toString( 16 ).slice( 2, 10 );
 		this.isOpen = false;
 		this.isLoading = false;
@@ -409,7 +409,7 @@ $.extend( MultiDialog.prototype, {
 				data.element = data;
 			}
 			data.html = data.element.html();
-		} else  {
+		} else {
 			data.html = data;
 		}
 
@@ -466,7 +466,7 @@ $.extend( MultiDialog.prototype, {
 	* @param group {Array, Jquery Object} An simple array with MultiDialog data objects, can also be an jquery object containing a set of elements or <a> tags
 	* @param index {Jquery Object, Number} A link tag element within the group parameter or a index (starts with 0), default is the first element in group
 	*/
-	openGallery: function( group, index )  {
+	openGallery: function( group, index ) {
 		var that = this,
 			groupIsJquery = group instanceof jQuery;
 		this.group = $.isArray( group ) ? group : [];
