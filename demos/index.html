@@ -14,6 +14,9 @@
 	<script src="../js/jquery.ui.dialog.extended-1.0.1.js"></script>
 	<script src="../js/jquery.multiDialog.js"></script>
 
+	<!-- MultiDialog files (optional) -->
+	<link rel="stylesheet" href="../css/jquery.multiDialog.plain.css">
+	
 	<!-- jQuery add-on for swipe events (optional) -->
 	<script src="../js/mobile/jquery.event.move.js"></script>
 	<script src="../js/mobile/jquery.event.swipe.js"></script>
@@ -356,6 +359,9 @@ $(function() {
 		<br />
 		<br />
 		Choose a theme and try any demo on this page.
+		<br />
+		<br />
+		Try this <a id="plain-style" href="#start-plain-gallery">plain style gallery</a>.
 	</div>
 	<div id="tabs-temeswitcher-code">
 		Just add a new jQuery UI CSS Theme. Built your own with <a href="http://jqueryui.com/themeroller">jQuery UI's Themeroller</a>.
@@ -388,6 +394,17 @@ $(function() {
 </div>
 <script>
 $(function() {
+	plainApi = $.fn.MultiDialog({
+		dialog: {
+			title: "Plain Style Example",
+			dialogClass: "plain"
+		}
+	});
+	
+	$("#plain-style").click( function(){
+		plainApi.openGallery( $("a.fullscreen, a.getvars") );
+	});
+	
 	$( "a.fullscreen" ).MultiDialog({
 		forceFullscreen: true
 	});
