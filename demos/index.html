@@ -96,7 +96,13 @@ $(function() {
 		},
 		dialog: {
 			buttons: {}
-		}
+		},
+		open: function( event, ui ) {
+			alert('open')
+		},
+      	createDialog: function() {
+        	alert("Create callback");
+      	}
 	});
 });
 </script>
