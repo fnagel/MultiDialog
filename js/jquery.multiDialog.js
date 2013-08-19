@@ -568,7 +568,7 @@ $.extend( MultiDialog.prototype, {
 		// create dialog
 		this.uiDialog.dialog(
 			$.extend( true, {}, that.options.dialog, {
-				dialogClass: this.widgetName,
+				dialogClass: this.widgetName + ' ' + that.options.dialog.dialogClass,
 				close: function( event ){
 					that._close( event );
 				},
