@@ -692,26 +692,26 @@ $.extend( MultiDialog.prototype, {
 		var that = this,
 			eventType = "keydown." + this.widgetName;
 		// add keyboard control
-		this.uiDialogWidget.unbind( eventType ).bind( eventType, function( e ){
-			switch( e.keyCode ) {
+		this.uiDialogWidget.unbind( eventType ).bind( eventType, function( event ){
+			switch( event.keyCode ) {
 				case $.ui.keyCode.RIGHT:
 				case $.ui.keyCode.DOWN:
 				case $.ui.keyCode.SPACE:
 					that.next();
-					e.preventDefault();
+					event.preventDefault();
 					break;
 				case $.ui.keyCode.LEFT:
 				case $.ui.keyCode.UP:
 					that.prev();
-					e.preventDefault();
+					event.preventDefault();
 					break;
 				case $.ui.keyCode.END:
 					that.last();
-					e.preventDefault();
+					event.preventDefault();
 					break;
 				case $.ui.keyCode.HOME:
 					that.first();
-					e.preventDefault();
+					event.preventDefault();
 					break;
 			}
 		});
