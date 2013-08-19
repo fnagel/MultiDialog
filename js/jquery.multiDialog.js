@@ -2,7 +2,7 @@
  * jQuery MultiDialog Beta2
  *
  * Copyright 2012-2013, Felix Nagel, http://www.felixnagel.com
- * Licensed under the GPL Version 3 license.
+ * Released under the MIT license.
  *
  * http://fnagel.github.com/MultiDialog/
 */
