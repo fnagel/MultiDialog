@@ -46,11 +46,19 @@ module.exports = function (grunt) {
 				banner : "/*! v<%= pkg.version %> - <%= grunt.template.today('dd-mm-yyyy HH:MM') %> */\n"
 			},
 			standard : {
-				src : [ "js/jquery.multiDialog.js", "js/jquery.ui.dialog.extended-*.js" ],
+				src : [ 
+					"js/jquery.multiDialog.js", 
+					"js/jquery.ui.dialog.extended-*.js" 
+				],
 				dest : "compiled/js/<%= pkg.name %>-<%= pkg.version %>.js"
 			},
 			standalone : {
-				src : [ "js/jquery.multiDialog.js", "js/jquery/jquery-ui-*.custom.js", "js/jquery.ui.dialog.extended-*.js" ],
+				src : [
+					"js/jquery.multiDialog.js",
+					"js/jquery/jquery-ui-*.custom.js",
+					"js/jquery.ui.dialog.extended-*.js",
+					"js/mobile/jquery.event.*.js"
+				],
 				dest : "compiled/js/<%= pkg.name %>-<%= pkg.version %>_standalone.js"
 			}
 		},
