@@ -102,7 +102,7 @@ function MultiDialog(){
 			config: {
 				image: {
 					test: function( href ) {
-						return href.match( /\.(jpg|jpeg|png|gif)$/ );
+						return href.match( /\.(jpg|jpeg|png|gif)(\?.*)?$/ );
 					},
 					template: "<a href='#next' class='multibox-api next' rel='next'></a><a href='#prev' class='multibox-api prev' rel='prev'></a><img width='100%' height='100%' alt='{alt}' title='{title}' src='{path}' />",
 					title: function( element ) {
@@ -180,7 +180,7 @@ function MultiDialog(){
 
 		// callbacks
 		on: {
-			ceate: null,
+			create: null,
 			createDialog: null,
 			open: null,
 			change: null,
@@ -313,6 +313,7 @@ $.extend( MultiDialog.prototype, {
 	*/
 	openImage: function( data ) {
 		data = this._openLinkHelper( data );
+		data = this._openConfigHelper( data, this.options );
 		var that = this,
 			options = this.options,
 			image = new Image();
@@ -343,12 +344,14 @@ $.extend( MultiDialog.prototype, {
 
 	openIframe: function( data ) {
 		data = this._openLinkHelper( data );
+		data = this._openConfigHelper( data, this.options );
 		this._parseHtml( data, "iframe", "url" );
 		this._open( data );
 	},
 
 	openInline: function( data ) {
 		data = this._openLinkHelper( data );
+		data = this._openConfigHelper( data, this.options );
 		var element = $("#" + data.href.split("#")[1]);
 		if ( element.length ) {
 			this._parseHtml( data, "inline", "content", element.html() );
@@ -360,6 +363,7 @@ $.extend( MultiDialog.prototype, {
 
 	openYoutube: function( data ) {
 		data = this._openLinkHelper( data );
+		data = this._openConfigHelper( data, this.options );
 		var path = "http://www.youtube.com/embed/" + this._getUrlVar( data.href, "v" ) + this.options.types.config.youtube.addParameters;
 
 		this._parseHtml( data, "youtube", "url", path );
@@ -368,6 +372,7 @@ $.extend( MultiDialog.prototype, {
 
 	openVimeo: function( data ) {
 		data = this._openLinkHelper( data );
+		data = this._openConfigHelper( data, this.options );
 		var match = data.href.match( /http:\/\/(www\.)?vimeo.com\/(\d+)/ ),
 			path = "http://player.vimeo.com/video/" + match[2] + this.options.types.config.vimeo.addParameters;
 
@@ -377,6 +382,7 @@ $.extend( MultiDialog.prototype, {
 
 	openAjax: function( data ) {
 		data = this._openLinkHelper( data );
+		data = this._openConfigHelper( data, this.options );
 		var that = this,
 			options = this.options,
 			ajaxOptions;
@@ -436,6 +442,30 @@ $.extend( MultiDialog.prototype, {
 			}
 		}
 
+		return data;
+	},
+
+	// get title, description and marker if possible
+	_openConfigHelper: function( data, options ) {
+		if ( data.element ) {
+			config = ( data.type ) ? options.types.config[ data.type ] : options.types.defaultConfig;
+			data.marker = $.extend( {}, config.marker, data.marker );
+
+			$.each( config.marker, function( key, callback) {
+				if ( $.isFunction( callback ) ) {
+					data.marker[ key ] = callback.call( this, data.element );
+				}
+			});
+
+			if ( !data.title && $.isFunction( config.title ) ) {
+				alert('callback')
+				data.title = config.title.call( this, data.element );
+			}
+
+			if ( options.descEnabled && !data.desc && $.isFunction( config.desc ) ) {
+				data.desc = config.desc.call( this, data.element );
+			}
+		}
 		return data;
 	},
 
@@ -568,7 +598,7 @@ $.extend( MultiDialog.prototype, {
 		// create dialog
 		this.uiDialog.dialog(
 			$.extend( true, {}, that.options.dialog, {
-				dialogClass: this.widgetName,
+				dialogClass: this.widgetName + ' ' + that.options.dialog.dialogClass,
 				close: function( event ){
 					that._close( event );
 				},
@@ -793,7 +823,7 @@ $.extend( MultiDialog.prototype, {
 
 	_getPositionInfo: function( key ) {
 		if ( this.options.gallery.enabled && this.group.length > 0 && this.options.gallery.showPositionInfo[ key ] && !this.isLoading ) {
-			return "<span class='positon'>" + this.options.gallery.strings.position.replace( "{index}", this.index + 1 ).replace( "{amount}", this.group.length ) + "</span>";
+			return "<span class='position'>" + this.options.gallery.strings.position.replace( "{index}", this.index + 1 ).replace( "{amount}", this.group.length ) + "</span>";
 		}
 
 		return "";
@@ -805,7 +835,8 @@ $.extend( MultiDialog.prototype, {
 			eventName: eventName,
 			eventData: eventData,
 			data: data,
-			dialog: this.uiDialogWidget,
+			widget: this.uiDialogWidget,
+			dialog: this.uiDialog,
 			group: this.group,
 			index: this.index
 		};
