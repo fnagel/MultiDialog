@@ -148,6 +148,60 @@ $(function() {
 });
 </script>
 
+<div class="tabs">
+	<ul>
+		<li><a href="#tabs-viewport-info">Viewport settings</a></li>
+		<li><a href="#tabs-viewport-demo">Demo</a></li>
+		<li><a href="#tabs-viewport-code">Code</a></li>
+	</ul>
+	<div id="tabs-viewport-info">
+		<p>
+			MultiDialog has multipel viewport related settings and supports RWD.
+		</p>
+	</div>
+	<div id="tabs-viewport-demo">
+		<ul>
+			<li><p><a class="viewport1" href="res/images/dummy-1600x1200-colorE88801.jpg">forceFullscreen:</a> <code>false</code> Always force the dialog to be maximized. Not ratio aware.</p></li>
+			<li><p><a class="viewport2" href="res/images/dummy-500x375-colorE88801.jpg">resizeOnWindowResize:</a> <code>false</code> Resize the dialog when the window is resized. Useful for repsonsive websites.</p></li>
+			<li><p><a class="viewport3" href="res/images/dummy-500x375-colorE88801.jpg">scrollWithViewport:</a> <code>false</code> Reposition the dialog when the window is scrolled. Useful for repsonsive websites.</p></li>
+			<li><p><a class="viewport4" href="res/images/dummy-1600x1200-colorE88801.jpg">resizeAccordingToViewport:</a> <code>true</code> Resizes the dialog (ratio aware) to fit the viewport. Makes sure the dialog isn't bigger as the viewport. Very useful for image galleries as its guarantees the best possible image size.</p></li>
+			<li><p><a class="viewport5" href="res/images/dummy-1600x1200-colorE88801.jpg">resizeToBestPossibleSize:</a> <code>false</code> Resizes the dialog (ratio aware) to fit the viewport. Something like a ratio aware fullscreen mode. This could increase the dialog size.</p></li>
+		</ul>
+	</div>
+	<div id="tabs-viewport-code">
+		<pre class="brush: js;"></pre>
+	</div>
+</div>
+<script>
+$(function() {
+	$( "a.viewport1" ).MultiDialog({
+		dialog: {
+			forceFullscreen: true,
+		}
+	});
+	$( "a.viewport2" ).MultiDialog({
+		dialog: {
+			resizeOnWindowResize: true
+		}
+	});
+	$( "a.viewport3" ).MultiDialog({
+		dialog: {
+			scrollWithViewport: true
+		}
+	});
+	$( "a.viewport4" ).MultiDialog({
+		dialog: {
+			resizeAccordingToViewport: true
+		}
+	});
+	$( "a.viewport5" ).MultiDialog({
+		dialog: {
+			resizeToBestPossibleSize: true
+		}
+	});
+});
+</script>
+
 
 <div class="tabs">
 	<ul>
@@ -306,8 +360,7 @@ $(function() {
 		<br />
 		<ul>
 			<li><a class="dialog-options" href="http://www.youtube.com/watch?v=VfOcyrOImLg" title="Opeth - The Devil's Orchard">You Tube video</a></li>
-			<li><a class="dialog-options" href="#inline-content-group-1">HTML</a></li>
-			<li><a class="dialog-options" href="res/images/dummy-454x280-colorFFC200.jpg">Image</a></li>
+			<li><a class="dialog-options" href="#inline-content-group-1">Inline content</a></li>
 		</ul>
 	</div>
 	<div id="tabs-dialog-code">
