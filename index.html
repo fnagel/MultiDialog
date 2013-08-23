@@ -7,7 +7,7 @@
     <meta name="description" content="MultiDialog utilizes jQuery UI Dialog Widget for a full featured Modalbox / Lightbox application." />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
+	
 	<!-- jQuery & jQuery UI files (needed)-->
 	<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.css">
 	<script src="js/jquery/jquery-1.9.1.js"></script>
@@ -15,8 +15,15 @@
 
 	<!-- MultiDialog files (needed) -->
 	<link rel="stylesheet" href="css/jquery.multiDialog.css">
-	<script src="js/jquery.ui.dialog.extended.js"></script>
+	<script src="js/jquery.ui.dialog.extended-1.0.2.js"></script>
 	<script src="js/jquery.multiDialog.js"></script>
+
+	<!-- MultiDialog files (optional) -->
+	<link rel="stylesheet" href="css/jquery.multiDialog.plain.css">
+	
+	<!-- jQuery add-on for swipe events (optional) -->
+	<script src="js/mobile/jquery.event.move.js"></script>
+	<script src="js/mobile/jquery.event.swipe.js"></script>
 
 	<!-- Demo files (unneeded) -->
 	<link rel="stylesheet" href="demos/res/demos.css">
@@ -24,16 +31,19 @@
 	<link rel="stylesheet" href="demos/res/syntaxhighlighter/styles/shCore.css"/>
 	<link rel="stylesheet" href="demos/res/syntaxhighlighter/styles/shThemeDefault.css"/>
 	<script src="demos/res/jquery/js/jquery.ui.tabs.js"></script>
+	<script src="demos/res/SuperThemeSwitcher/jquery.themeswitcher.js"></script>
 	<script src="demos/res/syntaxhighlighter/scripts/shCore.js" type="text/javascript"></script>
 	<script src="demos/res/syntaxhighlighter/scripts/shBrushJScript.js" type="text/javascript"></script>
 	<script src="demos/res/syntaxhighlighter/scripts/shBrushXml.js" type="text/javascript"></script>
-
+		
 	<!-- init demo related JS -->
 	<script>
 	$(function() {
 		$(".tabs").tabs();
 
-		$( "a.multidialog" ).MultiDialog();
+		$( "a.multidialog" ).MultiDialog({
+			gallery: { enabled: true }
+		});
 
 		SyntaxHighlighter.all();
 	});
@@ -91,7 +101,7 @@
 						<a class="multidialog" href="./demos/res/ajax.html?ajax=true">AJAX content</a>,
 						<a class="multidialog" href="http://m.flickr.com?iframe=true">iframes</a>,
 						<a class="multidialog" href="http://www.youtube.com/watch?v=VfOcyrOImLg" title="Opeth - The Devil's Orchard">You Tube video</a>,
-						<a class="multidialog" href="http://vimeo.com/8237941" title="Thriller (MJ Tribute) - Thomas Herner">Vimeo video</a> and
+						<a class="multidialog" href="http://vimeo.com/39787862" title="Thriller (MJ Tribute) - Thomas Herner">Vimeo video</a> and
 						<a class="multidialog" href="#tabs-start-features" title="Feature list">inline content (anchor links)</a> and plain HTML</em>.
 						Custom content types are easy to implement.
 					</p>
@@ -173,7 +183,7 @@
 					<br />
 					Add links
 					<pre class="brush: html;">
-						&lt;a href=&quot;#somelink&quot;&gt;Some Link&lt;/a&gt;
+						&lt;a class=&quot;multidialog&quot; href=&quot;#somelink&quot;&gt;Some Link&lt;/a&gt;
 					</pre>
 					<br />
 					Init plugin
