@@ -818,7 +818,8 @@ $.extend( MultiDialog.prototype, {
 			eventName: eventName,
 			eventData: eventData,
 			data: data,
-			dialog: this.uiDialogWidget,
+			dialog: this.uiDialog,
+			widget: this.uiDialogWidget,
 			group: this.group,
 			index: this.index
 		};
