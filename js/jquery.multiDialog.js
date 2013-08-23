@@ -2,24 +2,25 @@
  * jQuery MultiDialog Beta2
  *
  * Copyright 2012-2013, Felix Nagel, http://www.felixnagel.com
- * Licensed under the GPL Version 3 license.
+ * Released under the MIT license.
  *
  * http://fnagel.github.com/MultiDialog/
 */
 /*
  * Depends:
- *  jquery.js
+ *	jquery.js
  *	jquery.ui.core.js
  *	jquery.ui.widget.js
  *	jquery.ui.position.js
+ *	jquery.ui.button.js
  *	jquery.ui.dialog.js
  *	jquery.ui.dialog.extended.js
  *	jquery.ui.effects-fade.js
  *
- * Optional (Dialog related)
- *  jquery.ui.button.js
+ * Optional
  *	jquery.ui.resizable.js
  *	jquery.ui.draggable.js
+ *	jquery.event.swipe.js
  */
 
 (function( $, undefined ) {
@@ -47,7 +48,7 @@ function MultiDialog(){
 		dialog: {
 			// see jQuery UI Dialog docs for al options, some options are not available!
 			closeOnEscape: true,
-			closeText: 'close',
+			closeText: "close",
 			closeModalOnClick : true, // close MultiDialog by click on overlay
 
 			// size (int), width and height set the content size, not overall size, auto not allowed
@@ -89,22 +90,22 @@ function MultiDialog(){
 			// default rendering for all content types, overwritten by each content type config
 			defaultConfig: {
 				test: null, // test for this content type, returns boolean
-				template: '<div class="overflow">{content}</div>',
+				template: "<div class='overflow'>{content}</div>",
 				// title, desc & marker will only be rendered if an element is available (given by API or click event)
 				title: function( element ) { // dialog title
 					return element.attr( "title" ) || element.text();
 				},
 				desc: null,	// description text
 				marker: {},	// marker in templates, like image alt attribute
-				addParameters: '' // addtional parameters (added to the given URL)
+				addParameters: "" // addtional parameters (added to the given URL)
 			},
 			// configuration specific for each content type, merged with default config, use callbacks provided by this plugin instead
 			config: {
 				image: {
 					test: function( href ) {
-						return href.match( /\.(jpg|jpeg|png|gif)$/ );
+						return href.match( /\.(jpg|jpeg|png|gif)(\?.*)?$/ );
 					},
-					template: '<a href="#next" class="multibox-api next" rel="next"></a><a href="#prev" class="multibox-api prev" rel="prev"></a><img width="100%" height="100%" alt="{alt}" title="{title}" src="{path}" />',
+					template: "<a href='#next' class='multibox-api next' rel='next'></a><a href='#prev' class='multibox-api prev' rel='prev'></a><img width='100%' height='100%' alt='{alt}' title='{title}' src='{path}' />",
 					title: function( element ) {
 						return element.find( "img" ).attr( "alt" ) || element.text();
 					},
@@ -125,21 +126,21 @@ function MultiDialog(){
 					test: function( href ) {
 						return href.match( /youtube\.com\/watch/i ) || href.match( /youtu\.be/i );
 					},
-					template: '<iframe width="100%" height="100%" src="{url}" frameborder="0" allowFullScreen></iframe>',
-					addParameters: '?autoplay=1'
+					template: "<iframe width='100%' height='100%' src='{url}' frameborder='0' allowFullScreen></iframe>",
+					addParameters: "?autoplay=1"
 				},
 				vimeo: {
 					test: function( href ) {
 						return href.match( /vimeo\.com\//i );
 					},
-					template: '<iframe width="100%" height="100%" src="{url}" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>',
-					addParameters: '?autoplay=1'
+					template: "<iframe width='100%' height='100%' src='{url}' frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>",
+					addParameters: "?autoplay=1"
 				},
 				iframe: {
 					test: function( href ) {
 						return href.match( /iframe=true/i );
 					},
-					template: '<iframe width="100%" height="100%" src="{url}" frameborder="0"></iframe>'
+					template: "<iframe width='100%' height='100%' src='{url}' frameborder='0'></iframe>"
 				},
 				ajax: {
 					test: function( href ) {
@@ -164,23 +165,23 @@ function MultiDialog(){
 		// custom opener
 		// this is a backfall, render your own HTML by type parameter! Set your own type parameter by using types.config option!
 		openCustom: function( data ){
-			window.open( data.href, '_newtab' );
+			window.open( data.href, "_newtab" );
 		},
 
 		// loading handler
 		loadingHandler: function( data ){
 			this.isLoading = true;
-			this._defaultHandler( '<div class="ui-state-highlight ui-corner-all"><p><span class="ui-icon ui-icon-info"></span><strong>Loading content, please wait!</strong></p></div>', "Loading...", data );
+			this._defaultHandler( "<div class='ui-state-highlight ui-corner-all'><p><span class='ui-icon ui-icon-info'></span><strong>Loading content, please wait!</strong></p></div>", "Loading...", data );
 		},
 
 		// error handler
 		errorHandler: function( data ){
-			this._defaultHandler( '<div class="ui-state-error ui-corner-all"><p><span class="ui-icon ui-icon-alert"></span><strong>Sorry, an error has occured. Please try again!</strong></p></div>', "Error!", data.data );
+			this._defaultHandler( "<div class='ui-state-error ui-corner-all'><p><span class='ui-icon ui-icon-alert'></span><strong>Sorry, an error has occured. Please try again!</strong></p></div>", "Error!", data.data );
 		},
 
 		// callbacks
 		on: {
-			ceate: null,
+			create: null,
 			createDialog: null,
 			open: null,
 			change: null,
@@ -198,17 +199,17 @@ function MultiDialog(){
 }
 
 $.extend( MultiDialog.prototype, {
-	_create: function( elements, options ) {
+	_create: function( _elements, _options ) {
 		// set jQuery UI similar defaults
-        this.widgetName = "MultiDialog";
-        this.options = $.extend( true, {}, this.defaults, options );
+		this.widgetName = "MultiDialog";
+		this.options = $.extend( true, {}, this.defaults, _options );
 		this.uid = this.widgetName + "-" + Math.random().toString( 16 ).slice( 2, 10 );
 		this.isOpen = false;
 		this.isLoading = false;
 
 		var that = this,
 			options = this.options,
-			elements = $( elements );
+			elements = $( _elements );
 
 		// merge type configs with default
 		$.each( options.types.config, function( type ) {
@@ -237,25 +238,26 @@ $.extend( MultiDialog.prototype, {
 	* Opens a link in a dialog
 	* @param data {Object, Jquery Object, String} MultiDialog data object (with at least one: html, href or element), can also be an jquery object containing a <a> tag or an URL
 	*/
-	openLink: function( data ) {
+	openLink: function( _data ) {
 		var options = this.options,
-			data = this._openLinkHelper( data );
+			data = this._openLinkHelper( _data ),
+			typeGet, config, widthGet, heightGet, fn;
 
 		// get type
 		if ( !data.type ) {
-			var typeGet = this._getUrlVar( data.href, options.getVarPrefix + "type" );
+			typeGet = this._getUrlVar( data.href, options.getVarPrefix + "type" );
 			if ( typeGet ) {
-				data.type = ( typeGet == "auto" ) ? this._getType( data.href ) : typeGet;
+				data.type = ( typeGet === "auto" ) ? this._getType( data.href ) : typeGet;
 			} else {
-				data.type = ( options.types.defaultType == "auto" ) ? this._getType( data.href ) : options.types.defaultType;
+				data.type = ( options.types.defaultType === "auto" ) ? this._getType( data.href ) : options.types.defaultType;
 			}
-		} else if ( data.type == "auto" ) {
+		} else if ( data.type === "auto" ) {
 			data.type = this._getType( data.href );
 		}
 
 		// get title, description and marker if possible
 		if ( data.element ) {
-			var config = ( data.type ) ? options.types.config[ data.type ] : options.types.defaultConfig;
+			config = ( data.type ) ? options.types.config[ data.type ] : options.types.defaultConfig;
 			data.marker = $.extend( {}, config.marker, data.marker );
 
 			$.each( config.marker, function( key, callback) {
@@ -275,17 +277,17 @@ $.extend( MultiDialog.prototype, {
 
 		// check size parameter
 		if ( isNaN( data.width ) ) {
-			var widthGet = this._getUrlVar( data.href, options.getVarPrefix + "width" );
-			data.width = ( widthGet ) ? parseInt( widthGet ) : false;
+			widthGet = this._getUrlVar( data.href, options.getVarPrefix + "width" );
+			data.width = ( widthGet ) ? parseInt( widthGet, 10 ) : false;
 		}
 		if ( isNaN( data.height ) ) {
-			var heightGet = this._getUrlVar( data.href, options.getVarPrefix + "height" );
-			data.height = ( heightGet ) ? parseInt( heightGet ) : false;
+			heightGet = this._getUrlVar( data.href, options.getVarPrefix + "height" );
+			data.height = ( heightGet ) ? parseInt( heightGet, 10 ) : false;
 		}
 
 		// check if open function exists
-		var fn = "open" + data.type.charAt( 0 ).toUpperCase() + data.type.slice( 1 );
-		if ( fn != "open" && $.isFunction( this[ fn ] ) ) {
+		fn = "open" + data.type.charAt( 0 ).toUpperCase() + data.type.slice( 1 );
+		if ( fn !== "open" && $.isFunction( this[ fn ] ) ) {
 			this[ fn ]( data );
 		} else {
 			options.openCustom.call( this, data );
@@ -294,7 +296,7 @@ $.extend( MultiDialog.prototype, {
 
 	// test each configured content type
 	_getType: function( href ) {
-		var type = '';
+		var type = "";
 
 		$.each( this.options.types.config, function( _type, config ) {
 			if ( config.test.call( this, href ) ) {
@@ -321,8 +323,12 @@ $.extend( MultiDialog.prototype, {
 
 		// preload image
 		image.onload = function(){
-			if ( !data.width ) data.width = image.width;
-			if ( !data.height ) data.height = image.height;
+			if ( !data.width ) {
+				data.width = image.width;
+			}
+			if ( !data.height ) {
+				data.height = image.height;
+			}
 			that._parseHtml( data, "image", "path" );
 			that._changeDialog( data );
 			// unload onload, IE specific, prevent animated gif failures
@@ -364,7 +370,7 @@ $.extend( MultiDialog.prototype, {
 	openVimeo: function( data ) {
 		data = this._openLinkHelper( data );
 		var match = data.href.match( /http:\/\/(www\.)?vimeo.com\/(\d+)/ ),
-			path = 'http://player.vimeo.com/video/'+ match[2] + this.options.types.config.vimeo.addParameters;
+			path = "http://player.vimeo.com/video/" + match[2] + this.options.types.config.vimeo.addParameters;
 
 		this._parseHtml( data, "vimeo", "url", path );
 		this._open( data );
@@ -373,7 +379,8 @@ $.extend( MultiDialog.prototype, {
 	openAjax: function( data ) {
 		data = this._openLinkHelper( data );
 		var that = this,
-			options = this.options;
+			options = this.options,
+			ajaxOptions;
 
 		// open loading message
 		options.loadingHandler.call( this, data );
@@ -399,9 +406,11 @@ $.extend( MultiDialog.prototype, {
 		var isJquery = data instanceof jQuery;
 
 		if ( isJquery || data.element ) {
-			if ( isJquery ) data.element = data;
+			if ( isJquery ) {
+				data.element = data;
+			}
 			data.html = data.element.html();
-		} else  {
+		} else {
 			data.html = data;
 		}
 
@@ -415,8 +424,8 @@ $.extend( MultiDialog.prototype, {
 				data.href = data.element.attr( "href" );
 			} else {
 				// save parameter and create data object
-				var element = data,
-					data = {};
+				var element = data;
+				data = {};
 				// if jQuery object containing a link
 				if ( element instanceof jQuery ) {
 					data.href = element.attr( "href" );
@@ -458,7 +467,7 @@ $.extend( MultiDialog.prototype, {
 	* @param group {Array, Jquery Object} An simple array with MultiDialog data objects, can also be an jquery object containing a set of elements or <a> tags
 	* @param index {Jquery Object, Number} A link tag element within the group parameter or a index (starts with 0), default is the first element in group
 	*/
-	openGallery: function( group, index )  {
+	openGallery: function( group, index ) {
 		var that = this,
 			groupIsJquery = group instanceof jQuery;
 		this.group = $.isArray( group ) ? group : [];
@@ -479,9 +488,11 @@ $.extend( MultiDialog.prototype, {
 		}
 
 		if ( this.group.length > 1 ) {
-			if ( !this.options.dialog.buttons ) this._addGalleryButtons();
+			if ( !this.options.dialog.buttons ) {
+				this._addGalleryButtons();
+			}
 			this.open( this.group[ this.index ] );
-			this._addKeyboardControl();
+			this._addNonMouseControl();
 		}
 	},
 
@@ -508,23 +519,23 @@ $.extend( MultiDialog.prototype, {
 	_move: function( direction ) {
 		var newIndex = this.index;
 		switch ( direction ) {
-			case 'first':
+			case "first":
 				newIndex = 0;
 				break;
-			case 'last':
+			case "last":
 				newIndex = this.group.length - 1;
 				break;
-			case 'next':
-				newIndex = ( this.options.gallery.loop && newIndex == this.group.length - 1 ) ? 0 : newIndex + 1;
+			case "next":
+				newIndex = ( this.options.gallery.loop && newIndex === this.group.length - 1 ) ? 0 : newIndex + 1;
 				break;
-			case 'prev':
+			case "prev":
 				newIndex = ( this.options.gallery.loop && newIndex === 0 ) ? this.group.length - 1 : newIndex - 1;
 				break;
 			default:
 				newIndex = direction;
 				break;
 		}
-		if ( !isNaN( newIndex ) && newIndex != this.index && this.group[ newIndex ] ) {
+		if ( !isNaN( newIndex ) && newIndex !== this.index && this.group[ newIndex ] ) {
 			this.index = newIndex;
 			this.open( this.group[ this.index ] );
 			this._changeGalleryButtons();
@@ -537,7 +548,6 @@ $.extend( MultiDialog.prototype, {
 
 	_createDialog: function( data ) {
 		var that = this,
-			resized = false,
 			// get size
 			size = this._getSize( data );
 
@@ -545,21 +555,21 @@ $.extend( MultiDialog.prototype, {
 		this.uiDialog = $( "<div />" );
 
 		this.uiDialogContent = $( "<div />", {
-			'class': this.widgetName + "-content ui-helper-clearfix " + data.type,
+			"class": this.widgetName + "-content ui-helper-clearfix " + data.type,
 			"aria-describedby": this.uid + "-desc",
 			html: data.html
 		}).appendTo( this.uiDialog );
 
-		this.uiDialogDesc = $( '<div />', {
-			"class": this.widgetName + '-desc ui-helper-clearfix',
+		this.uiDialogDesc = $( "<div />", {
+			"class": this.widgetName + "-desc ui-helper-clearfix",
 			"id": this.uid + "-desc",
-			html: $( '<div class="inner">' )
+			html: $( "<div class='inner'>" )
 		}).appendTo( this.uiDialog );
 
 		// create dialog
 		this.uiDialog.dialog(
 			$.extend( true, {}, that.options.dialog, {
-				dialogClass: this.widgetName,
+				dialogClass: this.widgetName + " " + that.options.dialog.dialogClass,
 				close: function( event ){
 					that._close( event );
 				},
@@ -630,27 +640,27 @@ $.extend( MultiDialog.prototype, {
 
 	_setTitle: function ( data ) {
 		var html = this._getPositionInfo( "title" ) + ( data.title || this.options.dialog.title );
-		this.uiDialog.dialog( "option", "title", $( '<div>' + html + '</div>' ).text() );
+		this.uiDialog.dialog( "option", "title", $( "<div>" + html + "</div>" ).text() );
 	},
 
 	_addGalleryButtons: function(){
 		var that = this,
 			prevDisabled = !!( this.index === 0 && !this.options.gallery.loop ),
-			nextDisabled = !!( this.index == this.group.length - 1 && !this.options.gallery.loop );
+			nextDisabled = !!( this.index === this.group.length - 1 && !this.options.gallery.loop );
 		this.options.dialog.buttons = [{
 			text: this.options.gallery.strings.prev,
-			click: function( event ) {
+			click: function() {
 				that.prev();
 			},
 			disabled: prevDisabled,
-			'class': "prev"
+			"class": "prev"
 		}, {
 			text: this.options.gallery.strings.next,
 			click: function(){
 				that.next();
 			},
 			disabled: nextDisabled,
-			'class': "next"
+			"class": "next"
 		}];
 	},
 
@@ -666,7 +676,7 @@ $.extend( MultiDialog.prototype, {
 				prev.button( "enable" );
 			}
 
-			if ( this.index == this.group.length - 1 ) {
+			if ( this.index === this.group.length - 1 ) {
 				this._changeButton( next, prev );
 			} else {
 				next.button( "enable" );
@@ -679,43 +689,57 @@ $.extend( MultiDialog.prototype, {
 		b2.focus();
 	},
 
-	_addKeyboardControl: function(){
-		var that = this,
-			eventType = "keydown." + this.widgetName;
+	_addNonMouseControl: function(){
+		var that = this;
+
 		// add keyboard control
-		this.uiDialogWidget.unbind( eventType ).bind( eventType, function( e ){
-			switch( e.keyCode ) {
+		this.uiDialogWidget.on( "keydown." + this.widgetName, function( event ){
+			switch( event.keyCode ) {
 				case $.ui.keyCode.RIGHT:
 				case $.ui.keyCode.DOWN:
 				case $.ui.keyCode.SPACE:
 					that.next();
-					e.preventDefault();
+					event.preventDefault();
 					break;
 				case $.ui.keyCode.LEFT:
 				case $.ui.keyCode.UP:
 					that.prev();
-					e.preventDefault();
+					event.preventDefault();
 					break;
 				case $.ui.keyCode.END:
 					that.last();
-					e.preventDefault();
+					event.preventDefault();
 					break;
 				case $.ui.keyCode.HOME:
 					that.first();
-					e.preventDefault();
+					event.preventDefault();
 					break;
 			}
 		});
+
+		if ( $.event.special.swipe ) {
+			this.uiDialogWidget
+				.on( "swipeleft." + this.widgetName, function( event ){
+					that.next();
+					event.preventDefault();
+				})
+				.on( "swiperight." + this.widgetName, function( event ){
+					that.prev();
+					event.preventDefault();
+				});
+		}
 	},
 
 	_parseHtml: function( data, type, marker, value ) {
 		// use href if no value is given
-		if ( !value ) value = data.href + this.options.types.config[ type ].addParameters;
-		var template = this.options.types.config[ type ].template.replace( new RegExp( '{' + marker + '}', 'g' ), value );
+		if ( !value ) {
+			value = data.href + this.options.types.config[ type ].addParameters;
+		}
+		var template = this.options.types.config[ type ].template.replace( new RegExp( "{" + marker + "}", "g" ), value );
 		// process marker
 		if ( data.marker ) {
 			$.each( data.marker, function( name, _value ) {
-				template = template.replace( new RegExp( '{' + name + '}', 'g' ), _value );
+				template = template.replace( new RegExp( "{" + name + "}", "g" ), _value );
 			});
 		}
 		data.html = template;
@@ -782,7 +806,7 @@ $.extend( MultiDialog.prototype, {
 
 	_getPositionInfo: function( key ) {
 		if ( this.options.gallery.enabled && this.group.length > 0 && this.options.gallery.showPositionInfo[ key ] && !this.isLoading ) {
-			return '<span class="positon">' + this.options.gallery.strings.position.replace( '{index}', this.index + 1 ).replace( '{amount}', this.group.length ) + '</span>';
+			return "<span class='position'>" + this.options.gallery.strings.position.replace( "{index}", this.index + 1 ).replace( "{amount}", this.group.length ) + "</span>";
 		}
 
 		return "";
@@ -794,7 +818,7 @@ $.extend( MultiDialog.prototype, {
 			eventName: eventName,
 			eventData: eventData,
 			data: data,
-			dialog: this.uiDialogWidget,
+			dialog: this.uiDialog,
 			group: this.group,
 			index: this.index
 		};
@@ -808,12 +832,12 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	_getUrlVar: function( href, name ){
-		var hashes = href.slice( href.indexOf( '?' ) + 1 ).split( '&' ),
+		var hashes = href.slice( href.indexOf( "?" ) + 1 ).split( "&" ),
 			vars = [],
-			hash;
+			hash, i;
 
-		for ( var i = 0; i < hashes.length; i++ ) {
-			hash = hashes[ i ].split( '=' );
+		for ( i = 0; i < hashes.length; i++ ) {
+			hash = hashes[ i ].split( "=" );
 			vars.push( hash[ 0 ] );
 			vars[ hash[ 0 ] ] = hash[ 1 ];
 		}

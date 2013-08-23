@@ -1,0 +1,49 @@
+{
+	"name": "multiDialog",
+	"title": "jQuery MultiDialog",
+	"description": "MultiDialog utilizes jQuery UI Dialog Widget for a full featured Modalbox / Lightbox application.",
+	"keywords": [
+		"jqueryui",
+		"dialog",
+		"responsive",
+		"rwd",
+		"gallery",
+		"lightbox",
+		"modalbox"
+	],
+	"version": "0.9.0dev",
+	"author": {
+		"name": "Felix Nagel",
+		"url": "http://www.felixnagel.com"
+	},
+	"maintainers": [
+		{
+			"name": "Felix Nagel",
+			"url": "http://www.felixnagel.com",
+			"email": "info@felixnagel.com"
+		}
+	],
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "https://github.com/fnagel/MultiDialog/MIT-LICENSE.txt"
+		}
+	],
+	"bugs": "https://github.com/fnagel/MultiDialog/issues",
+	"homepage": "http://fnagel.github.com/MultiDialog/",
+	"docs": "https://github.com/fnagel/MultiDialog/REAMDE.md",
+	"download": "https://github.com/fnagel/MultiDialog/releases",
+	"dependencies": {
+		"jquery": ">=1.6",
+		"ui.core": ">=1.10.3",
+		"ui.widget": ">=1.10.3",
+		"ui.button": ">=1.10.3",
+		"ui.draggable": ">=1.10.3",
+		"ui.position": ">=1.10.3",
+		"ui.resizable": ">=1.10.3",
+		"ui.dialog": ">=1.10.3",
+		"ui.dialog.extended": ">=1.0.0",
+		"jquery.event.move": ">=1.3.1",
+		"jquery.event.swipe": ">=0.5"
+	}
+}

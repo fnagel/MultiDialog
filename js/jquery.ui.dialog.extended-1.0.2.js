@@ -1,3 +1,4 @@
+/*! v1.0.2 - 21-08-2013 22:58 */
 /*!
  * jQuery UI Dialog Extended
  *
@@ -15,8 +16,9 @@
 
 /*
  * Option width and height normally set the overall dialog dimensions.
- * This extensions make these options the dimensions of the content pane.
- * This way it's possible to set the real content dimensions.
+ * This extensions make these options the dimensions of the content pane if
+ * option useContentSize is enabled. This way it's possible to set the real
+ * content dimensions.
  *
  * Please note you won't get the original size but the calculated overall size
  * when using the width and height option getter.
@@ -165,7 +167,7 @@ $.widget( "ui.dialog", $.ui.dialog, {
 	_contentSize: function() {
 		// If the user has resized the dialog, the .ui-dialog and .ui-dialog-content
 		// divs will both have width and height set, so we need to reset them
-		var nonContentHeight, nonContentWidth, minContentHeight, maxContentHeight, actualSize,
+		var nonContentHeight, nonContentWidth, actualSize,
 			options = this.options;
 
 		// Reset content sizing
@@ -275,18 +277,20 @@ $.widget( "ui.dialog", $.ui.dialog, {
 
 	_windowResizeEvents: {
 		resize: function( event ){
-			if ( this.options.resizeOnWindowResize && window == event.target ) {
+			if ( this.options.resizeOnWindowResize && window === event.target ) {
 				this._addTimeout( function() {
 					this._setOptions( this._oldSize );
 				});
 			}
 		},
-		scroll: function( event ){
+		scroll: function(){
 			// second test prevents initial page load scroll event
 			if ( this.options.scrollWithViewport && this.timeout ) {
 				this._addTimeout( function() {
 					this._position();
 				});
+			} else {
+				this.timeout = true;
 			}
 		}
 	},

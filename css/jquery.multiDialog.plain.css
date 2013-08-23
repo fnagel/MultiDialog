@@ -1,0 +1,29 @@
+/*
+ * jQuery MultiDialog - plain style
+ *
+ * Copyright 2012-2013, Felix Nagel, http://www.felixnagel.com
+ * Licensed under the GPL Version 3 license.
+ *
+ * http://github.com/fnagel/
+ */
+
+.MultiDialog.plain {
+	background: none;
+	border: 0;
+}
+.MultiDialog.plain .ui-dialog-titlebar {
+	background: none;
+	border: 0;
+	padding-left: 0;
+}
+.MultiDialog.plain .ui-dialog-buttonpane {
+	background: none;
+	border: 0;
+	padding-right: 0;
+}
+.MultiDialog.plain .ui-dialog-buttonpane button {
+    margin: 0.5em 0 0.5em 0.4em;
+}
+.MultiDialog.plain .ui-dialog-titlebar-close {
+    right: 0;
+}
