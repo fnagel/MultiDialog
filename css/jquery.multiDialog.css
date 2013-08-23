@@ -20,7 +20,7 @@
 .MultiDialog .MultiDialog-content .overflow { 
 	overflow: auto;  /* nicer scollbar */
 	height: 100%; 
-	padding: 0 0.5em 0 0; 
+	padding: 0.5em; 
 }
 .MultiDialog .MultiDialog-content iframe { 
 	position: absolute; /* width/height 100% fix */
