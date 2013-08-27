@@ -32,12 +32,19 @@
 	left: 0;
 	right: 0;
 	width: 100%;
+	background: transparent;
 }
 .MultiDialog .MultiDialog-desc .inner { 
 	padding: 0.4em 0.5em; 
 	margin: 0.5em 1em;
 	background: #EEEEEE;
-    opacity: 0.8;
+	
+	zoom: 1;  
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	filter: alpha(opacity=80);
+	-moz-opacity: 0.8;
+	-khtml-opacity: 0.8;
+	opacity: 0.8;
 }
 
 /* fix resizeable handler */
