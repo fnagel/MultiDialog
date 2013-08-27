@@ -26,6 +26,7 @@ module.exports = function (grunt) {
 			}
 		},
 		csslint: {
+			files : ["css/jquery.multiDialog.css"],
 			options: {
 				"adjoining-classes": false,
 				"box-model": false,
@@ -36,9 +37,6 @@ module.exports = function (grunt) {
 				"outline-none": false,
 				"overqualified-elements": false,
 				"text-indent": false
-			},
-			standard: {
-				src: "css/jquery.multiDialog.css"
 			}
 		},
 		concat : {
@@ -100,8 +98,14 @@ module.exports = function (grunt) {
 			}
 		},
 		watch : {
-			files : ["<%= jshint.files %>"],
-			tasks : ["jshint"]
+			scripts: {
+				files : ["<%= jshint.files %>"],
+				tasks : ["jshint"]
+			},
+			styles: {
+				files : ["<%= csslint.files %>"],
+				tasks : ["csslint"]
+			}
 		}
 	});
 
@@ -114,8 +118,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-contrib-compress");
 
 	grunt.registerTask("test", ["jshint"]);
-
-	grunt.registerTask("watch", ["watch"]);
 
 	grunt.registerTask("default", ["jshint", "csslint", "concat", "uglify", "cssmin", "compress"]);
 
