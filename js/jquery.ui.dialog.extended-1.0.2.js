@@ -1,5 +1,4 @@
-/*! v1.0.2 - 21-08-2013 22:58 */
-/*!
+/*! v1.0.2dev *//*!
  * jQuery UI Dialog Extended
  *
  * Copyright 2013, Felix Nagel (http://www.felixnagel.com)
@@ -276,8 +275,8 @@ $.widget( "ui.dialog", $.ui.dialog, {
 	},
 
 	_windowResizeEvents: {
-		resize: function( event ){
-			if ( this.options.resizeOnWindowResize && window === event.target ) {
+		resize: function(){
+			if ( this.options.resizeOnWindowResize ) {
 				this._addTimeout( function() {
 					this._setOptions( this._oldSize );
 				});
