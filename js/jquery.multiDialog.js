@@ -314,6 +314,7 @@ $.extend( MultiDialog.prototype, {
 	*/
 	openImage: function( data ) {
 		data = this._openLinkHelper( data );
+		data = this._openConfigHelper( data, this.options );
 		var that = this,
 			options = this.options,
 			image = new Image();
@@ -344,12 +345,14 @@ $.extend( MultiDialog.prototype, {
 
 	openIframe: function( data ) {
 		data = this._openLinkHelper( data );
+		data = this._openConfigHelper( data, this.options );
 		this._parseHtml( data, "iframe", "url" );
 		this._open( data );
 	},
 
 	openInline: function( data ) {
 		data = this._openLinkHelper( data );
+		data = this._openConfigHelper( data, this.options );
 		var element = $("#" + data.href.split("#")[1]);
 		if ( element.length ) {
 			this._parseHtml( data, "inline", "content", element.html() );
@@ -361,6 +364,7 @@ $.extend( MultiDialog.prototype, {
 
 	openYoutube: function( data ) {
 		data = this._openLinkHelper( data );
+		data = this._openConfigHelper( data, this.options );
 		var path = "http://www.youtube.com/embed/" + this._getUrlVar( data.href, "v" ) + this.options.types.config.youtube.addParameters;
 
 		this._parseHtml( data, "youtube", "url", path );
@@ -369,6 +373,7 @@ $.extend( MultiDialog.prototype, {
 
 	openVimeo: function( data ) {
 		data = this._openLinkHelper( data );
+		data = this._openConfigHelper( data, this.options );
 		var match = data.href.match( /http:\/\/(www\.)?vimeo.com\/(\d+)/ ),
 			path = "http://player.vimeo.com/video/" + match[2] + this.options.types.config.vimeo.addParameters;
 
@@ -378,6 +383,7 @@ $.extend( MultiDialog.prototype, {
 
 	openAjax: function( data ) {
 		data = this._openLinkHelper( data );
+		data = this._openConfigHelper( data, this.options );
 		var that = this,
 			options = this.options,
 			ajaxOptions;
@@ -437,6 +443,30 @@ $.extend( MultiDialog.prototype, {
 			}
 		}
 
+		return data;
+	},
+
+	// get title, description and marker if possible
+	_openConfigHelper: function( data, options ) {
+		if ( data.element ) {
+			config = ( data.type ) ? options.types.config[ data.type ] : options.types.defaultConfig;
+			data.marker = $.extend( {}, config.marker, data.marker );
+
+			$.each( config.marker, function( key, callback) {
+				if ( $.isFunction( callback ) ) {
+					data.marker[ key ] = callback.call( this, data.element );
+				}
+			});
+
+			if ( !data.title && $.isFunction( config.title ) ) {
+				alert('callback')
+				data.title = config.title.call( this, data.element );
+			}
+
+			if ( options.descEnabled && !data.desc && $.isFunction( config.desc ) ) {
+				data.desc = config.desc.call( this, data.element );
+			}
+		}
 		return data;
 	},
 
