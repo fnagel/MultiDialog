@@ -3,6 +3,10 @@
 <head>
 	<meta charset="utf-8">
 	<title>jQuery UI MultiDialog - Demos</title>
+	
+	 <!--[if lt IE 9]> 
+		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	 <![endif]-->
 
 	<!-- jQuery & jQuery UI files (needed)-->
 	<link rel="stylesheet" href="../css/jquery-ui-1.10.3.custom.css">
@@ -28,13 +32,11 @@
 	<!-- Demo files (unneeded) -->
 	<link rel="stylesheet" href="res/demos.css">
 	<link rel="stylesheet" href="res/jquery/css/jquery.ui.tabs.css">
-	<link rel="stylesheet" href="res/syntaxhighlighter/styles/shCore.css"/>
-	<link rel="stylesheet" href="res/syntaxhighlighter/styles/shThemeDefault.css"/>
+	<link rel="stylesheet" href="res/prism/prism.css"/>
+	
 	<script src="res/jquery/js/jquery.ui.tabs.js"></script>
 	<script src="res/SuperThemeSwitcher/jquery.themeswitcher.js"></script>
-	<script src="res/syntaxhighlighter/scripts/shCore.js" type="text/javascript"></script>
-	<script src="res/syntaxhighlighter/scripts/shBrushJScript.js" type="text/javascript"></script>
-	<script src="res/syntaxhighlighter/scripts/shBrushXml.js" type="text/javascript"></script>
+	<script src="res/prism/prism.js" type="text/javascript"></script>
 
 	<!-- init demo related JS -->
 	<script>
@@ -42,20 +44,16 @@
 		var tabs = $(".tabs").tabs();
 		
 		$(".tabs button").button();
-		
-		
+				
 		tabs.each(function(){
-			$(this).find("pre").text($(this).next("script").text());
+			$(this).find("code").text($(this).next("script").text());
 		});
-		SyntaxHighlighter.all();
 		
 		$("#themeswitcher").themeswitcher({
 			imgpath: "res/SuperThemeSwitcher/images/",
 			jqueryuiversion: "1.9.0"
-		});
-		
+		});		
 	});
-
 	</script>
 </head>
 <body>
@@ -91,7 +89,7 @@
 		</ul>
 	</div>
 	<div id="tabs-lightbox-code">
-		<pre class="brush: js;"></pre>
+		<pre class="line-numbers"><code class="language-javascript"></code></pre>
 	</div>
 </div>
 <script>
@@ -134,7 +132,7 @@ $(function() {
 		</ul>
 	</div>
 	<div id="tabs-group-code">
-		<pre class="brush: js;"></pre>
+		<pre class="line-numbers"><code class="language-javascript"></code></pre>
 	</div>
 </div>
 <script>
@@ -170,14 +168,14 @@ $(function() {
 		</ul>
 	</div>
 	<div id="tabs-viewport-code">
-		<pre class="brush: js;"></pre>
+		<pre class="line-numbers"><code class="language-javascript"></code></pre>
 	</div>
 </div>
 <script>
 $(function() {
 	$( "a.viewport1" ).MultiDialog({
 		dialog: {
-			forceFullscreen: true,
+			forceFullscreen: true
 		}
 	});
 	$( "a.viewport2" ).MultiDialog({
@@ -228,7 +226,7 @@ $(function() {
 		More examples coming soon... 
 	</div>
 	<div id="tabs-api-code">
-		<pre class="brush: js;"></pre>
+		<pre class="line-numbers"><code class="language-javascript"></code></pre>
 	</div>
 	<div id="tabs-api-doc">
 		<em>Sorry, not fully documented yet. Please see soucecode for available functions:</em>
@@ -365,7 +363,7 @@ $(function() {
 		</ul>
 	</div>
 	<div id="tabs-dialog-code">
-		<pre class="brush: js;"></pre>
+		<pre class="line-numbers"><code class="language-javascript"></code></pre>
 		Please note you need to add jquery.ui.draggable.js and jquery.ui.resizable.js.
 	</div>
 </div>
@@ -443,7 +441,7 @@ $(function() {
 		</ul>
 	</div>
 	<div id="tabs-examples-code">
-		<pre class="brush: js;"></pre>
+		<pre class="line-numbers"><code class="language-javascript"></code></pre>
 	</div>
 </div>
 <script>
@@ -485,7 +483,7 @@ $(function() {
 		<a class="add-type" href="res/syntaxhighlighter/index.html">Demo link</a>
 	</div>
 	<div id="tabs-type-code">
-		<pre class="brush: js;"></pre>
+		<pre class="line-numbers"><code class="language-javascript"></code></pre>
 	</div>
 </div>
 

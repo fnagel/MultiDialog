@@ -27,7 +27,7 @@
 			additionalthemes: [],
 			onopen: null,
 			onclose: null,
-			onselect: null,
+			onselect: null
     	};
     	
     	if(options) {

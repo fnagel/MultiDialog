@@ -69,8 +69,8 @@ function MultiDialog(){
 				queue: false
 			},
 
-			show: "fade", // string, use any jQuery UI effect here
-			hide: "fade",
+			// show: "fade", // string, use any jQuery UI effect here
+			// hide: "fade",
 			modal: true,
 			buttons: null, // options: null (default, adds pre/next buttons in gallery mode), {} (no buttons at all), or use as default dialog option
 
