@@ -106,6 +106,14 @@ module.exports = function (grunt) {
 				files : ["<%= csslint.files %>"],
 				tasks : ["csslint"]
 			}
+		},
+		clean : {
+			options: {
+				force: true
+			},
+			build: {
+				src: ["./compiled", "./*.zip"]
+			}
 		}
 	});
 
@@ -116,9 +124,10 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-contrib-watch");
 	grunt.loadNpmTasks("grunt-contrib-concat");
 	grunt.loadNpmTasks("grunt-contrib-compress");
+	grunt.loadNpmTasks("grunt-contrib-clean");
 
-	grunt.registerTask("test", ["jshint"]);
-
-	grunt.registerTask("default", ["jshint", "csslint", "concat", "uglify", "cssmin", "compress"]);
+	grunt.registerTask("test", ["jshint", "csslint"]);
+	
+	grunt.registerTask("default", ["jshint", "csslint", "clean", "concat", "uglify", "cssmin", "compress"]);
 
 };
