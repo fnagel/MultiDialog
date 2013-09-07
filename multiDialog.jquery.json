@@ -14,7 +14,8 @@
 	"version": "0.9.1",
 	"author": {
 		"name": "Felix Nagel",
-		"url": "http://www.felixnagel.com"
+		"url": "http://www.felixnagel.com",
+		"email": "info@felixnagel.com"
 	},
 	"maintainers": [
 		{
@@ -26,12 +27,12 @@
 	"licenses": [
 		{
 			"type": "MIT",
-			"url": "https://github.com/fnagel/MultiDialog/MIT-LICENSE.txt"
+			"url": "https://raw.github.com/fnagel/MultiDialog/master/MIT-LICENSE.txt"
 		}
 	],
 	"bugs": "https://github.com/fnagel/MultiDialog/issues",
 	"homepage": "http://fnagel.github.com/MultiDialog/",
-	"docs": "https://github.com/fnagel/MultiDialog/REAMDE.md",
+	"docs": "https://github.com/fnagel/MultiDialog/blob/master/README.md",
 	"download": "https://github.com/fnagel/MultiDialog/releases",
 	"dependencies": {
 		"jquery": ">=1.6",
