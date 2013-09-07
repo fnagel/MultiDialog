@@ -28,13 +28,11 @@
 	<!-- Demo files (unneeded) -->
 	<link rel="stylesheet" href="demos/res/demos.css">
 	<link rel="stylesheet" href="demos/res/jquery/css/jquery.ui.tabs.css">
-	<link rel="stylesheet" href="demos/res/syntaxhighlighter/styles/shCore.css"/>
-	<link rel="stylesheet" href="demos/res/syntaxhighlighter/styles/shThemeDefault.css"/>
+	<link rel="stylesheet" href="demos/res/prism/prism.css"/>
+	
 	<script src="demos/res/jquery/js/jquery.ui.tabs.js"></script>
 	<script src="demos/res/SuperThemeSwitcher/jquery.themeswitcher.js"></script>
-	<script src="demos/res/syntaxhighlighter/scripts/shCore.js" type="text/javascript"></script>
-	<script src="demos/res/syntaxhighlighter/scripts/shBrushJScript.js" type="text/javascript"></script>
-	<script src="demos/res/syntaxhighlighter/scripts/shBrushXml.js" type="text/javascript"></script>
+	<script src="demos/res/prism/prism.js" type="text/javascript"></script>
 		
 	<!-- init demo related JS -->
 	<script>
@@ -44,11 +42,14 @@
 		$( "a.multidialog" ).MultiDialog({
 			gallery: { enabled: true }
 		});
-
-		SyntaxHighlighter.all();
 	});
-
 	</script>
+	<style>
+		code, pre {
+			width: auto;
+			font-size: 1em;
+		}
+	</style>
 
     <title>MultiDialog by Felix Nagel</title>
   </head>
@@ -148,53 +149,47 @@
 				</div>
 				<div id="tabs-start-requirements">
 					MutliDialog depends on the following jQuery / UI components.
-					<pre class="brush: js;">
-						/*
-						 * Depends:
-						 *  jquery.js
-						 *	jquery.ui.core.js
-						 *	jquery.ui.widget.js
-						 *	jquery.ui.position.js
-						 *	jquery.ui.dialog.js
-						 *	jquery.ui.dialog.extended.js
-						 *	jquery.ui.effects-fade.js
-						 *
-						 * Optional (Dialog related)
-						 *  jquery.ui.button.js
-						 *	jquery.ui.resizable.js
-						 *	jquery.ui.draggable.js
-						 */
-					</pre>
+<pre class="line-numbers"><code class="language-javascript">/* Depends:
+ *  jquery.js
+ *	jquery.ui.core.js
+ *	jquery.ui.widget.js
+ *	jquery.ui.position.js
+ *	jquery.ui.dialog.js
+ *	jquery.ui.dialog.extended.js
+ *	jquery.ui.effects-fade.js
+ *
+ * Optional (Dialog related)
+ *  jquery.ui.button.js
+ *	jquery.ui.resizable.js
+ *	jquery.ui.draggable.js
+ */
+</code></pre>
 					Go to <a href="http://jqueryui.com/download">jQueryUi.com</a> to built your own jQuery UI file!
 				</div>
 				<div id="tabs-start-code">
 					Add source files:
-					<pre class="brush: html;">
-						&lt;!-- jQuery &amp; jQuery UI files (needed)--&gt;
-						&lt;link rel=&quot;stylesheet&quot; href=&quot;css/jquery-ui-1.10.3.custom.css&quot;&gt;
-						&lt;script src=&quot;js/jquery/jquery-1.9.1.js&quot;&gt;&lt;/script&gt;
-						&lt;script src=&quot;js/jquery/jquery-ui-1.10.3.custom.js&quot;&gt;&lt;/script&gt;
+<pre class="line-numbers"><code class="language-markup">&lt;!-- jQuery &amp; jQuery UI files (needed)--&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/jquery-ui-1.10.3.custom.css&quot;&gt;
+&lt;script src=&quot;js/jquery/jquery-1.9.1.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/jquery/jquery-ui-1.10.3.custom.js&quot;&gt;&lt;/script&gt;
 
-						&lt;!-- MultiDialog files (needed) --&gt;
-						&lt;link rel=&quot;stylesheet&quot; href=&quot;css/jquery.multiDialog.css&quot;&gt;
-						&lt;script src=&quot;js/jquery.ui.dialog.extended.js&quot;&gt;&lt;/script&gt;
-						&lt;script src=&quot;js/jquery.multiDialog.js&quot;&gt;&lt;/script&gt;
-					</pre>
+&lt;!-- MultiDialog files (needed) --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/jquery.multiDialog.css&quot;&gt;
+&lt;script src=&quot;js/jquery.ui.dialog.extended.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/jquery.multiDialog.js&quot;&gt;&lt;/script&gt;
+</code></pre>
 					<br />
 					Add links
-					<pre class="brush: html;">
-						&lt;a class=&quot;multidialog&quot; href=&quot;#somelink&quot;&gt;Some Link&lt;/a&gt;
-					</pre>
+					<pre class="line-numbers"><code class="language-markup">&lt;a class=&quot;multidialog&quot; href=&quot;#somelink&quot;&gt;Some Link&lt;/a&gt;</code></pre>
 					<br />
 					Init plugin
-					<pre class="brush: js;">
-						// use any jQuery selector
-						$( "a.multidialog" ).MultiDialog();
+<pre class="line-numbers"><code class="language-javascript">// use any jQuery selector
+$( "a.multidialog" ).MultiDialog();
 
-						$("a.multidialog").MultiDialog({
-							// set options here
-						});
-					</pre>
+$("a.multidialog").MultiDialog({
+	// set options here
+});
+</code></pre>
 				</div>
 			</div>
 			<script>
