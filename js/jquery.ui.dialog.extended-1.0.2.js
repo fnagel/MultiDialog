@@ -1,4 +1,5 @@
-/*! v1.0.2dev *//*!
+/*! v1.0.2dev */
+/*!
  * jQuery UI Dialog Extended
  *
  * Copyright 2013, Felix Nagel (http://www.felixnagel.com)
