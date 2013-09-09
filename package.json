@@ -3,6 +3,7 @@
 	"title": "jQuery MultiDialog",
 	"description": "MultiDialog utilizes jQuery UI Dialog Widget for a full featured Modalbox / Lightbox application.",
 	"version": "0.9.2dev",
+	"homepage": "http://fnagel.github.com/MultiDialog/",
 	"author": {
 		"name": "Felix Nagel",
 		"url": "http://www.felixnagel.com"
@@ -26,6 +27,7 @@
 		"grunt-contrib-concat": "~0.3.0",
 		"grunt-contrib-uglify": "~0.2.0",
 		"grunt-contrib-clean": "~0.5.0",
+		"grunt-contrib-yuidoc": "~0.5.0",
 		"grunt": "~0.4.1"
 	}
 }

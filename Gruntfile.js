@@ -114,6 +114,19 @@ module.exports = function (grunt) {
 			build: {
 				src: ["./compiled", "./*.zip"]
 			}
+		},
+		yuidoc: {
+			compile: {
+				name: "<%= pkg.name %>",
+				description: "<%= pkg.description %>",
+				version: "<%= pkg.version %>",
+				url: "<%= pkg.homepage %>",
+				options: {
+					force: true,
+					paths: "js/",
+					outdir: "docs/"
+				}
+			}
 		}
 	});
 
@@ -125,9 +138,12 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks("grunt-contrib-concat");
 	grunt.loadNpmTasks("grunt-contrib-compress");
 	grunt.loadNpmTasks("grunt-contrib-clean");
+	grunt.loadNpmTasks("grunt-contrib-yuidoc");
 
 	grunt.registerTask("test", ["jshint", "csslint"]);
 	
-	grunt.registerTask("default", ["jshint", "csslint", "clean", "concat", "uglify", "cssmin", "compress"]);
+	grunt.registerTask("doc", ["yuidoc"]);
+	
+	grunt.registerTask("default", ["jshint", "csslint", "yuidoc", "clean", "concat", "uglify", "cssmin", "compress"]);
 
 };
