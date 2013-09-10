@@ -23,8 +23,19 @@
  *	jquery.event.swipe.js
  */
 
+/**
+* jQuery MultiDialog Plugin
+*
+* @module MultiDialog
+*/
 (function( $, undefined ) {
 
+/**
+* This is main plugin definition
+*
+* @class MultiDialog
+* @constructor
+*/
 function MultiDialog(){
 	this.defaults = {
 		// config for gallery mode
@@ -42,47 +53,109 @@ function MultiDialog(){
 			}
 		},
 
-		descEnabled: true, // enable description pane
+        /**
+         * Enable description pan
+		 * @property descEnabled
+		 * @default true
+         * @type Boolean
+         */
+		descEnabled: true,
 
-		// jQuery UI Dialog options
+        /**
+         * jQuery UI Dialog options: see jQuery UI Dialog docs for all options, some options are not available!
+		 * @property dialog
+         * @type Object
+         */
 		dialog: {
-			// see jQuery UI Dialog docs for al options, some options are not available!
 			closeOnEscape: true,
 			closeText: "close",
-			closeModalOnClick : true, // close MultiDialog by click on overlay
-
-			// size (int), width and height set the content size, not overall size, auto not allowed
+			
+			/**
+			 * Close MultiDialog by click on overlay
+			 * @property dialog.closeModalOnClick
+			 * @default true
+			 * @type Boolean
+			 */
+			closeModalOnClick : true,
+			
+			/**
+			 * Width of the content (not overall size, "auto" not allowed)
+			 * @property dialog.width
+			 * @default 600
+			 * @type Integer
+			 */
 			width: 600,
+			
+			/**
+			 * Height of the content (not overall size, "auto" not allowed)
+			 * @property dialog.height
+			 * @default 400
+			 * @type Integer
+			 */
 			height: 400,
 
-			// viewport settings
+			// viewport settings (API doc by jquery.ui.dialog.extended)
 			forceFullscreen: false,
 			resizeOnWindowResize: true,
 			scrollWithViewport: true,
 			resizeAccordingToViewport: true,
 			resizeToBestPossibleSize: false,
 
-			// animated options
+			/**
+			 * Animate the resizing and positioning mechanism
+			 * @property dialog.useAnimation
+			 * @default true
+			 * @type Boolean
+			 */
 			useAnimation: true,
+			
+			/**
+			 * Animate options as defined for jQuery UI show and hide options (see jQuery UI documentation)
+			 * @property dialog.animateOptions
+			 * @type Object
+			 */
 			animateOptions: {
 				duration: 500,
 				queue: false
 			},
 
-			// show: "fade", // string, use any jQuery UI effect here
-			// hide: "fade",
+			show: "fade", // string, use any jQuery UI effect here
+			hide: "fade",
 			modal: true,
 			buttons: null, // options: null (default, adds pre/next buttons in gallery mode), {} (no buttons at all), or use as default dialog option
-
-			// callbacks, please note: close, open and resize callback are not available
+			
+			/**
+			 * jQuery UI Dialog resize callback event (please note: native close, open and resize callbacks are not available)
+			 * @property dialog.resized
+			 * @type Function
+			 */
 			resized: null,
 
-			// do not alter these!
+			/**
+			 * Do not alter this property!
+			 * @property dialog.useContentSize
+			 * @type Boolean
+			 * @default true
+			 * @private
+			 */
 			useContentSize: true
 		},
 
-		disabled: false, // disable plugin
-		getVarPrefix: "", // GET var prefix
+		/**
+		 * Disable plugin
+		 * @property dialog.disabled
+		 * @default false
+		 * @type Boolean
+		 */
+		disabled: false,
+		
+		/**
+		 * GET variable prefix (?ajax=true)
+		 * @property dialog.getVarPrefix
+		 * @default ""
+		 * @type Boolean
+		 */
+		getVarPrefix: "",
 
 		// set testing condition, description, alt and title atttribute for each content type
 		types: {
@@ -199,6 +272,16 @@ function MultiDialog(){
 }
 
 $.extend( MultiDialog.prototype, {
+	/**
+	* Initial and main method
+	* Could be used when MultiDialog instance is created manually
+	*
+	* @method _create
+	* @private
+	*
+	* @param {Jquery Objec} _elements A set of jQuery selected HTML elments (one or more)
+	* @param {Object} [_options] _options Object with all options, see defaults
+	*/
 	_create: function( _elements, _options ) {
 		// set jQuery UI similar defaults
 		this.widgetName = "MultiDialog";
@@ -231,6 +314,10 @@ $.extend( MultiDialog.prototype, {
 			});
 		}
 
+        /**
+         * Fires Callback, see {{#crossLink "MultiDialog/_fireCallback:method"}}{{/crossLink}} for return value.
+		 * @event on.create
+         */
 		that._fireCallback( "create" );
 	},
 
@@ -308,9 +395,16 @@ $.extend( MultiDialog.prototype, {
 		return type;
 	},
 
-	/*
-	* OpenXyz functions: opens its specific type, please pass in data.href
-	* @param data.href (URL), data.element (<a>), jQuery object (<a>), string (URL)
+	/**
+	* Opens an image
+	* @method openImage
+	* @param {Mixed} data Object: data.element = link (a tag) as jQuery Object with href pointing to an image, String: URL to an image, jQuery Object: of a ima tag 
+	* @example
+	*	api.openImage( "/path/to/my/image.jpeg" );
+	* @example
+	*	api.openImage( $("<img src='/path/to/my/image.jpeg' />") );
+	* @example
+	*	api.openImage( $("<a href='/path/to/my/image.jpeg' />My Image</a>") );
 	*/
 	openImage: function( data ) {
 		data = this._openLinkHelper( data );
@@ -336,18 +430,34 @@ $.extend( MultiDialog.prototype, {
 		};
 		// error handling
 		image.onerror = function( error ){
+			/**
+			 * Fires Callback, see {{#crossLink "MultiDialog/_fireCallback:method"}}{{/crossLink}} for return value.
+			 * @event on.imageError
+			 */
 			options.errorHandler.call( that, that._fireCallback( "imageError", error, data ) );
 		};
 		// load image
 		image.src = data.href + options.types.config.image.addParameters;
 	},
 
+	/**
+	* Opens an iframe
+	* @method openIframe
+	* @param {Mixed} data Object: data.element = link (a tag) as jQuery Object, String: URL, jQuery Object: a link (a tag) element 
+	*/
 	openIframe: function( data ) {
 		data = this._openLinkHelper( data );
 		this._parseHtml( data, "iframe", "url" );
 		this._open( data );
 	},
 
+	/**
+	* Opens inline HTML: works with an anchor url
+	* @method openImage
+	* @param {Mixed} data Object: data.href = link (a tag) as jQuery Object with an anchor pointing to an currently available HTML element with that anchor as id attribute
+	* @example
+	*	api.open({ href: "/my-site.html#my-anchor" });
+	*/
 	openInline: function( data ) {
 		data = this._openLinkHelper( data );
 		var element = $("#" + data.href.split("#")[1]);
@@ -355,10 +465,21 @@ $.extend( MultiDialog.prototype, {
 			this._parseHtml( data, "inline", "content", element.html() );
 			this._open( data );
 		} else {
+			/**
+			 * Fires Callback, see {{#crossLink "MultiDialog/_fireCallback:method"}}{{/crossLink}} for return value.
+			 * @event on.inlineError
+			 */
 			this.options.errorHandler.call( this, this._fireCallback( "inlineError", null, data ) );
 		}
 	},
 
+	/**
+	* Opens YouTube video
+	* @method openYoutube
+	* @param {Mixed} data Object: data.href = link (a tag) as jQuery Object
+	* @example
+	*	api.open({ href: "http://www.youtube.com/watch?v=aMnw5bItt3s" });
+	*/
 	openYoutube: function( data ) {
 		data = this._openLinkHelper( data );
 		var path = "http://www.youtube.com/embed/" + this._getUrlVar( data.href, "v" ) + this.options.types.config.youtube.addParameters;
@@ -367,6 +488,13 @@ $.extend( MultiDialog.prototype, {
 		this._open( data );
 	},
 
+	/**
+	* Opens Vimeo video
+	* @method openVimeo
+	* @param {Mixed} data Object: data.href = link (a tag) as jQuery Object
+	* @example
+	*	api.openVimeo({ href: "http://www.youtube.com/watch?v=aMnw5bItt3s" });
+	*/
 	openVimeo: function( data ) {
 		data = this._openLinkHelper( data );
 		var match = data.href.match( /http:\/\/(www\.)?vimeo.com\/(\d+)/ ),
@@ -376,6 +504,13 @@ $.extend( MultiDialog.prototype, {
 		this._open( data );
 	},
 
+	/**
+	* Opens links with AJAX
+	* @method openAjax
+	* @param {Mixed} data Object: data.href = link (a tag) as jQuery Object, String: URL, jQuery Object: a link (a tag) element
+	* @example
+	*	api.openAjax({ href: "/path/to/my/ajax/handler.php" });
+	*/
 	openAjax: function( data ) {
 		data = this._openLinkHelper( data );
 		var that = this,
@@ -388,6 +523,12 @@ $.extend( MultiDialog.prototype, {
 		// default ajax settings
 		ajaxOptions = $.extend( {
 			url: data.href,
+			/**
+			 * Fires Callback, see {{#crossLink "MultiDialog/_fireCallback:method"}}{{/crossLink}} for return value.
+			 * @event on.ajaxError
+			 * @example
+			 *	$.MultiDialog({ on: { ajaxError: function( data ) { } } });	
+			 */
 			error: function ( info ) {
 				options.errorHandler.call( that, that._fireCallback( "ajaxError", info, data ) );
 			},
@@ -401,7 +542,13 @@ $.extend( MultiDialog.prototype, {
 		this.xhr = $.ajax( ajaxOptions );
 	},
 
-	// data = html, jQuery object, data.html, data.element
+	/**
+	* Opens any HTML content
+	* @method openAjax
+	* @param {Mixed} data Object: data.element = any HTML element as jQuery Object, String: plain HTML string, jQuery Object: any HTML element
+	* @example
+	*	api.openHtml( "<div>Any HTML string</div>" );
+	*/
 	openHtml: function( data ) {
 		var isJquery = data instanceof jQuery;
 
@@ -418,6 +565,14 @@ $.extend( MultiDialog.prototype, {
 	},
 
 	// checks: data.href (URL), data.element (<a>), jQuery object (<a>), string (URL)
+	
+	/**
+	* Helper to normalize incoming link parameter
+	* @private
+	* @method _openLinkHelper
+	* @param {Mixed} data Object: data.element = link (a tag) as jQuery Object, String: URL, jQuery Object: either a link (a tag) or any HTML element 
+	* @return {Object} Normalized object with data.href or at least data.element
+	*/
 	_openLinkHelper: function( data ) {
 		if ( !data.href ) {
 			if ( data.element ) {
@@ -440,9 +595,19 @@ $.extend( MultiDialog.prototype, {
 		return data;
 	},
 
-	/*
-	* Opens a dialog
-	* @param data {Object, Jquery Object, string )} MultiDialog data object (with at least one: html, href or element), can also be an jQuery object containing a <a> tag or any other HTML element (its content will be opened) or plain HTML
+	/**
+	* Opens a dialog: very flexible with all auto magic
+	* @method open
+	* @param {Object, Jquery Object, String} data Pass in one of the following types:
+	* @param {Object} data.object Object with at least one: html, href or element.
+	* @param {jQuery Object} data.jquery jQuery object containing an "a" tag or any other HTML element (its content will be opened)
+	* @param {String} data.html Plain HTML string
+	* @example
+	*	api.open($(".my-selector"));
+	* @example
+	*	api.open({ html: "<div>Any HTML string</div>" });
+	* @example
+	*	api.open("<div>Any HTML string</div>");
 	*/
 	open: function( data ) {
 		if ( data.href || ( data.element && data.element.is( "a" ) ) || ( data instanceof jQuery && data.is( "a" ) ) ) {
@@ -452,6 +617,12 @@ $.extend( MultiDialog.prototype, {
 		}
 	},
 
+	/**
+	* Checks if the dialog needs to be created or opened
+	*
+	* @method _open
+	* @private
+	*/
 	_open: function( data ) {
 		if ( !this.options.disabled ) {
 			if ( this.uiDialog ) {
@@ -462,10 +633,13 @@ $.extend( MultiDialog.prototype, {
 		}
 	},
 
-	/*
-	* Opens a dialog in gallery mode
-	* @param group {Array, Jquery Object} An simple array with MultiDialog data objects, can also be an jquery object containing a set of elements or <a> tags
-	* @param index {Jquery Object, Number} A link tag element within the group parameter or a index (starts with 0), default is the first element in group
+	/**
+	* Opens a dialog in gallery mode: very flexible with all auto magic
+	* @method openGallery
+	* @param group {Mixed} group Array: An simple array with MultiDialog data objects  (see {{#crossLink "MultiDialog/open:method"}}{{/crossLink}} options), jQuery object: containing a set of elements or a link (a tag) elements
+	* @param index {Mixed} [index=default is the first element in group] jQuery Object: a link tag element within the group parameter, Integer: a index starting with 0 
+	* @example
+	*	api.openGallery([ { href: "path/to/my/image.jpg" },	{ href: "http://www.youtube.com/watch?v=VfOcyrOImLg" }]);
 	*/
 	openGallery: function( group, index ) {
 		var that = this,
@@ -500,18 +674,36 @@ $.extend( MultiDialog.prototype, {
 		this._move( index );
 	},
 
+	/**
+	* Next item in gallery group
+	* @method next	
+	* @example
+	*	api.next();
+	*/
 	next: function(){
 		this._move( "next" );
 	},
 
+	/**
+	* Previous item in gallery group
+	* @method prev
+	*/
 	prev: function(){
 		this._move( "prev" );
 	},
 
+	/**
+	* First item in gallery group
+	* @method first
+	*/
 	first: function(){
 		this._move( "first" );
 	},
 
+	/**
+	* Last item in gallery group
+	* @method last
+	*/
 	last: function(){
 		this._move( "last" );
 	},
@@ -539,6 +731,10 @@ $.extend( MultiDialog.prototype, {
 			this.index = newIndex;
 			this.open( this.group[ this.index ] );
 			this._changeGalleryButtons();
+			/**
+			 * Fires Callback, see {{#crossLink "MultiDialog/_fireCallback:method"}}{{/crossLink}} for return value.
+			 * @event on.move
+			 */
 			this._fireCallback( "move", direction, this.group[ this.index ] );
 		} else {
 			// autoclose on failure
@@ -596,6 +792,10 @@ $.extend( MultiDialog.prototype, {
 			this._setAria();
 		}
 
+		/**
+		 * Fires Callback, see {{#crossLink "MultiDialog/_fireCallback:method"}}{{/crossLink}} for return value.
+		 * @event on.createDialog
+		 */
 		that._fireCallback( "createDialog", null, data );
 	},
 
@@ -613,6 +813,10 @@ $.extend( MultiDialog.prototype, {
 		$.Widget.prototype._show( this.uiDialogContent, this.options.dialog.show, function(){
 			that._setAria();
 			that.uiDialog.dialog( "focusTabbable" );
+			/**
+			 * Fires Callback, see {{#crossLink "MultiDialog/_fireCallback:method"}}{{/crossLink}} for return value.
+			 * @event on.change
+			 */
 			that._fireCallback( "change", null, data );
 		});
 	},
@@ -775,6 +979,10 @@ $.extend( MultiDialog.prototype, {
 			$( this.clickedElement ).focus();
 		}
 		this.isOpen = false;
+        /**
+         * Fires Callback, see {{#crossLink "MultiDialog/_fireCallback:method"}}{{/crossLink}} for return value.
+		 * @event on.close
+         */
 		this._fireCallback( "close", event );
 	},
 
@@ -812,7 +1020,24 @@ $.extend( MultiDialog.prototype, {
 		return "";
 	},
 
-	// TODO testing
+	/**
+	* Fire callback event. __Needs testing!__
+	*
+	* @method _fireCallback
+	* @private
+	* @beta
+	* @example
+	* 	return {
+	* 		eventName: eventName, // {String} Event / callback name
+	* 		eventData: eventData, // {Object} Event data if available
+	* 		data: data, // {Object} Current data object
+	* 		dialog: this.uiDialog, // {jQuery Object} Dialog instance
+	* 		group: this.group, // {Object} Current group
+	* 		index: this.index // {Integer}Current item element index of group
+	* 	};
+	*
+	* @return {Object} Object with following data:
+	*/
 	_fireCallback: function( eventName, eventData, data ) {
 		var info = {
 			eventName: eventName,
@@ -846,9 +1071,22 @@ $.extend( MultiDialog.prototype, {
 	}
 });
 
-// plugin definition
+/**
+* This is the jQuery plugin definition (singleton instance)
+* @class MultiDialog
+* @namespace fn
+* @constructor*
+* @param {Object} options Options object, see {{#crossLink  "MultiDialog" }}{{/crossLink}} properties
+* @return {Object} The {{#crossLink  "MultiDialog" }}{{/crossLink}} instance 
+* @example
+*	$.fn.MultiDialog();
+* @example
+*	$("a").MultiDialog();
+* @example
+*	$("a").MultiDialog( options );
+*
+*/
 $.fn.MultiDialog = function( options ) {
-	// singleton instance
 	$.MultiDialog = new MultiDialog();
 	$.MultiDialog._create( this, options );
 	return $.MultiDialog;
