@@ -636,8 +636,8 @@ $.extend( MultiDialog.prototype, {
 	/**
 	* Opens a dialog in gallery mode: very flexible with all auto magic
 	* @method openGallery
-	* @param group {Mixed} group Array: An simple array with MultiDialog data objects  (see {{#crossLink "MultiDialog/open:method"}}{{/crossLink}} options), jQuery object: containing a set of elements or a link (a tag) elements
-	* @param index {Mixed} [index=default is the first element in group] jQuery Object: a link tag element within the group parameter, Integer: a index starting with 0 
+	* @param {Mixed} group Array: An simple array with MultiDialog data objects  (see {{#crossLink "MultiDialog/open:method"}}{{/crossLink}} options), jQuery object: containing a set of elements or a link (a tag) elements
+	* @param {Mixed} [index] jQuery Object: a link tag element within the group parameter, Integer: a index starting with 0; default is the firs element in group parameter
 	* @example
 	*	api.openGallery([ { href: "path/to/my/image.jpg" },	{ href: "http://www.youtube.com/watch?v=VfOcyrOImLg" }]);
 	*/
