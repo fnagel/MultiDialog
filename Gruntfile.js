@@ -113,18 +113,23 @@ module.exports = function (grunt) {
 			},
 			build: {
 				src: ["./compiled", "./*.zip"]
+			},
+			docs: {
+				src: ["./docs"]
 			}
 		},
 		yuidoc: {
 			compile: {
 				name: "<%= pkg.name %>",
 				description: "<%= pkg.description %>",
-				version: "<%= pkg.version %>",
+				version: "<%= pkg.version %> - <%= grunt.template.today('dd-mm-yyyy HH:MM') %>",
 				url: "<%= pkg.homepage %>",
+				logo: "https://drone.io/github.com/fnagel/MultiDialog/status.png",
 				options: {
 					force: true,
-					paths: "js/",
-					outdir: "docs/"
+					paths: ["./js"],
+					outdir: "docs/",
+					tabtospace: 4
 				}
 			}
 		}
@@ -142,8 +147,8 @@ module.exports = function (grunt) {
 
 	grunt.registerTask("test", ["jshint", "csslint"]);
 	
-	grunt.registerTask("doc", ["yuidoc"]);
+	grunt.registerTask("doc", ["clean:docs", "jshint", "yuidoc"]);
 	
-	grunt.registerTask("default", ["jshint", "csslint", "yuidoc", "clean", "concat", "uglify", "cssmin", "compress"]);
+	grunt.registerTask("default", ["jshint", "csslint", "clean", "yuidoc", "concat", "uglify", "cssmin", "compress"]);
 
 };
