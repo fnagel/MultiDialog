@@ -170,7 +170,7 @@ function MultiDialog(){
 		// loading handler
 		loadingHandler: function( data ){
 			this.isLoading = true;
-			this._defaultHandler( "<div class='ui-state-highlight ui-corner-all'><p><span class='ui-icon ui-icon-info'></span><strong>Loading content, please wait!</strong></p></div>", "Loading...", data );
+			this._defaultHandler( "<div class='ui-state-highlight ui-corner-all loading'><p><span class='ui-icon ui-icon-info'></span><strong>Loading...</strong></p></div>", "Loading...", data );
 		},
 
 		// error handler
@@ -548,7 +548,7 @@ $.extend( MultiDialog.prototype, {
 	_createDialog: function( data ) {
 		var that = this,
 			// get size
-			size = this._getSize( data );
+			size = this._getMaximumSize( data );
 
 		// prepare wrapper elements
 		this.uiDialog = $( "<div />" );
@@ -772,8 +772,31 @@ $.extend( MultiDialog.prototype, {
 		};
 	},
 
-	_setSize: function( data ) {
+	_getMaximumSize: function( data ) {
 		var size = this._getSize( data );
+		if ( this.options.dialog.maxWidth ) {
+			var max_width = this.options.dialog.maxWidth;
+			var max_height = this.options.dialog.maxHeight;
+			if ( isNaN(max_width) && max_width.indexOf('%') ) {
+				max_width = parseInt(max_width) / 100 * $(window).width();
+			}
+			if ( isNaN(max_height) && max_height.indexOf('%') ) {
+				max_height = parseInt(max_height) / 100 * $(window).height();
+			}
+			if ( size.width > max_width ) {
+				size.height = parseInt(size.height * max_width / size.width);
+				size.width = parseInt(max_width);
+			}
+		}
+		if ( size.height > max_height ) {
+			size.width = parseInt(size.width * max_height / size.height);
+			size.height = parseInt(max_height);
+		}
+		return size;
+	},
+
+	_setSize: function( data ) {
+		var size = this._getMaximumSize( data );
 		this.uiDialog.dialog( "changeSize", size.width, size.height );
 	},
 
