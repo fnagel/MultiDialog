@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>jQuery UI MultiDialog - Demos</title>
-	
-	 <!--[if lt IE 9]> 
+
+	 <!--[if lt IE 9]>
 		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	 <![endif]-->
 
@@ -15,12 +15,12 @@
 
 	<!-- MultiDialog files (needed) -->
 	<link rel="stylesheet" href="../css/jquery.multiDialog.css">
-	<script src="../js/jquery.ui.dialog.extended-1.0.2.js"></script>
+	<script src="../js/jquery-ui.dialog.extended-1.0.3.js"></script>
 	<script src="../js/jquery.multiDialog.js"></script>
 
 	<!-- MultiDialog files (optional) -->
 	<link rel="stylesheet" href="../css/jquery.multiDialog.plain.css">
-	
+
 	<!-- jQuery add-on for swipe events (optional) -->
 	<script src="../js/mobile/jquery.event.move.js"></script>
 	<script src="../js/mobile/jquery.event.swipe.js"></script>
@@ -33,7 +33,7 @@
 	<link rel="stylesheet" href="res/demos.css">
 	<link rel="stylesheet" href="res/jquery/css/jquery.ui.tabs.css">
 	<link rel="stylesheet" href="res/prism/prism.css"/>
-	
+
 	<script src="res/jquery/js/jquery.ui.tabs.js"></script>
 	<script src="res/SuperThemeSwitcher/jquery.themeswitcher.js"></script>
 	<script src="res/prism/prism.js" type="text/javascript"></script>
@@ -42,17 +42,17 @@
 	<script>
 	$(function() {
 		var tabs = $(".tabs").tabs();
-		
+
 		$(".tabs button").button();
-				
+
 		tabs.each(function(){
 			$(this).find("code").text($(this).next("script").text());
 		});
-		
+
 		$("#themeswitcher").themeswitcher({
 			imgpath: "res/SuperThemeSwitcher/images/",
 			jqueryuiversion: "1.9.0"
-		});		
+		});
 	});
 	</script>
 </head>
@@ -75,7 +75,7 @@
 		</p>
 	</div>
 	<div id="tabs-lightbox-demo">
-		<ul class="float ui-helper-clearfix">			
+		<ul class="float ui-helper-clearfix">
 			<li><a class="lightbox" href="res/images/dummy-500x375-colorE88801.jpg"><img src="res/images/thumb.jpg"  title="Open this picture of in a larger version" alt="Example picture #1" longdesc="Exaple picture #1: Lorem ipsum dolor sit amet, consetetur sadipscing elitr." /></a></li>
 			<li><a class="lightbox" href="res/images/dummy-454x280-colorFFC200.jpg"><img src="res/images/thumb.jpg"  title="Open this picture of in a larger version" alt="Example picture #2" longdesc="Exaple picture #2: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt." /></a></li>
 			<li><a class="lightbox" href="res/images/dummy-800x533-colorFFC200.jpg"><img src="res/images/thumb.jpg"  title="Open this picture of in a larger version" alt="Example picture #3" /></a></li>
@@ -223,7 +223,7 @@ $(function() {
 			<li><button id="api-button-5">Open an mixed gallery</button></li>
 		</ul>
 		<br />
-		More examples coming soon... 
+		More examples coming soon...
 	</div>
 	<div id="tabs-api-code">
 		<pre class="line-numbers"><code class="language-javascript"></code></pre>
@@ -304,28 +304,28 @@ $(function() {
 			title: "API Example"
 		}
 	});
-	
+
 	$("#api-button-1").click( function(){
 		api.openLink("res/images/dummy-800x600-color730046.jpg");
 	});
-	
+
 	$("#api-button-2").click( function(){
-		api.openLink({ 
+		api.openLink({
 			href: "http://m.wikipedia.org/",
 			type: "iframe"
 		});
 	});
-	
+
 	$("#api-button-3").click( function(){
 		api.openYoutube({ href: "http://www.youtube.com/watch?v=VfOcyrOImLg" });
 	});
-	
+
 	$("#api-button-4").click( function(){
 		// api.open({ element: $("#inline-content-group-2") });
 		// shortcut for same functionality
 		api.open( $("#inline-content-group-2"));
 	});
-	
+
 	api2 = $.fn.MultiDialog();
 	api2.options.gallery.enabled = true;
 	api2.options.dialog.title = "API Gallery Example";
@@ -369,9 +369,9 @@ $(function() {
 </div>
 
 <script>
-$(function() {			
+$(function() {
 	$( "a.dialog-options" ).MultiDialog({
-		dialog: { 
+		dialog: {
 			width: 400,
 			height: 300,
 			modal: false,
@@ -404,7 +404,7 @@ $(function() {
 		</p>
 	</div>
 	<div id="tabs-temeswitcher-demo">
-		Some example themes, delivered by <a href="https://github.com/harborhoffer/Super-Theme-Switcher">Super Theme Themeswitcher</a>. 
+		Some example themes, delivered by <a href="https://github.com/harborhoffer/Super-Theme-Switcher">Super Theme Themeswitcher</a>.
 		<br />
 		<br />
 		<div id="themeswitcher"></div>
@@ -452,15 +452,15 @@ $(function() {
 			dialogClass: "plain"
 		}
 	});
-	
+
 	$("#plain-style").click( function(){
 		plainApi.openGallery( $("a.fullscreen, a.getvars") );
 	});
-	
+
 	$( "a.fullscreen" ).MultiDialog({
 		forceFullscreen: true
 	});
-	
+
 	$( "a.getvars" ).MultiDialog({
 		// you could prefix MultiDialog GETvars if needed
 		getVarPrefix: "multidialog-"
@@ -488,7 +488,7 @@ $(function() {
 </div>
 
 <script>
-$(function() {		
+$(function() {
 	$( "a.add-type" ).MultiDialog({
 		types: {
 			config: {
@@ -496,7 +496,7 @@ $(function() {
 					test: function( href ) {
 						// search for syntaxhighlighter in URL
 						return href.match( /syntaxhighlighter/i );
-					},					
+					},
 					template: '<iframe width="100%" height="100%" src="{url}" frameborder="0"></iframe>'
 				}
 			}

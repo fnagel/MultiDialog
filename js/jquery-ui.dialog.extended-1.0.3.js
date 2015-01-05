@@ -1,8 +1,8 @@
-/*! v1.0.2dev */
+/*! v1.0.3 - 05-01-2015 20:10 */
 /*!
  * jQuery UI Dialog Extended
  *
- * Copyright 2013, Felix Nagel (http://www.felixnagel.com)
+ * Copyright 2013-2015, Felix Nagel (http://www.felixnagel.com)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
  * http://github.com/fnagel/jquery-ui-extensions
