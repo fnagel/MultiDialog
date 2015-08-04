@@ -51,19 +51,16 @@ module.exports = function (grunt) {
 			},
 			standard: {
 				src: [
-					"js/jquery.multiDialog.js",
-					"js/jquery-ui.dialog.extended.js"
+					"js/jquery.multiDialog.js"
 				],
-				dest: "compiled/js/<%= pkg.name %>.js"
+				dest: "dist/js/<%= pkg.name %>.js"
 			},
 			standalone: {
 				src: [
-					"js/jquery.multiDialog.js",
-					"js/jquery/jquery-ui-*.custom.js",
 					"js/jquery.ui.dialog.extended.js",
-					"js/mobile/jquery.event.*.js"
+					"js/jquery.multiDialog.js"
 				],
-				dest: "compiled/js/<%= pkg.name %>.standalone.js"
+				dest: "dist/js/<%= pkg.name %>.standalone.js"
 			}
 		},
 		uglify: {
@@ -72,12 +69,12 @@ module.exports = function (grunt) {
 				preserveComments: "some"
 			},
 			standard: {
-				src: [ "compiled/js/<%= pkg.name %>.js" ],
-				dest: "compiled/js/<%= pkg.name %>.min.js"
+				src: [ "dist/js/<%= pkg.name %>.js" ],
+				dest: "dist/js/<%= pkg.name %>.min.js"
 			},
 			standalone: {
-				src: [ "compiled/js/<%= pkg.name %>.standalone.js" ],
-				dest: "compiled/js/<%= pkg.name %>.standalone.min.js"
+				src: [ "dist/js/<%= pkg.name %>.standalone.js" ],
+				dest: "dist/js/<%= pkg.name %>.standalone.min.js"
 			}
 		},
 		cssmin: {
@@ -86,11 +83,7 @@ module.exports = function (grunt) {
 			},
 			standard: {
 				src: ["css/jquery.multiDialog.css"],
-				dest: "compiled/css/<%= pkg.name %>.css"
-			},
-			standalone: {
-				src: ["css/*.css"],
-				dest: "compiled/css/<%= pkg.name %>.standalone.css"
+				dest: "dist/css/<%= pkg.name %>.css"
 			}
 		},
 		compress: {
@@ -119,7 +112,7 @@ module.exports = function (grunt) {
 				force: true
 			},
 			build: {
-				src: ["./compiled", "./*.zip"]
+				src: ["./dist", "./*.zip"]
 			},
 			docs: {
 				src: ["./docs"]

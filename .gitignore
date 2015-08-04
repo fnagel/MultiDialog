@@ -1,5 +1,6 @@
 dist
 node_modules
+bower_components
 docs
 .project
 *~
@@ -9,5 +10,6 @@ docs
 .settings
 *.db
 *.session
-compiled
+
+dist
 *.zip

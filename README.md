@@ -10,3 +10,11 @@ Please see http://fnagel.github.com/MultiDialog/ for more information.
 
 * **Stable releases**: [GitHub releases](https://github.com/fnagel/MultiDialog/releases)
 * **Latest development version**: [Drone.io asserts](https://drone.io/github.com/fnagel/MultiDialog/files)
+
+# Install
+
+````
+npm install
+bower install
+grunt
+````
