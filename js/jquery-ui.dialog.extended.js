@@ -1,4 +1,4 @@
-/*! v1.0.3 - 05-01-2015 20:10 */
+/*! v1.0.4 - 04-08-2015 18:11 */
 /*!
  * jQuery UI Dialog Extended
  *
@@ -86,28 +86,20 @@ $.widget( "ui.dialog", $.ui.dialog, {
 			this._oldSize.height = value;
 		}
 
-		// we need to adjust the size as we need to set the overall dialog size
-		if ( this.options.useAnimation && this.options.useContentSize && this._isVisible ) {
-			if ( key === "width" ) {
-				value = value + ( this.uiDialog.width() - this.element.width() );
-			}
-			if ( key === "height" ) {
-				value = value + ( this.uiDialog.outerHeight() - this.element.height() );
-			}
-		}
-
 		this._super( key, value );
 	},
 
 	// calculate actual displayed size, data contains already the overall dimensions
 	_getSize: function( data ) {
 		var options = this.options,
-			feedback = $.position.getWithinInfo( options.position.of ),
-			portrait = ( feedback.height >= feedback.width ) ? true : false,
-			viewport = {
-				width: feedback.width - ( this.uiDialog.outerWidth() - this.uiDialog.width() ),
-				height: feedback.height
-			};
+			viewport = $.position.getWithinInfo( options.position.of ),
+			portrait = ( viewport.height >= viewport.width ) ? true : false;
+
+		// we need to adjust the size as we calculate without the non-content size
+		if ( this.options.useAnimation && this.options.useContentSize && this._isVisible ) {
+			viewport.width = viewport.width - ( this.uiDialog.outerWidth( true ) - this.element.width() );
+			viewport.height = viewport.height - ( this.uiDialog.outerHeight( true ) - this.element.height() );
+		}
 
 		if ( options.forceFullscreen ) {
 			return viewport;
@@ -211,8 +203,8 @@ $.widget( "ui.dialog", $.ui.dialog, {
 	_animateUsing: function( position, data ) {
 		var that = this;
 		// calculate new position based on the viewport
-		position.left = ( data.target.left + ( data.target.width - this.options.width - ( this.uiDialog.outerWidth() - this.uiDialog.width() ) ) / 2 );
-		position.top = ( data.target.top + ( data.target.height - this.options.height ) / 2 );
+		position.left = ( data.target.left + ( data.target.width - this.options.width - ( this.uiDialog.outerWidth( true ) - this.element.width() ) ) / 2 );
+		position.top = ( data.target.top + ( data.target.height - this.options.height - ( this.uiDialog.outerHeight( true ) - this.element.height() ) ) / 2 );
 		if ( position.top < 0 ) {
 			position.top = 0;
 		}
@@ -233,8 +225,7 @@ $.widget( "ui.dialog", $.ui.dialog, {
 		}, options.animateOptions );
 
 		this.element.animate({
-			// options.height is overall size, we need content size
-			height: options.height - ( this.uiDialog.outerHeight() - this.element.height() )
+			height: options.height
 		}, options.animateOptions );
 	},
 
