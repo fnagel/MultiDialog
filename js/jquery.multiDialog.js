@@ -1,7 +1,7 @@
 /*!
- * jQuery MultiDialog Beta2
+ * jQuery MultiDialog
  *
- * Copyright 2012-2013, Felix Nagel, http://www.felixnagel.com
+ * Copyright 2012-2015, Felix Nagel, http://www.felixnagel.com
  * Released under the MIT license.
  *
  * http://fnagel.github.com/MultiDialog/

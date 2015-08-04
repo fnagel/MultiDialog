@@ -1,10 +1,10 @@
 module.exports = function (grunt) {
 
 	// Load grunt tasks automatically
-	require('load-grunt-tasks')(grunt);
+	require("load-grunt-tasks")(grunt);
 
 	// Time how long tasks take. Can help when optimizing build times
-	require('time-grunt')(grunt);
+	require("time-grunt")(grunt);
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON("package.json"),
@@ -52,7 +52,7 @@ module.exports = function (grunt) {
 			standard: {
 				src: [
 					"js/jquery.multiDialog.js",
-					"js/jquery-ui.dialog.extended-*.js"
+					"js/jquery-ui.dialog.extended.js"
 				],
 				dest: "compiled/js/<%= pkg.name %>.js"
 			},
@@ -60,7 +60,7 @@ module.exports = function (grunt) {
 				src: [
 					"js/jquery.multiDialog.js",
 					"js/jquery/jquery-ui-*.custom.js",
-					"js/jquery.ui.dialog.extended-*.js",
+					"js/jquery.ui.dialog.extended.js",
 					"js/mobile/jquery.event.*.js"
 				],
 				dest: "compiled/js/<%= pkg.name %>.standalone.js"
@@ -100,7 +100,7 @@ module.exports = function (grunt) {
 				},
 				files: [ {
 						src: ["./**", "!./node_modules/**", "!./*.zip"],
-						dest: "<%= pkg.name %>-<%= pkg.version %>/"
+						dest: "<%= pkg.name %>/"
 				} ]
 			}
 		},
