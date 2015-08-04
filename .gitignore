@@ -1,7 +1,6 @@
 dist
 node_modules
 bower_components
-docs
 .project
 *~
 *.diff
@@ -10,6 +9,4 @@ docs
 .settings
 *.db
 *.session
-
-dist
 *.zip

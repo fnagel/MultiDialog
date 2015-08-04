@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>MultiDialog - jquery-plugin.multiDialog</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="https://drone.io/github.com/fnagel/MultiDialog/status.png" title="jquery-plugin.multiDialog"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.9.3 - 05-08-2015 01:39</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/fn.MultiDialog.html">fn.MultiDialog</a></li>
+                                <li><a href="../classes/MultiDialog.html">MultiDialog</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/MultiDialog.html">MultiDialog</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1>MultiDialog Class</h1>
+<div class="box meta">
+
+
+        <div class="foundat">
+            Defined in: <a href="../files/js_jquery.multiDialog.js.html#l33"><code>js\jquery.multiDialog.js:33</code></a>
+        </div>
+
+            Module: <a href="../modules/MultiDialog.html">MultiDialog</a>
+
+</div>
+
+
+<div class="box intro">
+    <p>This is main plugin definition</p>
+
+</div>
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_MultiDialog" class="method item">
+    <h3 class="name"><code>MultiDialog</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l33"><code>js\jquery.multiDialog.js:33</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+
+</div>
+    </div>
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+            <li class="api-class-tab events"><a href="#events">Events</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method private">
+                                <a href="#method__create">_create</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method__fireCallback">_fireCallback</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method__open">_open</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method__openLinkHelper">_openLinkHelper</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_first">first</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_last">last</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_next">next</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_open">open</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_openAjax">openAjax</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_openAjax">openAjax</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_openGallery">openGallery</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_openIframe">openIframe</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_openImage">openImage</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_openImage">openImage</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_openVimeo">openVimeo</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_openYoutube">openYoutube</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_prev">prev</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_descEnabled">descEnabled</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_dialog">dialog</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_dialog.animateOptions">dialog.animateOptions</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_dialog.closeModalOnClick">dialog.closeModalOnClick</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_dialog.disabled">dialog.disabled</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_dialog.getVarPrefix">dialog.getVarPrefix</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_dialog.height">dialog.height</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_dialog.resized">dialog.resized</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_dialog.useAnimation">dialog.useAnimation</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_dialog.useContentSize">dialog.useContentSize</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_dialog.width">dialog.width</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+                <div class="index-section events">
+                    <h3>Events</h3>
+
+                    <ul class="index-list events">
+                            <li class="index-item event">
+                                <a href="#event_on.ajaxError">on.ajaxError</a>
+
+                            </li>
+                            <li class="index-item event">
+                                <a href="#event_on.change">on.change</a>
+
+                            </li>
+                            <li class="index-item event">
+                                <a href="#event_on.close">on.close</a>
+
+                            </li>
+                            <li class="index-item event">
+                                <a href="#event_on.create">on.create</a>
+
+                            </li>
+                            <li class="index-item event">
+                                <a href="#event_on.createDialog">on.createDialog</a>
+
+                            </li>
+                            <li class="index-item event">
+                                <a href="#event_on.imageError">on.imageError</a>
+
+                            </li>
+                            <li class="index-item event">
+                                <a href="#event_on.inlineError">on.inlineError</a>
+
+                            </li>
+                            <li class="index-item event">
+                                <a href="#event_on.move">on.move</a>
+
+                            </li>
+                    </ul>
+                </div>
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method__create" class="method item private">
+    <h3 class="name"><code>_create</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_elements</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[_options]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l275"><code>js\jquery.multiDialog.js:275</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Initial and main method
+Could be used when MultiDialog instance is created manually</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_elements</code>
+                        <span class="type">Jquery Objec</span>
+
+
+                    <div class="param-description">
+                        <p>A set of jQuery selected HTML elments (one or more)</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[_options]</code>
+                        <span class="type">Object</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>_options Object with all options, see defaults</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method__fireCallback" class="method item private">
+    <h3 class="name"><code>_fireCallback</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l1025"><code>js\jquery.multiDialog.js:1025</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Fire callback event. <strong>Needs testing!</strong></p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Object</span>:
+                    <p>Object with following data:</p>
+
+            </div>
+        </div>
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>return {
+    eventName: eventName, // {String} Event / callback name
+    eventData: eventData, // {Object} Event data if available
+    data: data, // {Object} Current data object
+    dialog: this.uiDialog, // {jQuery Object} Dialog instance
+    group: this.group, // {Object} Current group
+    index: this.index // {Integer}Current item element index of group
+};</code></pre>
+
+            </div>
+        </div>
+</div>
+<div id="method__open" class="method item private">
+    <h3 class="name"><code>_open</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l620"><code>js\jquery.multiDialog.js:620</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Checks if the dialog needs to be created or opened</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method__openLinkHelper" class="method item private">
+    <h3 class="name"><code>_openLinkHelper</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>data</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l569"><code>js\jquery.multiDialog.js:569</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Helper to normalize incoming link parameter</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">data</code>
+                        <span class="type">Mixed</span>
+
+
+                    <div class="param-description">
+                        <p>Object: data.element = link (a tag) as jQuery Object, String: URL, jQuery Object: either a link (a tag) or any HTML element</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Object</span>:
+                    <p>Normalized object with data.href or at least data.element</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_first" class="method item">
+    <h3 class="name"><code>first</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l695"><code>js\jquery.multiDialog.js:695</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>First item in gallery group</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_last" class="method item">
+    <h3 class="name"><code>last</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l703"><code>js\jquery.multiDialog.js:703</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Last item in gallery group</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_next" class="method item">
+    <h3 class="name"><code>next</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l677"><code>js\jquery.multiDialog.js:677</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Next item in gallery group</p>
+
+    </div>
+
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>api.next();</code></pre>
+
+            </div>
+        </div>
+</div>
+<div id="method_open" class="method item">
+    <h3 class="name"><code>open</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>data</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l598"><code>js\jquery.multiDialog.js:598</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Opens a dialog: very flexible with all auto magic</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">data</code>
+                        <span class="type">Object, Jquery Object, String</span>
+
+
+                    <div class="param-description">
+                        <p>Pass in one of the following types:</p>
+
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name">object</code>
+                                    <span class="type">Object</span>
+
+                                <div class="param-description">
+                                    <p>Object with at least one: html, href or element.</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">jquery</code>
+                                    <span class="type">JQuery Object</span>
+
+                                <div class="param-description">
+                                    <p>jQuery object containing an &quot;a&quot; tag or any other HTML element (its content will be opened)</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">html</code>
+                                    <span class="type">String</span>
+
+                                <div class="param-description">
+                                    <p>Plain HTML string</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>api.open($(&quot;.my-selector&quot;));</code></pre>
+<pre class="code prettyprint"><code>api.open({ html: &quot;&lt;div&gt;Any HTML string&lt;/div&gt;&quot; });</code></pre>
+<pre class="code prettyprint"><code>api.open(&quot;&lt;div&gt;Any HTML string&lt;/div&gt;&quot;);</code></pre>
+
+            </div>
+        </div>
+</div>
+<div id="method_openAjax" class="method item">
+    <h3 class="name"><code>openAjax</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>data</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l545"><code>js\jquery.multiDialog.js:545</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Opens any HTML content</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">data</code>
+                        <span class="type">Mixed</span>
+
+
+                    <div class="param-description">
+                        <p>Object: data.element = any HTML element as jQuery Object, String: plain HTML string, jQuery Object: any HTML element</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>api.openHtml( &quot;&lt;div&gt;Any HTML string&lt;/div&gt;&quot; );</code></pre>
+
+            </div>
+        </div>
+</div>
+<div id="method_openAjax" class="method item">
+    <h3 class="name"><code>openAjax</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>data</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l507"><code>js\jquery.multiDialog.js:507</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Opens links with AJAX</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">data</code>
+                        <span class="type">Mixed</span>
+
+
+                    <div class="param-description">
+                        <p>Object: data.href = link (a tag) as jQuery Object, String: URL, jQuery Object: a link (a tag) element</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>api.openAjax({ href: &quot;/path/to/my/ajax/handler.php&quot; });</code></pre>
+
+            </div>
+        </div>
+</div>
+<div id="method_openGallery" class="method item">
+    <h3 class="name"><code>openGallery</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>group</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[index]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l636"><code>js\jquery.multiDialog.js:636</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Opens a dialog in gallery mode: very flexible with all auto magic</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">group</code>
+                        <span class="type">Mixed</span>
+
+
+                    <div class="param-description">
+                        <p>Array: An simple array with MultiDialog data objects  (see <a href="../classes/MultiDialog.html#method_open" class="crosslink">open</a> options), jQuery object: containing a set of elements or a link (a tag) elements</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[index]</code>
+                        <span class="type">Mixed</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>jQuery Object: a link tag element within the group parameter, Integer: a index starting with 0; default is the firs element in group parameter</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>api.openGallery([ { href: &quot;path/to/my/image.jpg&quot; }, { href: &quot;http://www.youtube.com/watch?v=VfOcyrOImLg&quot; }]);</code></pre>
+
+            </div>
+        </div>
+</div>
+<div id="method_openIframe" class="method item">
+    <h3 class="name"><code>openIframe</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>data</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l443"><code>js\jquery.multiDialog.js:443</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Opens an iframe</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">data</code>
+                        <span class="type">Mixed</span>
+
+
+                    <div class="param-description">
+                        <p>Object: data.element = link (a tag) as jQuery Object, String: URL, jQuery Object: a link (a tag) element</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_openImage" class="method item">
+    <h3 class="name"><code>openImage</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>data</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l398"><code>js\jquery.multiDialog.js:398</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Opens an image</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">data</code>
+                        <span class="type">Mixed</span>
+
+
+                    <div class="param-description">
+                        <p>Object: data.element = link (a tag) as jQuery Object with href pointing to an image, String: URL to an image, jQuery Object: of a ima tag</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>api.openImage( &quot;/path/to/my/image.jpeg&quot; );</code></pre>
+<pre class="code prettyprint"><code>api.openImage( $(&quot;&lt;img src='/path/to/my/image.jpeg' /&gt;&quot;) );</code></pre>
+<pre class="code prettyprint"><code>api.openImage( $(&quot;&lt;a href='/path/to/my/image.jpeg' /&gt;My Image&lt;/a&gt;&quot;) );</code></pre>
+
+            </div>
+        </div>
+</div>
+<div id="method_openImage" class="method item">
+    <h3 class="name"><code>openImage</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>data</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l454"><code>js\jquery.multiDialog.js:454</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Opens inline HTML: works with an anchor url</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">data</code>
+                        <span class="type">Mixed</span>
+
+
+                    <div class="param-description">
+                        <p>Object: data.href = link (a tag) as jQuery Object with an anchor pointing to an currently available HTML element with that anchor as id attribute</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>api.open({ href: &quot;/my-site.html#my-anchor&quot; });</code></pre>
+
+            </div>
+        </div>
+</div>
+<div id="method_openVimeo" class="method item">
+    <h3 class="name"><code>openVimeo</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>data</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l491"><code>js\jquery.multiDialog.js:491</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Opens Vimeo video</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">data</code>
+                        <span class="type">Mixed</span>
+
+
+                    <div class="param-description">
+                        <p>Object: data.href = link (a tag) as jQuery Object</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>api.openVimeo({ href: &quot;http://www.youtube.com/watch?v=aMnw5bItt3s&quot; });</code></pre>
+
+            </div>
+        </div>
+</div>
+<div id="method_openYoutube" class="method item">
+    <h3 class="name"><code>openYoutube</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>data</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l476"><code>js\jquery.multiDialog.js:476</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Opens YouTube video</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">data</code>
+                        <span class="type">Mixed</span>
+
+
+                    <div class="param-description">
+                        <p>Object: data.href = link (a tag) as jQuery Object</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>api.open({ href: &quot;http://www.youtube.com/watch?v=aMnw5bItt3s&quot; });</code></pre>
+
+            </div>
+        </div>
+</div>
+<div id="method_prev" class="method item">
+    <h3 class="name"><code>prev</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l687"><code>js\jquery.multiDialog.js:687</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Previous item in gallery group</p>
+
+    </div>
+
+
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_descEnabled" class="property item">
+    <h3 class="name"><code>descEnabled</code></h3>
+    <span class="type">Boolean</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l56"><code>js\jquery.multiDialog.js:56</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Enable description pan</p>
+
+    </div>
+
+        <p><strong>Default:</strong> true</p>
+
+
+</div>
+<div id="property_dialog" class="property item">
+    <h3 class="name"><code>dialog</code></h3>
+    <span class="type">Object</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l64"><code>js\jquery.multiDialog.js:64</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>jQuery UI Dialog options: see jQuery UI Dialog docs for all options, some options are not available!</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_dialog.animateOptions" class="property item">
+    <h3 class="name"><code>dialog.animateOptions</code></h3>
+    <span class="type">Object</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l112"><code>js\jquery.multiDialog.js:112</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Animate options as defined for jQuery UI show and hide options (see jQuery UI documentation)</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_dialog.closeModalOnClick" class="property item">
+    <h3 class="name"><code>dialog.closeModalOnClick</code></h3>
+    <span class="type">Boolean</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l73"><code>js\jquery.multiDialog.js:73</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Close MultiDialog by click on overlay</p>
+
+    </div>
+
+        <p><strong>Default:</strong> true</p>
+
+
+</div>
+<div id="property_dialog.disabled" class="property item">
+    <h3 class="name"><code>dialog.disabled</code></h3>
+    <span class="type">Boolean</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l144"><code>js\jquery.multiDialog.js:144</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Disable plugin</p>
+
+    </div>
+
+        <p><strong>Default:</strong> false</p>
+
+
+</div>
+<div id="property_dialog.getVarPrefix" class="property item">
+    <h3 class="name"><code>dialog.getVarPrefix</code></h3>
+    <span class="type">Boolean</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l152"><code>js\jquery.multiDialog.js:152</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>GET variable prefix (?ajax=true)</p>
+
+    </div>
+
+        <p><strong>Default:</strong> &quot;&quot;</p>
+
+
+</div>
+<div id="property_dialog.height" class="property item">
+    <h3 class="name"><code>dialog.height</code></h3>
+    <span class="type">Integer</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l89"><code>js\jquery.multiDialog.js:89</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Height of the content (not overall size, &quot;auto&quot; not allowed)</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 400</p>
+
+
+</div>
+<div id="property_dialog.resized" class="property item">
+    <h3 class="name"><code>dialog.resized</code></h3>
+    <span class="type">Function</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l127"><code>js\jquery.multiDialog.js:127</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>jQuery UI Dialog resize callback event (please note: native close, open and resize callbacks are not available)</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_dialog.useAnimation" class="property item">
+    <h3 class="name"><code>dialog.useAnimation</code></h3>
+    <span class="type">Boolean</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l104"><code>js\jquery.multiDialog.js:104</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Animate the resizing and positioning mechanism</p>
+
+    </div>
+
+        <p><strong>Default:</strong> true</p>
+
+
+</div>
+<div id="property_dialog.useContentSize" class="property item private">
+    <h3 class="name"><code>dialog.useContentSize</code></h3>
+    <span class="type">Boolean</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l134"><code>js\jquery.multiDialog.js:134</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Do not alter this property!</p>
+
+    </div>
+
+        <p><strong>Default:</strong> true</p>
+
+
+</div>
+<div id="property_dialog.width" class="property item">
+    <h3 class="name"><code>dialog.width</code></h3>
+    <span class="type">Integer</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_jquery.multiDialog.js.html#l81"><code>js\jquery.multiDialog.js:81</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Width of the content (not overall size, &quot;auto&quot; not allowed)</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 600</p>
+
+
+</div>
+            </div>
+
+
+            <div id="events" class="api-class-tabpanel">
+                <h2 class="off-left">Events</h2>
+
+                    <div id="event_on.ajaxError" class="events item">
+                        <h3 class="name"><code>on.ajaxError</code></h3>
+                        <span class="type"></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/js_jquery.multiDialog.js.html#l526"><code>js\jquery.multiDialog.js:526</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Fires Callback, see <a href="../classes/MultiDialog.html#method__fireCallback" class="crosslink">_fireCallback</a> for return value.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                            <div class="example">
+                                <h4>Example:</h4>
+                    
+                                <div class="example-content">
+                                    <pre class="code prettyprint"><code>$.MultiDialog({ on: { ajaxError: function( data ) { } } }); </code></pre>
+                    
+                                </div>
+                            </div>
+                    </div>
+                    <div id="event_on.change" class="events item">
+                        <h3 class="name"><code>on.change</code></h3>
+                        <span class="type"></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/js_jquery.multiDialog.js.html#l818"><code>js\jquery.multiDialog.js:818</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Fires Callback, see <a href="../classes/MultiDialog.html#method__fireCallback" class="crosslink">_fireCallback</a> for return value.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="event_on.close" class="events item">
+                        <h3 class="name"><code>on.close</code></h3>
+                        <span class="type"></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/js_jquery.multiDialog.js.html#l984"><code>js\jquery.multiDialog.js:984</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Fires Callback, see <a href="../classes/MultiDialog.html#method__fireCallback" class="crosslink">_fireCallback</a> for return value.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="event_on.create" class="events item">
+                        <h3 class="name"><code>on.create</code></h3>
+                        <span class="type"></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/js_jquery.multiDialog.js.html#l317"><code>js\jquery.multiDialog.js:317</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Fires Callback, see <a href="../classes/MultiDialog.html#method__fireCallback" class="crosslink">_fireCallback</a> for return value.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="event_on.createDialog" class="events item">
+                        <h3 class="name"><code>on.createDialog</code></h3>
+                        <span class="type"></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/js_jquery.multiDialog.js.html#l795"><code>js\jquery.multiDialog.js:795</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Fires Callback, see <a href="../classes/MultiDialog.html#method__fireCallback" class="crosslink">_fireCallback</a> for return value.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="event_on.imageError" class="events item">
+                        <h3 class="name"><code>on.imageError</code></h3>
+                        <span class="type"></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/js_jquery.multiDialog.js.html#l433"><code>js\jquery.multiDialog.js:433</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Fires Callback, see <a href="../classes/MultiDialog.html#method__fireCallback" class="crosslink">_fireCallback</a> for return value.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="event_on.inlineError" class="events item">
+                        <h3 class="name"><code>on.inlineError</code></h3>
+                        <span class="type"></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/js_jquery.multiDialog.js.html#l468"><code>js\jquery.multiDialog.js:468</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Fires Callback, see <a href="../classes/MultiDialog.html#method__fireCallback" class="crosslink">_fireCallback</a> for return value.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="event_on.move" class="events item">
+                        <h3 class="name"><code>on.move</code></h3>
+                        <span class="type"></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/js_jquery.multiDialog.js.html#l734"><code>js\jquery.multiDialog.js:734</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Fires Callback, see <a href="../classes/MultiDialog.html#method__fireCallback" class="crosslink">_fireCallback</a> for return value.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+            </div>
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
