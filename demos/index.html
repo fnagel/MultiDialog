@@ -486,7 +486,7 @@ $(function() {
 			How to add a path related custom content type.
 	</div>
 	<div id="tabs-type-demo">
-		<a class="add-type" href="res/syntaxhighlighter/index.html">Demo link</a>
+		<a class="add-type" href="../docs/index.html">Demo link</a>
 	</div>
 	<div id="tabs-type-code">
 		<pre class="line-numbers"><code class="language-javascript"></code></pre>
@@ -500,8 +500,8 @@ $(function() {
 			config: {
 				customPath: {
 					test: function( href ) {
-						// search for syntaxhighlighter in URL
-						return href.match( /syntaxhighlighter/i );
+						// search for docs in URL
+						return href.match( /docs/i );
 					},
 					template: '<iframe width="100%" height="100%" src="{url}" frameborder="0"></iframe>'
 				}
@@ -512,7 +512,7 @@ $(function() {
 				this._parseHtml( data, "iframe", "url" );
 				data.width = 1280;
 				data.height = 800;
-				data.title = "SyntaxHighlighter";
+				data.title = "Documentation";
 				this._open( data );
 			} else {
 				// backfall
