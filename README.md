@@ -9,7 +9,9 @@ Please see http://fnagel.github.com/MultiDialog/ for more information.
 
 # Documentation
  
-````./docs/index.html````
+````
+./docs/index.html
+````
 
 
 # Download
