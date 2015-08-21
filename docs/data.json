@@ -2,7 +2,7 @@
     "project": {
         "name": "jquery-plugin.multiDialog",
         "description": "MultiDialog utilizes jQuery UI Dialog Widget for a full featured Modalbox / Lightbox application.",
-        "version": "0.9.3 - 05-08-2015 01:39",
+        "version": "0.9.2dev - 21-08-2015 12:37",
         "url": "http://fnagel.github.com/MultiDialog/",
         "logo": "https://drone.io/github.com/fnagel/MultiDialog/status.png"
     },
