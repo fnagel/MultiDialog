@@ -1,6 +1,7 @@
 # ToDo / Roadmap
 
-* Update jQuery UI to 1.11
+* Update gh-pages
+* Link docs
 * Release 1.0.0
 
 * Remove jquery.json (as no longer in use)
