@@ -18,6 +18,10 @@
 		"jquery.event.move": "1.3.6",
 		"jquery.event.swipe": "0.5.4"
 	},
+	"devDependencies": {
+	  	"jquery-ui-theme-switcher": "https://github.com/harborhoffer/Super-Theme-Switcher.git#master",
+	  	"prism": "1.3.0"
+	},
 	"license": "MIT",
 	"ignore": [
 		"**/.*",

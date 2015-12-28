@@ -1,4 +1,6 @@
 dist
+.tmp
+demos/res/SuperThemeSwitcher
 node_modules
 bower_components
 .project

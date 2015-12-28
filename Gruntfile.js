@@ -57,7 +57,7 @@ module.exports = function (grunt) {
 			},
 			standalone: {
 				src: [
-					"js/jquery.ui.dialog.extended.js",
+					"bower_components/jquery-ui-dialog-extended/dialog/jquery.ui.dialog.extended.js",
 					"js/jquery.multiDialog.js"
 				],
 				dest: "dist/js/<%= pkg.name %>.standalone.js"
@@ -97,6 +97,54 @@ module.exports = function (grunt) {
 				} ]
 			}
 		},
+        useminPrepare: {
+	        demos: {
+		        files: { src: "demos/index.html" },
+                options: {
+	                dest: "dist"
+                }
+            }
+        },
+		copy: {
+		    themeSwitcher: {
+		        files: [{
+			        expand: true,
+	                dot: true,
+	                cwd: "bower_components/jquery-ui-theme-switcher",
+	                dest: "demos/res/SuperThemeSwitcher",
+	                src: ["images/**/*"]
+		        }]
+		    },
+		    demos: {
+		        files: [{
+		            flatten: true,
+		            dest: "dist/demo.html",
+		            src: [
+		                "demos/index.html"
+		            ]
+		        },{
+			        expand: true,
+	                dot: true,
+	                cwd: "demos",
+	                dest: "dist",
+	                src: ["res/**/*"]
+		        },{
+			        expand: true,
+	                dot: true,
+	                cwd: "bower_components/jquery-ui/themes/base",
+	                dest: "dist/css",
+	                src: ["images/**/*"]
+		        }]
+		    }
+		},
+        usemin: {
+	        demos: {
+		        files: { src: "dist/demo.html" },
+                options: {
+                    type: "html"
+                }
+            }
+        },
 		watch: {
 			scripts: {
 				files: ["<%= jshint.files %>"],
@@ -139,6 +187,6 @@ module.exports = function (grunt) {
 
 	grunt.registerTask("doc", ["clean:docs", "jshint", "yuidoc"]);
 
-	grunt.registerTask("default", ["jshint", "csslint", "clean", "yuidoc", "concat", "uglify", "cssmin", "compress"]);
+	grunt.registerTask("default", ["clean", "useminPrepare", "copy", "usemin", "jshint", "csslint", "yuidoc", "concat", "uglify", "cssmin", "compress"]);
 
 };
