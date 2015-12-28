@@ -13,6 +13,7 @@ YUI.add("yuidoc-meta", function(Y) {
             "name": "MultiDialog",
             "description": "jQuery MultiDialog Plugin"
         }
-    ]
+    ],
+    "elements": []
 } };
 });
