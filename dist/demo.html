@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>jQuery UI MultiDialog - Demos</title>
+	<!-- You will need to install this project (see readme) in order to test this demo -->
+
+	 <!--[if lt IE 9]>
+		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	 <![endif]-->
+
+	<link rel="stylesheet" href="css/vendor.min.css">
+	<link rel="stylesheet" href="css/demo.min.css">
+
+	<script src="js/vendor.min.js"></script>
+	<script src="js/demo.min.js"></script>
+
+	<!-- MultiDialog files (needed) -->
+	<link rel="stylesheet" href="../css/jquery.multiDialog.css">
+	<script src="../js/jquery.multiDialog.js"></script>
+
+	<!-- MultiDialog files (optional) -->
+	<link rel="stylesheet" href="../css/jquery.multiDialog.plain.css">
+
+	<!-- init demo related JS -->
+	<script>
+	$(function() {
+		var tabs = $(".tabs").tabs();
+
+		$(".tabs button").button();
+
+		tabs.each(function(){
+			$(this).find("code").text($(this).next("script").text());
+		});
+
+		$("#themeswitcher").themeswitcher({
+			imgpath: "res/SuperThemeSwitcher/images/",
+			jqueryuiversion: "1.9.0"
+		});
+	});
+	</script>
+</head>
+<body>
+
+<div class="demo">
+
+
+<h2>Examples</h2>
+
+<div class="tabs">
+	<ul>
+		<li><a href="#tabs-lightbox-info">Picture Gallery</a></li>
+		<li><a href="#tabs-lightbox-demo">Demo</a></li>
+		<li><a href="#tabs-lightbox-code">Code</a></li>
+	</ul>
+	<div id="tabs-lightbox-info">
+		<p>
+			A simple lightbox gallery without gallery buttons. Different sizes and very big images will be handled without problems.
+		</p>
+	</div>
+	<div id="tabs-lightbox-demo">
+		<ul class="float ui-helper-clearfix">
+			<li><a class="lightbox" href="res/images/dummy-500x375-colorE88801.jpg"><img src="res/images/thumb.jpg"  title="Open this picture of in a larger version" alt="Example picture #1" longdesc="Exaple picture #1: Lorem ipsum dolor sit amet, consetetur sadipscing elitr." /></a></li>
+			<li><a class="lightbox" href="res/images/dummy-454x280-colorFFC200.jpg"><img src="res/images/thumb.jpg"  title="Open this picture of in a larger version" alt="Example picture #2" longdesc="Exaple picture #2: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt." /></a></li>
+			<li><a class="lightbox" href="res/images/dummy-800x533-colorFFC200.jpg"><img src="res/images/thumb.jpg"  title="Open this picture of in a larger version" alt="Example picture #3" /></a></li>
+			<li><a class="lightbox" href="res/images/dummy-800x600-color730046.jpg"><img src="res/images/thumb.jpg"  title="Open this picture of in a larger version" alt="Example picture #4" /></a></li>
+			<li><a class="lightbox" href="res/images/dummy-600x800-color730046.jpg"><img src="res/images/thumb.jpg"  title="Open this picture of in a larger version" alt="Example picture #5" longdesc="Exaple picture #5 description text" /></a></li>
+			<li><a class="lightbox" href="res/images/dummy-600x800-colorE88801.jpg"><img src="res/images/thumb.jpg"  title="Open this picture of in a larger version" alt="Example picture #6" longdesc="Exaple picture #6 description text" /></a></li>
+			<li><a class="lightbox" href="res/images/dummy-1024x768-colorFFC200.jpg"><img src="res/images/thumb.jpg"  title="Open this picture of in a larger version" alt="Example picture #7" longdesc="Exaple picture #7: Lorem ipsum dolor sit amet, consetetur sadipscing elitr." /></a></li>
+			<li><a class="lightbox" href="res/images/dummy-1280x1024-colorC93C00.jpg"><img src="res/images/thumb.jpg"  title="Open this picture of in a larger version" alt="Example picture #8" longdesc="Exaple picture #8: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua." /></a></li>
+			<li><a class="lightbox" href="res/images/dummy-1600x1200-colorC93C00.jpg"><img src="res/images/thumb.jpg"  title="Open this picture of in a larger version" alt="Example picture #9" longdesc="Exaple picture #9: Lorem ipsum dolor sit amet, consetetur sadipscing elitr." /></a></li>
+			<li><a class="lightbox" href="res/images/dummy-1600x1200-colorE88801.jpg"><img src="res/images/thumb.jpg"  title="Open this picture of in a larger version" alt="Example picture #10" longdesc="Exaple picture #10: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua." /></a></li>
+		</ul>
+	</div>
+	<div id="tabs-lightbox-code">
+		<pre class="line-numbers"><code class="language-javascript"></code></pre>
+	</div>
+</div>
+<script>
+$(function() {
+	$( "a.lightbox" ).MultiDialog({
+		gallery: {
+			enabled: true
+		},
+		dialog: {
+			buttons: {}
+		}
+	});
+});
+</script>
+
+
+<div class="tabs">
+	<ul>
+		<li><a href="#tabs-group-info">Content types</a></li>
+		<li><a href="#tabs-group-demo">Demo</a></li>
+		<li><a href="#tabs-group-code">Code</a></li>
+	</ul>
+	<div id="tabs-group-info">
+		<p>
+			MultiDialog can handle different content types.
+		</p>
+	</div>
+	<div id="tabs-group-demo">
+		<p>
+			A group of mixed content types with loop functionality enabled.
+		</p>
+		<br />
+		<ul>
+			<li><a class="group" href="res/images/dummy-800x600-color730046.jpg">Images (jpg, png, gif by file extension)</a></li>
+			<li><a class="group" href="res/ajax.html?ajax=true">AJAX content (by adding ?ajax=true to the link)</a></li>
+			<li><a class="group" href="http://m.wikipedia.org/?iframe=true">iframes (by adding ?iframe=true to the link)</a></li>
+			<li><a class="group" href="http://www.youtube.com/watch?v=VfOcyrOImLg">You Tube video (by domain)</a></li>
+			<li><a class="group" href="http://vimeo.com/39787862" title="Thriller (MJ Tribute) - Thomas Herner">Vimeo video (by domain)</a></li>
+			<li><a class="group" href="#inline-content-group-2">Inline content (by anchor link)</a></li>
+		</ul>
+	</div>
+	<div id="tabs-group-code">
+		<pre class="line-numbers"><code class="language-javascript"></code></pre>
+	</div>
+</div>
+<script>
+$(function() {
+	$( "a.group" ).MultiDialog({
+		gallery: {
+			enabled: true,
+			loop: true
+		}
+	});
+});
+</script>
+
+<div class="tabs">
+	<ul>
+		<li><a href="#tabs-viewport-info">Viewport settings</a></li>
+		<li><a href="#tabs-viewport-demo">Demo</a></li>
+		<li><a href="#tabs-viewport-code">Code</a></li>
+	</ul>
+	<div id="tabs-viewport-info">
+		<p>
+			MultiDialog has multipel viewport related settings and supports RWD.<br />
+			Try the demos and resize the window or scroll.
+		</p>
+	</div>
+	<div id="tabs-viewport-demo">
+		<ul>
+			<li><p><a class="viewport1" href="res/images/dummy-1600x1200-colorE88801.jpg">forceFullscreen:</a> Always force the dialog to be maximized. Not ratio aware.</p></li>
+			<li><p><a class="viewport2" href="res/images/dummy-500x375-colorE88801.jpg">resizeOnWindowResize:</a> Resize the dialog when the window is resized. Useful for repsonsive websites.</p></li>
+			<li><p><a class="viewport3" href="res/images/dummy-500x375-colorE88801.jpg">scrollWithViewport:</a> Reposition the dialog when the window is scrolled. Useful for repsonsive websites.</p></li>
+			<li><p><a class="viewport4" href="res/images/dummy-500x375-colorE88801.jpg">resizeAccordingToViewport:</a> Resizes the dialog (ratio aware) to fit the viewport. Makes sure the dialog isn't bigger as the viewport. Very useful for image galleries as its guarantees the best possible image size.</p></li>
+			<li><p><a class="viewport5" href="res/images/dummy-500x375-colorE88801.jpg">resizeToBestPossibleSize:</a> Resizes the dialog (ratio aware) to fit the viewport. Something like a ratio aware fullscreen mode. This could increase the dialog size.</p></li>
+		</ul>
+	</div>
+	<div id="tabs-viewport-code">
+		<pre class="line-numbers"><code class="language-javascript"></code></pre>
+	</div>
+</div>
+<script>
+$(function() {
+	$( "a.viewport1" ).MultiDialog({
+		dialog: {
+			forceFullscreen: true
+		}
+	});
+	$( "a.viewport2" ).MultiDialog({
+		dialog: {
+			resizeOnWindowResize: true
+		}
+	});
+	$( "a.viewport3" ).MultiDialog({
+		dialog: {
+			scrollWithViewport: true
+		}
+	});
+	$( "a.viewport4" ).MultiDialog({
+		dialog: {
+			resizeAccordingToViewport: true
+		}
+	});
+	$( "a.viewport5" ).MultiDialog({
+		dialog: {
+			resizeToBestPossibleSize: true
+		}
+	});
+});
+</script>
+
+
+<div class="tabs">
+	<ul>
+		<li><a href="#tabs-api-info">API</a></li>
+		<li><a href="#tabs-api-demo">Demo</a></li>
+		<li><a href="#tabs-api-code">Code</a></li>
+		<li><a href="#tabs-api-doc">API Documentation</a></li>
+	</ul>
+	<div id="tabs-api-info">
+		<p>
+			MultiDialog has a powerful API.<br />
+		</p>
+	</div>
+	<div id="tabs-api-demo">
+		<ul>
+			<li><button id="api-button-1">Open an image</button></li>
+			<li><button id="api-button-2">Open a link in iframe</button></li>
+			<li><button id="api-button-3">Open a YouTube video</button></li>
+			<li><button id="api-button-4">Open about tab panel</button></li>
+			<li><button id="api-button-5">Open an mixed gallery</button></li>
+		</ul>
+		<br />
+		More examples coming soon...
+	</div>
+	<div id="tabs-api-code">
+		<pre class="line-numbers"><code class="language-javascript"></code></pre>
+	</div>
+	<div id="tabs-api-doc">
+		<a href="../docs/index.html" target="_blank">Full documentation</a>
+		<br />
+		<br />
+		<ul>
+			<li>
+				<em>MultiDialog functions</em>
+				<ul>
+					<li>open</li>
+					<li>close</li>
+					<li>openLink</li>
+					<li>openImage, openAjax, openIframe, openYoutube, openVimeo, openHtml, openInline</li>
+					<li>resize</li>
+					<li>position</li>
+				</ul>
+			</li>
+			<li>
+				<em>MultiDialog gallery functions</em>
+				<ul>
+					<li>openGallery</li>
+					<li>next</li>
+					<li>prev</li>
+					<li>first</li>
+					<li>last</li>
+				</ul>
+			</li>
+			<li>
+				<em>Default jQuery UI functions</em>
+				<ul>
+					<li>destroy</li>
+					<li>widget</li>
+					<li>dialog</li>
+				</ul>
+			</li>
+		</ul>
+		<div class="ui-helper-hidden">
+			<strong>open</strong>
+			<p>
+				This function...
+			</p>
+			<strong>openGallery</strong>
+			<p>
+				This function...
+			</p>
+			<strong>openLink</strong>
+			<p>
+				This function...
+			</p>
+			<strong>openXyz</strong>
+			<p>
+				This function...
+			</p>
+			<strong>next, prev, first, last</strong>
+			<p>
+				This function...
+			</p>
+			<strong>resize</strong>
+			<p>
+				This function...
+			</p>
+			<strong>position</strong>
+			<p>
+				This function...
+			</p>
+		</div>
+	</div>
+</div>
+
+<script>
+$(function() {
+	// make instance
+	api = $.fn.MultiDialog({
+		dialog: {
+			title: "API Example"
+		}
+	});
+
+	$("#api-button-1").click( function(){
+		api.openLink("res/images/dummy-800x600-color730046.jpg");
+	});
+
+	$("#api-button-2").click( function(){
+		api.openLink({
+			href: "http://m.wikipedia.org/",
+			type: "iframe"
+		});
+	});
+
+	$("#api-button-3").click( function(){
+		api.openYoutube({ href: "http://www.youtube.com/watch?v=VfOcyrOImLg" });
+	});
+
+	$("#api-button-4").click( function(){
+		// api.open({ element: $("#inline-content-group-2") });
+		// shortcut for same functionality
+		api.open( $("#inline-content-group-2"));
+	});
+
+	api2 = $.fn.MultiDialog();
+	api2.options.gallery.enabled = true;
+	api2.options.dialog.title = "API Gallery Example";
+	$("#api-button-5").click( function(){
+		api2.openGallery([
+			{ href: "res/images/dummy-800x600-color730046.jpg" },
+			{ href: "http://www.youtube.com/watch?v=VfOcyrOImLg" },
+			{ href: "#inline-content-group-1" }
+		]);
+	});
+});
+</script>
+
+
+
+<div class="tabs">
+	<ul>
+		<li><a href="#tabs-dialog-info">jQuery UI Dialog options</a></li>
+		<li><a href="#tabs-dialog-demo">Demo</a></li>
+		<li><a href="#tabs-dialog-code">Code</a></li>
+	</ul>
+	<div id="tabs-dialog-info">
+		<p>
+			This example explains how to use the jQuery UI Dialog options.
+		</p>
+	</div>
+	<div id="tabs-dialog-demo">
+		<p>
+			Open a bigger, resizable, draggable, relative to this tab widget positioned Dialog without an overlay.
+		</p>
+		<br />
+		<ul>
+			<li><a class="dialog-options" href="http://www.youtube.com/watch?v=VfOcyrOImLg" title="Opeth - The Devil's Orchard">You Tube video</a></li>
+			<li><a class="dialog-options" href="#inline-content-group-1">Inline content</a></li>
+		</ul>
+	</div>
+	<div id="tabs-dialog-code">
+		<pre class="line-numbers"><code class="language-javascript"></code></pre>
+		Please note you need to add jquery.ui.draggable.js and jquery.ui.resizable.js.
+	</div>
+</div>
+
+<script>
+$(function() {
+	$( "a.dialog-options" ).MultiDialog({
+		dialog: {
+			width: 400,
+			height: 300,
+			modal: false,
+			position: {
+				my: 'left top',
+				at: 'left bottom',
+				offset: '0 10',
+				// overwriting using is needed!
+				using: null,
+				of: $( "#tabs-dialog-demo" ).parent( ".tabs" ),
+				collision: "none"
+			},
+			draggable: true,
+			resizable: true
+		}
+	});
+});
+</script>
+
+
+<div class="tabs">
+	<ul>
+		<li><a href="#tabs-temeswitcher-info">Theming</a></li>
+		<li><a href="#tabs-temeswitcher-demo">Demo</a></li>
+		<li><a href="#tabs-temeswitcher-code">Code</a></li>
+	</ul>
+	<div id="tabs-temeswitcher-info">
+		<p>
+			MultiDialog is fully compatible to jQuery UI's CSS Framework - so theming is pretty easy!
+		</p>
+	</div>
+	<div id="tabs-temeswitcher-demo">
+		Some example themes, delivered by <a href="https://github.com/harborhoffer/Super-Theme-Switcher">Super Theme Themeswitcher</a>.
+		<br />
+		<br />
+		<div id="themeswitcher"></div>
+		<br />
+		<br />
+		Choose a theme and try any demo on this page.
+		<br />
+		<br />
+		Try this <a id="plain-style" href="#start-plain-gallery">plain style gallery</a>.
+	</div>
+	<div id="tabs-temeswitcher-code">
+		Just add a new jQuery UI CSS Theme. Built your own with <a href="http://jqueryui.com/themeroller">jQuery UI's Themeroller</a>.
+	</div>
+</div>
+
+
+<div class="tabs">
+<ul>
+		<li><a href="#tabs-examples-info">More examples</a></li>
+		<li><a href="#tabs-examples-demo">Demo</a></li>
+		<li><a href="#tabs-examples-code">Code</a></li>
+	</ul>
+	<div id="tabs-examples-info">
+		<p>
+			Some more examples: GETvar support, fullscreen mode, ...
+		</p>
+	</div>
+	<div id="tabs-examples-demo">
+		<ul>
+			<li><a class="fullscreen" href="res/images/dummy-800x600-color730046.jpg">Force fullscreen mode #1</a></li>
+			<li><a class="fullscreen" href="res/images/dummy-600x800-color730046.jpg">Force fullscreen mode #2</a></li>
+			<li><a class="getvars" title="Some long sample text" href="res/images/dummy-600x800-color730046.jpg?multidialog-type=iframe">Set type via GET parameter (Picture in iframe)</a></li>
+			<li><a class="getvars" href="http://www.youtube.com/watch?v=VfOcyrOImLg&multidialog-width=1024&multidialog-height=576" title="Opeth - The Devil's Orchard">Set width and height via GET parameter (YouTube video)</a></li>
+		</ul>
+	</div>
+	<div id="tabs-examples-code">
+		<pre class="line-numbers"><code class="language-javascript"></code></pre>
+	</div>
+</div>
+<script>
+$(function() {
+	plainApi = $.fn.MultiDialog({
+		dialog: {
+			title: "Plain Style Example",
+			dialogClass: "plain"
+		}
+	});
+
+	$("#plain-style").click( function(){
+		plainApi.openGallery( $("a.fullscreen, a.getvars") );
+	});
+
+	$( "a.fullscreen" ).MultiDialog({
+		forceFullscreen: true
+	});
+
+	$( "a.getvars" ).MultiDialog({
+		// you could prefix MultiDialog GETvars if needed
+		getVarPrefix: "multidialog-"
+	});
+});
+</script>
+
+
+<div class="tabs">
+	<ul>
+		<li><a href="#tabs-type-info">Custom content types</a></li>
+		<li><a href="#tabs-type-demo">Demo</a></li>
+		<li><a href="#tabs-type-code">Code</a></li>
+	</ul>
+	<div id="tabs-type-info">
+		<p>
+			How to add a path related custom content type.
+	</div>
+	<div id="tabs-type-demo">
+		<a class="add-type" href="../docs/index.html">Demo link</a>
+	</div>
+	<div id="tabs-type-code">
+		<pre class="line-numbers"><code class="language-javascript"></code></pre>
+	</div>
+</div>
+
+<script>
+$(function() {
+	$( "a.add-type" ).MultiDialog({
+		types: {
+			config: {
+				customPath: {
+					test: function( href ) {
+						// search for docs in URL
+						return href.match( /docs/i );
+					},
+					template: '<iframe width="100%" height="100%" src="{url}" frameborder="0"></iframe>'
+				}
+			}
+		},
+		openCustom: function( data ){
+			if ( data.type = "customPath" ) {
+				this._parseHtml( data, "iframe", "url" );
+				data.width = 1280;
+				data.height = 800;
+				data.title = "Documentation";
+				this._open( data );
+			} else {
+				// backfall
+				window.open( data.href, '_newtab' );
+			}
+		}
+	});
+});
+</script>
+
+
+</div><!-- End demo -->
+
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+<!-- Some hidden inline content -->
+<div id="inline-content-group-1" class="ui-helper-hidden">
+	<img src="res/images/dummy-454x280-colorFFC200.jpg" style="width: 33%; float: left; margin-right: 3%;" />
+	<p><strong>#1 Some example content with simple HTML.</strong> Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+</div>
+
+<div id="inline-content-group-2" class="ui-helper-hidden">
+	<img src="res/images/dummy-454x280-colorFFC200.jpg" style="width: 50%; float: right; margin-left: 3%;" />
+	<p><strong>#2 Some example content with simple HTML.</strong> Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<img src="res/images/dummy-454x280-colorFFC200.jpg" style="width: 50%; float: right; margin-left: 3%;" />
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<img src="res/images/dummy-454x280-colorFFC200.jpg" style="width: 50%; float: right; margin-left: 3%;" />
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+	<p>Some example content with simple HTML. Some example content with simple HTML. Some example content with simple HTML.</p>
+</div>
+
+</body>
+</html>
