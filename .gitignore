@@ -1,6 +1,8 @@
 dist
+.tmp
+demos/res/SuperThemeSwitcher
 node_modules
-docs
+bower_components
 .project
 *~
 *.diff
@@ -9,5 +11,4 @@ docs
 .settings
 *.db
 *.session
-compiled
 *.zip

@@ -1,0 +1,601 @@
+{
+    "project": {
+        "name": "jquery-plugin.multiDialog",
+        "description": "MultiDialog utilizes jQuery UI Dialog Widget for a full featured Modalbox / Lightbox application.",
+        "version": "1.0.0 - 28-12-2015 11:57",
+        "url": "http://fnagel.github.com/MultiDialog/",
+        "logo": "https://drone.io/github.com/fnagel/MultiDialog/status.png"
+    },
+    "files": {
+        "js\\jquery.multiDialog.js": {
+            "name": "js\\jquery.multiDialog.js",
+            "modules": {
+                "MultiDialog": 1
+            },
+            "classes": {
+                "MultiDialog": 1,
+                "fn.MultiDialog": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "fn": 1
+            }
+        }
+    },
+    "modules": {
+        "MultiDialog": {
+            "name": "MultiDialog",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "MultiDialog": 1,
+                "fn.MultiDialog": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "fn": 1
+            },
+            "tag": "module",
+            "file": "js\\jquery.multiDialog.js",
+            "line": 1076,
+            "description": "jQuery MultiDialog Plugin"
+        }
+    },
+    "classes": {
+        "MultiDialog": {
+            "name": "MultiDialog",
+            "shortname": "MultiDialog",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "MultiDialog",
+            "namespace": "",
+            "file": "js\\jquery.multiDialog.js",
+            "line": 33,
+            "description": "This is main plugin definition",
+            "is_constructor": 1
+        },
+        "fn.MultiDialog": {
+            "name": "fn.MultiDialog",
+            "shortname": "fn.MultiDialog",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "MultiDialog",
+            "namespace": "fn",
+            "file": "js\\jquery.multiDialog.js",
+            "line": 1076,
+            "description": "This is the jQuery plugin definition (singleton instance)",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "Options object, see {{#crossLink  \"MultiDialog\" }}{{/crossLink}} properties",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The {{#crossLink  \"MultiDialog\" }}{{/crossLink}} instance",
+                "type": "Object"
+            },
+            "example": [
+                "\n\t$.fn.MultiDialog();",
+                "\n\t$(\"a\").MultiDialog();",
+                "\n\t$(\"a\").MultiDialog( options );\n"
+            ]
+        }
+    },
+    "elements": {},
+    "classitems": [
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 56,
+            "description": "Enable description pan",
+            "itemtype": "property",
+            "name": "descEnabled",
+            "default": "true",
+            "type": "Boolean",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 64,
+            "description": "jQuery UI Dialog options: see jQuery UI Dialog docs for all options, some options are not available!",
+            "itemtype": "property",
+            "name": "dialog",
+            "type": "Object",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 73,
+            "description": "Close MultiDialog by click on overlay",
+            "itemtype": "property",
+            "name": "dialog.closeModalOnClick",
+            "default": "true",
+            "type": "Boolean",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 81,
+            "description": "Width of the content (not overall size, \"auto\" not allowed)",
+            "itemtype": "property",
+            "name": "dialog.width",
+            "default": "600",
+            "type": "Integer",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 89,
+            "description": "Height of the content (not overall size, \"auto\" not allowed)",
+            "itemtype": "property",
+            "name": "dialog.height",
+            "default": "400",
+            "type": "Integer",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 104,
+            "description": "Animate the resizing and positioning mechanism",
+            "itemtype": "property",
+            "name": "dialog.useAnimation",
+            "default": "true",
+            "type": "Boolean",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 112,
+            "description": "Animate options as defined for jQuery UI show and hide options (see jQuery UI documentation)",
+            "itemtype": "property",
+            "name": "dialog.animateOptions",
+            "type": "Object",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 127,
+            "description": "jQuery UI Dialog resize callback event (please note: native close, open and resize callbacks are not available)",
+            "itemtype": "property",
+            "name": "dialog.resized",
+            "type": "Function",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 134,
+            "description": "Do not alter this property!",
+            "itemtype": "property",
+            "name": "dialog.useContentSize",
+            "type": "Boolean",
+            "default": "true",
+            "access": "private",
+            "tagname": "",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 144,
+            "description": "Disable plugin",
+            "itemtype": "property",
+            "name": "dialog.disabled",
+            "default": "false",
+            "type": "Boolean",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 152,
+            "description": "GET variable prefix (?ajax=true)",
+            "itemtype": "property",
+            "name": "dialog.getVarPrefix",
+            "default": "\"\"",
+            "type": "Boolean",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 275,
+            "description": "Initial and main method\nCould be used when MultiDialog instance is created manually",
+            "itemtype": "method",
+            "name": "_create",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "_elements",
+                    "description": "A set of jQuery selected HTML elments (one or more)",
+                    "type": "Jquery Objec"
+                },
+                {
+                    "name": "_options",
+                    "description": "_options Object with all options, see defaults",
+                    "type": "Object",
+                    "optional": true
+                }
+            ],
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 317,
+            "description": "Fires Callback, see {{#crossLink \"MultiDialog/_fireCallback:method\"}}{{/crossLink}} for return value.",
+            "itemtype": "event",
+            "name": "on.create",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 398,
+            "description": "Opens an image",
+            "itemtype": "method",
+            "name": "openImage",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Object: data.element = link (a tag) as jQuery Object with href pointing to an image, String: URL to an image, jQuery Object: of a ima tag",
+                    "type": "Mixed"
+                }
+            ],
+            "example": [
+                "\n\tapi.openImage( \"/path/to/my/image.jpeg\" );",
+                "\n\tapi.openImage( $(\"<img src='/path/to/my/image.jpeg' />\") );",
+                "\n\tapi.openImage( $(\"<a href='/path/to/my/image.jpeg' />My Image</a>\") );"
+            ],
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 433,
+            "description": "Fires Callback, see {{#crossLink \"MultiDialog/_fireCallback:method\"}}{{/crossLink}} for return value.",
+            "itemtype": "event",
+            "name": "on.imageError",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 443,
+            "description": "Opens an iframe",
+            "itemtype": "method",
+            "name": "openIframe",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Object: data.element = link (a tag) as jQuery Object, String: URL, jQuery Object: a link (a tag) element",
+                    "type": "Mixed"
+                }
+            ],
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 454,
+            "description": "Opens inline HTML: works with an anchor url",
+            "itemtype": "method",
+            "name": "openImage",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Object: data.href = link (a tag) as jQuery Object with an anchor pointing to an currently available HTML element with that anchor as id attribute",
+                    "type": "Mixed"
+                }
+            ],
+            "example": [
+                "\n\tapi.open({ href: \"/my-site.html#my-anchor\" });"
+            ],
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 468,
+            "description": "Fires Callback, see {{#crossLink \"MultiDialog/_fireCallback:method\"}}{{/crossLink}} for return value.",
+            "itemtype": "event",
+            "name": "on.inlineError",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 476,
+            "description": "Opens YouTube video",
+            "itemtype": "method",
+            "name": "openYoutube",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Object: data.href = link (a tag) as jQuery Object",
+                    "type": "Mixed"
+                }
+            ],
+            "example": [
+                "\n\tapi.open({ href: \"http://www.youtube.com/watch?v=aMnw5bItt3s\" });"
+            ],
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 491,
+            "description": "Opens Vimeo video",
+            "itemtype": "method",
+            "name": "openVimeo",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Object: data.href = link (a tag) as jQuery Object",
+                    "type": "Mixed"
+                }
+            ],
+            "example": [
+                "\n\tapi.openVimeo({ href: \"http://www.youtube.com/watch?v=aMnw5bItt3s\" });"
+            ],
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 507,
+            "description": "Opens links with AJAX",
+            "itemtype": "method",
+            "name": "openAjax",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Object: data.href = link (a tag) as jQuery Object, String: URL, jQuery Object: a link (a tag) element",
+                    "type": "Mixed"
+                }
+            ],
+            "example": [
+                "\n\tapi.openAjax({ href: \"/path/to/my/ajax/handler.php\" });"
+            ],
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 526,
+            "description": "Fires Callback, see {{#crossLink \"MultiDialog/_fireCallback:method\"}}{{/crossLink}} for return value.",
+            "itemtype": "event",
+            "name": "on.ajaxError",
+            "example": [
+                "\n\t$.MultiDialog({ on: { ajaxError: function( data ) { } } });\t"
+            ],
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 545,
+            "description": "Opens any HTML content",
+            "itemtype": "method",
+            "name": "openAjax",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Object: data.element = any HTML element as jQuery Object, String: plain HTML string, jQuery Object: any HTML element",
+                    "type": "Mixed"
+                }
+            ],
+            "example": [
+                "\n\tapi.openHtml( \"<div>Any HTML string</div>\" );"
+            ],
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 569,
+            "description": "Helper to normalize incoming link parameter",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_openLinkHelper",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Object: data.element = link (a tag) as jQuery Object, String: URL, jQuery Object: either a link (a tag) or any HTML element",
+                    "type": "Mixed"
+                }
+            ],
+            "return": {
+                "description": "Normalized object with data.href or at least data.element",
+                "type": "Object"
+            },
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 598,
+            "description": "Opens a dialog: very flexible with all auto magic",
+            "itemtype": "method",
+            "name": "open",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Pass in one of the following types:",
+                    "type": "Object, Jquery Object, String",
+                    "props": [
+                        {
+                            "name": "object",
+                            "description": "Object with at least one: html, href or element.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "jquery",
+                            "description": "jQuery object containing an \"a\" tag or any other HTML element (its content will be opened)",
+                            "type": "JQuery Object"
+                        },
+                        {
+                            "name": "html",
+                            "description": "Plain HTML string",
+                            "type": "String"
+                        }
+                    ]
+                }
+            ],
+            "example": [
+                "\n\tapi.open($(\".my-selector\"));",
+                "\n\tapi.open({ html: \"<div>Any HTML string</div>\" });",
+                "\n\tapi.open(\"<div>Any HTML string</div>\");"
+            ],
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 620,
+            "description": "Checks if the dialog needs to be created or opened",
+            "itemtype": "method",
+            "name": "_open",
+            "access": "private",
+            "tagname": "",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 636,
+            "description": "Opens a dialog in gallery mode: very flexible with all auto magic",
+            "itemtype": "method",
+            "name": "openGallery",
+            "params": [
+                {
+                    "name": "group",
+                    "description": "Array: An simple array with MultiDialog data objects  (see {{#crossLink \"MultiDialog/open:method\"}}{{/crossLink}} options), jQuery object: containing a set of elements or a link (a tag) elements",
+                    "type": "Mixed"
+                },
+                {
+                    "name": "index",
+                    "description": "jQuery Object: a link tag element within the group parameter, Integer: a index starting with 0; default is the firs element in group parameter",
+                    "type": "Mixed",
+                    "optional": true
+                }
+            ],
+            "example": [
+                "\n\tapi.openGallery([ { href: \"path/to/my/image.jpg\" },\t{ href: \"http://www.youtube.com/watch?v=VfOcyrOImLg\" }]);"
+            ],
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 677,
+            "description": "Next item in gallery group",
+            "itemtype": "method",
+            "name": "next",
+            "example": [
+                "\n\tapi.next();"
+            ],
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 687,
+            "description": "Previous item in gallery group",
+            "itemtype": "method",
+            "name": "prev",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 695,
+            "description": "First item in gallery group",
+            "itemtype": "method",
+            "name": "first",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 703,
+            "description": "Last item in gallery group",
+            "itemtype": "method",
+            "name": "last",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 734,
+            "description": "Fires Callback, see {{#crossLink \"MultiDialog/_fireCallback:method\"}}{{/crossLink}} for return value.",
+            "itemtype": "event",
+            "name": "on.move",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 795,
+            "description": "Fires Callback, see {{#crossLink \"MultiDialog/_fireCallback:method\"}}{{/crossLink}} for return value.",
+            "itemtype": "event",
+            "name": "on.createDialog",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 818,
+            "description": "Fires Callback, see {{#crossLink \"MultiDialog/_fireCallback:method\"}}{{/crossLink}} for return value.",
+            "itemtype": "event",
+            "name": "on.change",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 984,
+            "description": "Fires Callback, see {{#crossLink \"MultiDialog/_fireCallback:method\"}}{{/crossLink}} for return value.",
+            "itemtype": "event",
+            "name": "on.close",
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        },
+        {
+            "file": "js\\jquery.multiDialog.js",
+            "line": 1025,
+            "description": "Fire callback event. __Needs testing!__",
+            "itemtype": "method",
+            "name": "_fireCallback",
+            "access": "private",
+            "tagname": "",
+            "beta": 1,
+            "example": [
+                "\n\treturn {\n\t\teventName: eventName, // {String} Event / callback name\n\t\teventData: eventData, // {Object} Event data if available\n\t\tdata: data, // {Object} Current data object\n\t\tdialog: this.uiDialog, // {jQuery Object} Dialog instance\n\t\tgroup: this.group, // {Object} Current group\n\t\tindex: this.index // {Integer}Current item element index of group\n\t};"
+            ],
+            "return": {
+                "description": "Object with following data:",
+                "type": "Object"
+            },
+            "class": "MultiDialog",
+            "module": "MultiDialog"
+        }
+    ],
+    "warnings": []
+}

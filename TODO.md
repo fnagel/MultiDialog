@@ -1,0 +1,7 @@
+# ToDo / Roadmap
+
+* Update gh-pages
+* Link docs
+* Release 1.0.0
+* Add AMD support
+* Resizable seems broken
