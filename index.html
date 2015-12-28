@@ -1,43 +1,29 @@
 <!DOCTYPE html>
 <html>
-
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
     <meta name="description" content="MultiDialog utilizes jQuery UI Dialog Widget for a full featured Modalbox / Lightbox application." />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-	
-	<!-- jQuery & jQuery UI files (needed)-->
-	<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.css">
-	<script src="js/jquery/jquery-1.9.1.js"></script>
-	<script src="js/jquery/jquery-ui-1.10.3.custom.js"></script>
+	<link rel="stylesheet" href="dist/css/vendor.min.css">
+	<link rel="stylesheet" href="dist/css/demo.min.css">
+
+	<script src="dist/js/vendor.min.js"></script>
+	<script src="dist/js/demo.min.js"></script>
 
 	<!-- MultiDialog files (needed) -->
 	<link rel="stylesheet" href="css/jquery.multiDialog.css">
-	<script src="js/jquery.ui.dialog.extended-1.0.2.js"></script>
 	<script src="js/jquery.multiDialog.js"></script>
 
 	<!-- MultiDialog files (optional) -->
 	<link rel="stylesheet" href="css/jquery.multiDialog.plain.css">
-	
-	<!-- jQuery add-on for swipe events (optional) -->
-	<script src="js/mobile/jquery.event.move.js"></script>
-	<script src="js/mobile/jquery.event.swipe.js"></script>
-
-	<!-- Demo files (unneeded) -->
-	<link rel="stylesheet" href="demos/res/demos.css">
-	<link rel="stylesheet" href="demos/res/jquery/css/jquery.ui.tabs.css">
-	<link rel="stylesheet" href="demos/res/prism/prism.css"/>
-	
-	<script src="demos/res/jquery/js/jquery.ui.tabs.js"></script>
-	<script src="demos/res/SuperThemeSwitcher/jquery.themeswitcher.js"></script>
-	<script src="demos/res/prism/prism.js" type="text/javascript"></script>
 		
 	<!-- init demo related JS -->
 	<script>
 	$(function() {
 		$(".tabs").tabs();
+		$(".tabs > ul > li:eq(1) a, .tabs > ul > li a:last").unbind('click');
 
 		$( "a.multidialog" ).MultiDialog({
 			gallery: { enabled: true }
@@ -77,10 +63,11 @@
 			<div class="tabs">
 				<ul>
 					<li><a href="#tabs-start-about">About</a></li>
-					<li><a href="#tabs-start-demos">Demos</a></li>
+					<li><a href="dist/demo.html">Demos</a></li>
 					<li><a href="#tabs-start-features">Feature list</a></li>
 					<li><a href="#tabs-start-requirements">Requirements</a></li>
 					<li><a href="#tabs-start-code">Minimal setup</a></li>
+					<li><a href="docs/index.html">Docs</a></li>
 				</ul>
 				<div id="tabs-start-about">
 					<p>
@@ -106,15 +93,6 @@
 						<a class="multidialog" href="#tabs-start-features" title="Feature list">inline content (anchor links)</a> and plain HTML</em>.
 						Custom content types are easy to implement.
 					</p>
-				</div>
-				<div id="tabs-start-demos">
-					<p>
-						<strong>See demo files:</strong>
-					</p>
-					<br />
-					<ul>
-						<li><a href="demos/index.html">Demo file</a></li>
-					</ul>
 				</div>
 				<div id="tabs-start-features">
 					<strong>jQuery UI Dialog features</strong>, <a href="http://jqueryui.com/demos/dialog/">See full feature list</a>
