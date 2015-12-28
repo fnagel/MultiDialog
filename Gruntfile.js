@@ -92,7 +92,7 @@ module.exports = function (grunt) {
 					archive: "<%= pkg.name %>-<%= pkg.version %>.zip"
 				},
 				files: [ {
-						src: ["./**", "!./node_modules/**", "!./*.zip"],
+						src: ["./**", "!./node_modules/**", "!./bower_components/**", "!./*.zip"],
 						dest: "<%= pkg.name %>/"
 				} ]
 			}
