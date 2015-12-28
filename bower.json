@@ -1,6 +1,6 @@
 {
 	"name": "jquery-multidialog",
-	"version": "0.10.0",
+	"version": "0.10.1-dev",
 	"homepage": "https://github.com/fnagel/MultiDialog",
 	"authors": [
 		"Felix Nagel <info@felixnagel.com>"
